@@ -1,0 +1,280 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WeChat Subscribers Lite\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: redy <redy.ru@gmail.com>\n"
+"Language-Team: Redy <redy.ru@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+# WeChat Subscribers Lite
+# Version: 1.0
+# Author: Redy Ru
+#: _edit.php:217
+msgid "Basic Settings"
+msgstr "基本设置"
+
+#: _edit.php:140
+msgid "Normal"
+msgstr "普通"
+
+#: _edit.php:141
+msgid "Default"
+msgstr "默认"
+
+#: _edit.php:142
+msgid "Subscribed"
+msgstr "订阅"
+
+#: _edit.php:182
+msgid "Text (Plain text)"
+msgstr "纯文本"
+
+#: _edit.php:183
+msgid "News (Picture with text)"
+msgstr "图文消息"
+
+#: _edit.php:208
+msgid "Edit Reply Template"
+msgstr "编辑消息模版"
+
+#: _edit.php:219
+msgid "Template Title"
+msgstr "模版标题"
+
+#: _edit.php:222
+msgid "Title of this template, only for easier to manage it."
+msgstr "这个消息模版的标题，只用来方便管理，不会出现在发送消息中。"
+
+#: _edit.php:226
+msgid "Date"
+msgstr "日期"
+
+#: _edit.php:232
+msgid "Keyword"
+msgstr "关键字"
+
+#: _edit.php:239
+msgid "Trigger"
+msgstr "触发"
+
+#: _edit.php:235
+msgid ""
+"Subscribers enter keywords to reply with this message. Multiple keywords "
+"separate by &quot;,&quot; . etc., &quot;Hi,one,food,168&quot;. Keywords is "
+"only plain text with out space, and not case sensitive."
+msgstr ""
+"订阅者输入打关键字如果和这个设置的关键字匹配，那么将自动回复这条消息。允许设"
+"置多个关键字，每个关键字用 “, ”逗号分开，例如 “Hi,1,吃的 ”。关键字只能是单个"
+"的字或词，中间没有空格，不对大小写敏感。"
+
+#: _edit.php:245
+msgid ""
+"You can set this message trigger by special condition, special trigger is "
+"higher priority than keywords."
+msgstr ""
+"除了通过关键字，还能使用其他条件触发这条消息，特殊触发的优先级比关键字更高。"
+
+#: _edit.php:247
+msgid "&quot;Normal&quot;: Trigger by keyword."
+msgstr "“普通”：订阅者输入关键字和上面输入的匹配后触发。"
+
+#: _edit.php:248
+msgid "&quot;Default&quot;: trigger by any unknown keyword."
+msgstr "“默认”：订阅者输入不明关键字后触发。"
+
+#: _edit.php:249
+msgid "&quot;Subscribed&quot;: trigger by new subscriber join in."
+msgstr "“订阅”：陌生人成为你的订阅者后触发。"
+
+#: _edit.php:254
+msgid "Publish"
+msgstr "发布"
+
+#: _edit.php:256
+msgid "Is Publish ?"
+msgstr "发布这个消息吗？"
+
+#: _edit.php:260
+msgid ""
+"Check &quot;Publish&quot; to activate this message, otherwise deactivate as "
+"&quot;Draft&quot;."
+msgstr ""
+"勾上“发布”就会激活这条回复模版，否则的话他会被保存成为一个“草稿”，草稿不会响"
+"应订阅者的任何操作。"
+
+#: _edit.php:264
+msgid "Type"
+msgstr "类型"
+
+#: _edit.php:272
+msgid "Select your Template type."
+msgstr "选择一个模版类型"
+
+#: _edit.php:278
+msgid "Text Message"
+msgstr "纯文字消息"
+
+#: _edit.php:283
+msgid "Content"
+msgstr "内容"
+
+#: _edit.php:286
+msgid "Only plain text, without any script."
+msgstr "只能是纯文字，不能带任何脚本语言。"
+
+#: _edit.php:294
+msgid "News Message"
+msgstr "图文消息"
+
+#: _edit.php:298
+msgid "Sub"
+msgstr "附加内容"
+
+#: _edit.php:298
+msgid "Main Photo and Text"
+msgstr "主图文内容"
+
+#: _edit.php:304
+msgid "Title"
+msgstr "标题"
+
+#: _edit.php:313
+msgid "Pic URL"
+msgstr "图片路径 URL"
+
+#: _edit.php:320
+msgid "Upload"
+msgstr "上传图片"
+
+#: _edit.php:321
+msgid "Add Picture for this message."
+msgstr "给这条消息添加一个配图"
+
+#: _edit.php:326
+msgid "Description"
+msgstr "消息简述"
+
+#: _edit.php:330
+msgid ""
+"Leave it empty if you wont have description of this message. Only plain "
+"text, without any script."
+msgstr ""
+"如果你不希望出现消息简述，那么只要在这里留空。只能是纯文字，不能带任何脚本语"
+"言。"
+
+#: _edit.php:335
+msgid "URL"
+msgstr "连接路径 URL"
+
+#: _edit.php:339
+msgid "The URL you want direct to. etc., http://www.tinforce.com"
+msgstr "点击消息下方面的阅读原文将连接到这个URL，例如 http://www.tinforce.com"
+
+#: _edit.php:343
+msgid "Remove"
+msgstr "移除"
+
+#: _edit.php:349
+msgid "+ Add More Sub Message"
+msgstr "添加更多附加消息"
+
+#: _edit.php:354
+msgid "Save and exit"
+msgstr "保存并且退出"
+
+#: _edit.php:355
+msgid "Save"
+msgstr "保存"
+
+#: _edit.php:356
+msgid "Cancel"
+msgstr "取消"
+
+#: _edit.php:361
+msgid "Delete"
+msgstr "删除"
+
+#: _general.php:99
+msgid "Settings"
+msgstr "插件设置"
+
+#: _general.php:104
+msgid "Help"
+msgstr "帮助"
+
+#: _general.php:104
+msgid "Reply Templates"
+msgstr "消息模版"
+
+#: _general.php:59
+msgid "Conflict"
+msgstr "冲突"
+
+#: _general.php:73
+msgid "*Default*"
+msgstr "*默认*"
+
+#: _general.php:76
+msgid "*Subscribed*"
+msgstr "*订阅*"
+
+#: _general.php:80
+msgid "*Deactivation*"
+msgstr "*禁用*"
+
+#: _general.php:82
+msgid "(empty)"
+msgstr "（空）"
+
+#: _general.php:102
+msgid "Add New Template"
+msgstr "添加新模版"
+
+#: class-wpwsl-list-table.php:24
+msgid "No Item found."
+msgstr "什么都没有。"
+
+#: class-wpwsl-list-table.php:55
+msgid "Trigger by"
+msgstr "触发机制"
+
+#: class-wpwsl-general.php:38
+msgid "WeChat Subscribers"
+msgstr "微信订阅号"
+
+#: class-wpwsl-general.php:39
+msgid "General"
+msgstr "基本内容"
+
+#: class-wpwsl-settings.php:46
+msgid "WeChat Subscribers Settings"
+msgstr "微信订阅号设置"
+
+#: _settings.php:23 content.php:6 content.php:15
+msgid "WeChat Subscribers Lite"
+msgstr "微信公众平台订阅号管理插件"
+
+#: _settings.php:28
+msgid "Account Settings"
+msgstr "账号设置"
+
+#: _settings.php:34
+msgid ""
+"Access verification for your WeChat public platform. Only Latin letter, "
+"number, dash and underscore. 30 character limited."
+msgstr ""
+"提供给微信公众平台校验获取账号许可。只能是英文字母、数字、下划线、中划线，不"
+"允许使用任何汉字或者全脚符号。最多允许30个字符。"
+
+#: _settings.php:41
+msgid ""
+"First input a TOKEN above and save the settings, then &quot;Copy&quot; and "
+"&quot;Bind&quot; this URL to WeChat Platform."
+msgstr ""
+"首先设置好上面的TOKEN，保存设置以后使用这个URL绑定到你的微信公众平台订阅号。"

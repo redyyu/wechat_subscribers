@@ -1,0 +1,251 @@
+# WeChat Subscribers Lite
+# Version: 1.0
+# Author: Redy Ru
+
+#: _edit.php:217
+msgid "Basic Settings"
+msgstr ""
+
+#: _edit.php:140
+msgid "Normal"
+msgstr ""
+
+#: _edit.php:141
+msgid "Default"
+msgstr ""
+
+#: _edit.php:142
+msgid "Subscribed"
+msgstr ""
+
+#: _edit.php:182
+msgid "Text (Plain text)"
+msgstr ""
+
+#: _edit.php:183
+msgid "News (Picture with text)"
+msgstr ""
+
+#: _edit.php:208
+msgid "Edit Reply Template"
+msgstr ""
+
+#: _edit.php:219
+msgid "Template Title"
+msgstr ""
+
+#: _edit.php:222
+msgid "Title of this template, only for easier to manage it."
+msgstr ""
+
+#: _edit.php:226
+msgid "Date"
+msgstr ""
+
+#: _edit.php:232
+msgid "Keyword"
+msgstr ""
+
+#: _edit.php:239
+msgid "Trigger"
+msgstr ""
+
+#: _edit.php:235
+msgid "Subscribers enter keywords to reply with this message. Multiple keywords separate by &quot;,&quot; . etc., &quot;Hi,one,food,168&quot;. Keywords is only plain text with out space, and not case sensitive."
+msgstr ""
+
+#: _edit.php:245
+msgid "You can set this message trigger by special condition, special trigger is higher priority than keywords."
+msgstr ""
+
+#: _edit.php:247
+msgid "&quot;Normal&quot;: Trigger by keyword."
+msgstr ""
+
+#: _edit.php:248
+msgid "&quot;Default&quot;: trigger by any unknown keyword."
+msgstr ""
+
+#: _edit.php:249
+msgid "&quot;Subscribed&quot;: trigger by new subscriber join in."
+msgstr ""
+
+#: _edit.php:254
+msgid "Publish"
+msgstr ""
+
+#: _edit.php:256
+msgid "Is Publish ?"
+msgstr ""
+
+#: _edit.php:260
+msgid "Check &quot;Publish&quot; to activate this message, otherwise deactivate as &quot;Draft&quot;."
+msgstr ""
+
+#: _edit.php:264
+msgid "Type"
+msgstr ""
+
+#: _edit.php:272
+msgid "Select your Template type."
+msgstr ""
+
+#: _edit.php:278
+msgid "Text Message"
+msgstr ""
+
+#: _edit.php:283
+msgid "Content"
+msgstr ""
+
+#: _edit.php:286
+msgid "Only plain text, without any script."
+msgstr ""
+
+#: _edit.php:294
+msgid "News Message"
+msgstr ""
+
+#: _edit.php:298
+msgid "Sub"
+msgstr ""
+
+#: _edit.php:298
+msgid "Main Photo and Text"
+msgstr ""
+
+#: _edit.php:304
+msgid "Title"
+msgstr ""
+
+#: _edit.php:313
+msgid "Pic URL"
+msgstr ""
+
+#: _edit.php:320
+msgid "Upload"
+msgstr ""
+
+#: _edit.php:321
+msgid "Add Picture for this message."
+msgstr ""
+
+#: _edit.php:326
+msgid "Description"
+msgstr ""
+
+#: _edit.php:330
+msgid "Leave it empty if you wont have description of this message. Only plain text, without any script."
+msgstr ""
+
+#: _edit.php:335
+msgid "URL"
+msgstr ""
+
+#: _edit.php:339
+msgid "The URL you want direct to. etc., http://www.tinforce.com"
+msgstr ""
+
+#: _edit.php:343
+msgid "Remove"
+msgstr ""
+
+#: _edit.php:349
+msgid "+ Add More Sub Message"
+msgstr ""
+
+#: _edit.php:354
+msgid "Save and exit"
+msgstr ""
+
+#: _edit.php:355
+msgid "Save"
+msgstr ""
+
+#: _edit.php:356
+msgid "Cancel"
+msgstr ""
+
+#: _edit.php:361
+msgid "Delete"
+msgstr ""
+
+#: _general.php:99
+msgid "Settings"
+msgstr ""
+
+#: _general.php:99
+msgid "Settings"
+msgstr ""
+
+#: _general.php:104
+msgid "Help"
+msgstr ""
+
+#: _general.php:59
+msgid "Conflict"
+msgstr ""
+
+#: _general.php:73
+msgid "*Default*"
+msgstr ""
+
+#: _general.php:76
+msgid "*Subscribed*"
+msgstr ""
+
+#: _general.php:80
+msgid "*Deactivation*"
+msgstr ""
+
+#: _general.php:82
+msgid "(empty)"
+msgstr ""
+
+#: _general.php:102
+msgid "Add New Template"
+msgstr ""
+
+#: class-wpwsl-list-table.php:24
+msgid "No Item found."
+msgstr ""
+
+#: class-wpwsl-list-table.php:55
+msgid "Trigger by"
+msgstr ""
+
+#: class-wpwsl-list-table.php:73
+msgid "Edit"
+msgstr ""
+
+#: class-wpwsl-list-table.php:74
+msgid "Delete"
+msgstr ""
+
+#: class-wpwsl-general.php:38
+msgid "WeChat Subscribers"
+msgstr ""
+
+#: class-wpwsl-general.php:39
+msgid "General"
+msgstr ""
+
+#: class-wpwsl-settings.php:46
+msgid "WeChat Subscribers Settings"
+msgstr ""
+
+#: _settings.php:23 content.php:6 content.php:15
+msgid "WeChat Subscribers Lite"
+msgstr ""
+
+#: _settings.php:28
+msgid "Account Settings"
+msgstr ""
+
+#: _settings.php:34
+msgid "Access verification for your WeChat public platform. Only Latin letter, number, dash and underscore. 30 character limited."
+msgstr ""
+
+#: _settings.php:41
+msgid "First input a TOKEN above and save the settings, then &quot;Copy&quot; and &quot;Bind&quot; this URL to WeChat Platform."
+msgstr ""

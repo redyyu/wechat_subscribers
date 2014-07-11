@@ -1,0 +1,116 @@
+/*
+WeChat Subscribers Lite
+* Version: 1.0
+*/
+
+/* = Admin CSS
+-------------------------------------------------------------- */
+.clear{
+	clear: both;
+}
+.icon-wpwsl-lg{
+	display: block;
+	padding: 80px;
+	background: transparent url('../img/wpwsl_icon_144.png') no-repeat 0 0;
+}
+.edit-template-form{
+	margin: 20px;
+}
+.edit-template-form h3{
+	border: 0;
+}
+.edit-template-form hr{
+	margin: 15px 0;
+}
+.header_func a{	
+	font-size: 1.5em;
+}
+.msg-box{	
+	padding:30px;
+	margin: 20px 0;
+	background: #f7f7f7;
+	border:1px solid #ccc;
+	border-radius: 5px;
+}
+.msg-box-title{
+	width: 40%;
+	float: left;
+}
+.deslist{
+	margin-left: 20px;
+	font-size: 9pt;
+	list-style:disc;
+}
+.func-msg-box{
+	width: 45%;
+	text-align: right;
+	float: right;
+}
+
+.up-msg-box-btn{
+	padding: 16px;
+	background: transparent url('../img/up.png') no-repeat center center;
+}
+
+.down-msg-box-btn{
+	padding: 16px;
+	background: transparent url('../img/down.png') no-repeat center center;
+}
+
+.remove-pic-btn{
+	/*display: none;	*/
+}
+
+.func-footer{
+	text-align:right;
+}
+#phmsg-base .func-msg-box, #phmsg-base .func-footer{
+	display: none;
+}
+#phmsg-base .preview-box img{
+	width: 360px;
+	height: 220px;
+	background: transparent url('../img/default_large_img.png') no-repeat 0 0;
+}
+#phmsg-group .msg-box{
+	background-color: #efe;
+}
+.preview-box{
+	margin-bottom: 10px;
+}
+.preview-box img{
+	height:200px;
+	width:200px;
+	background: transparent url('../img/default_img.png') no-repeat 0 0;
+}
+
+.add-phmsg{
+	text-align:right;
+	margin-bottom:50px;
+}
+
+.func-delete{
+	padding-top:50px;
+	text-align:right;
+}
+
+.msg_disabled .msg_highlight, .msg_conflict{
+	font-style:italic;
+	text-transform: uppercase;
+	color: #ccc;
+}
+.msg_highlight{
+	color: #0074a2;
+}
+.msg_conflict{
+	color: red;
+}
+.msg_disabled{
+	color: #ccc;
+}
+
+.wp-list-table .column-id {width: 5%;}
+.wp-list-table .column-title { width: 40%; }
+.wp-list-table .column-type { width: 18%; }
+.wp-list-table .column-date { width: 12%; }
+.wp-list-table .column-keywords { width: 25%;}
