@@ -2,6 +2,50 @@
 # Version: 1.0
 # Author: Redy Ru
 
+
+#: wpwsl_core.php:109
+msgid "All categories"
+msgstr ""
+
+#: wpwsl_core.php: 171
+msgid "Articles"
+msgstr ""
+
+#: wpwsl_core.php:172
+msgid "Pages"
+msgstr ""
+
+#: wpwsl_core.php:180
+msgid "Search"
+msgstr ""
+
+#: wpwsl_core.php:186
+msgid "Search results is empty...."
+msgstr ""
+
+#: wpwsl_core.php:188
+msgid "Title"
+msgstr ""
+
+#: wpwsl_core.php:188
+msgid "Category"
+msgstr ""
+
+#: wpwsl_core.php:188
+msgid "Create Date"
+msgstr ""
+
+#: wpwsl_core.php:188
+msgid "Action"
+msgstr ""
+
+#: wpwsl_core.php:188
+msgid "Insert"
+msgstr ""
+
+
+
+
 #: _edit.php:217
 msgid "Basic Settings"
 msgstr ""

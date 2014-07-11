@@ -3,18 +3,62 @@ msgstr ""
 "Project-Id-Version: WeChat Subscribers Lite\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: redy <redy.ru@gmail.com>\n"
+"Last-Translator: Hu <hu@tinforce.com>\n"
 "Language-Team: Redy <redy.ru@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 # WeChat Subscribers Lite
 # Version: 1.0
 # Author: Redy Ru
+#: wpwsl_core.php:109
+msgid "Insert Article"
+msgstr "插入文章"
+
+#: wpwsl_core.php:109
+msgid "Insert URL"
+msgstr "插入URL"
+
+#: wpwsl_core.php:109
+msgid "All categories"
+msgstr "所有分类"
+
+#: wpwsl_core.php:171
+msgid "Articles"
+msgstr "文章"
+
+#: wpwsl_core.php:172
+msgid "Pages"
+msgstr "页面"
+
+#: wpwsl_core.php:180
+msgid "Search"
+msgstr "搜索"
+
+#: wpwsl_core.php:186
+msgid "Search results is empty...."
+msgstr "搜索结果为空...."
+
+#: wpwsl_core.php:188
+msgid "Category"
+msgstr "分类"
+
+#: wpwsl_core.php:188
+msgid "Create Date"
+msgstr "创建时间"
+
+#: wpwsl_core.php:188
+msgid "Action"
+msgstr "操作"
+
+#: wpwsl_core.php:188
+msgid "Insert"
+msgstr "插入"
+
 #: _edit.php:217
 msgid "Basic Settings"
 msgstr "基本设置"
@@ -140,6 +184,7 @@ msgstr "附加内容"
 msgid "Main Photo and Text"
 msgstr "主图文内容"
 
+# 标题
 #: _edit.php:304
 msgid "Title"
 msgstr "标题"
@@ -192,13 +237,30 @@ msgstr "保存并且退出"
 msgid "Save"
 msgstr "保存"
 
-#: _edit.php:356
+#: _edit.php:356,438
 msgid "Cancel"
 msgstr "取消"
 
 #: _edit.php:361
 msgid "Delete"
 msgstr "删除"
+
+#: _edit.php:407
+msgid "Recently messages"
+msgstr "最近消息"
+
+#: _edit.php:411
+msgid "Illustration"
+msgstr "说明"
+
+#: _edit.php:413
+msgid ""
+"According to the options, automatic return to a post or page newly added."
+msgstr "根据选项，自动返回最新添加的文章或页面."
+
+#: _edit.php:220
+msgid "Amount"
+msgstr "数量"
 
 #: _general.php:99
 msgid "Settings"

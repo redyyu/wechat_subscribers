@@ -5,6 +5,7 @@
   * 
   *   
   */
+require_once('simple_html_dom.php');
 global $token;
 
 define('IS_DEBUG', false);
@@ -154,6 +155,9 @@ class wechatCallbackapi{
 			case "news":
 				$resultStr = $this->sendPhMsg($fromUsername, $toUsername, $d->phmsg);
 			break;
+			case "recently": 
+			    $resultStr = $this->sendReMsg($fromUsername, $toUsername, $d->remsg); 
+			break;
 			default: //text
 				$resultStr = $this->sendMsg($fromUsername, $toUsername, $d->msg);
 		}
@@ -180,8 +184,8 @@ class wechatCallbackapi{
 		$time = time();
 		$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentData);
 		return $resultStr;
-	}
-	
+	}	
+
 	private function sendPhMsg($fromUsername, $toUsername, $contentData){
 		if($contentData==''){
 			return '';
@@ -206,6 +210,71 @@ class wechatCallbackapi{
 			$des=$mediaObject->des;
 			$media=$mediaObject->pic;
 			$url=$mediaObject->url;
+			$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
+			$mediaCount++;
+		}
+		
+		$msgType = "news";
+		$time = time();
+		$headerStr = sprintf($headerTpl, $fromUsername, $toUsername, $time, $msgType, $mediaCount);
+		$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
+
+		return $resultStr;
+	}
+    private function getRecentlyPosts($contentData = null){
+    	if(!$contentData) return null;
+    	$re_type  = isset($contentData['type']) ?$contentData['type'] :"";
+		$re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
+		$re_count = isset($contentData['count'])?$contentData['count']:"";
+        $args = array(
+		'posts_per_page'   => $re_count,
+		'orderby'          => 'post_date',
+		'order'            => 'desc',
+		'post_type'        => 'page',
+		'post_status'      => 'publish'
+		);
+		if($re_type=="post"){
+			if($re_cate!="all"){
+               $args['category'] = $re_cate;
+			}
+			$args['post_type'] = "post";
+		}
+		$contentData = get_posts($args);
+		return $contentData;
+    }
+    private function getImgsSrcInPost($post=null){
+    	if($post&&trim($post)!=""){
+    		$post = htmlspecialchars_decode($post);
+    		$html = str_get_html($post);
+    		$img = $html->find('img', 0);
+    		if($img) return $img->src;
+    	}
+        return WPWSL_PLUGIN_URL."/img/default_img.png";
+    }
+	private function sendReMsg($fromUsername, $toUsername, $contentData){
+		if($contentData==''){
+			return '';
+		}
+		$contentData = $this->getRecentlyPosts($contentData);
+        $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
+			        <FromUserName><![CDATA[%s]]></FromUserName>
+			        <CreateTime>%s</CreateTime>
+			        <MsgType><![CDATA[%s]]></MsgType>
+			        <ArticleCount>%s</ArticleCount>";
+			        
+		$itemTpl=  "<item>
+					<Title><![CDATA[%s]]></Title> 
+					<Description><![CDATA[%s]]></Description>
+					<PicUrl><![CDATA[%s]]></PicUrl>
+					<Url><![CDATA[%s]]></Url>
+					</item>";
+		$itemStr="";
+		$mediaCount=0;
+		foreach ($contentData as $mediaObject){
+			$title= $mediaObject->post_title;
+			$des  = substr($mediaObject->post_content,0,70);  // strip_tags or not
+			$media= $this->getImgsSrcInPost($mediaObject->post_content);
+			$url  = $mediaObject->guid;
 			$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
 			$mediaCount++;
 		}
@@ -279,6 +348,12 @@ function get_data(){
 		$tmp_msg->trigger=get_post_meta($p->ID,'_trigger',TRUE);
 		$tmp_msg->msg=get_post_meta($p->ID,'_content',TRUE);
 		$tmp_msg->phmsg=$phmsg_group;
+		//recently
+		$tmp_msg->remsg=array(
+			                  "type"=>get_post_meta($p->ID,'_re_type',TRUE),
+			                  "cate"=>get_post_meta($p->ID,'_re_cate',TRUE),
+			                  "count"=>get_post_meta($p->ID,'_re_count',TRUE)
+			                  );
 	
 		$data[]=$tmp_msg;
 	}

@@ -114,3 +114,65 @@ WeChat Subscribers Lite
 .wp-list-table .column-type { width: 18%; }
 .wp-list-table .column-date { width: 12%; }
 .wp-list-table .column-keywords { width: 25%;}
+
+
+
+/*insert url or post content style*/
+#paginate_div{
+    margin-top:12px;
+}
+.page-numbers{
+    display:inline-block;
+    width:20px;
+    height:19px;
+    border-radius:4px;
+    border:1px solid #AAAAAA;
+    text-align:center;
+    font-size:12px;
+    text-decoration:none;
+    padding:0px 0px 1px 0px;
+}
+
+.page-numbers:hover{
+    background:#2EA2CC;
+    color:#FFFFFF;
+}
+#paginate_div .current:hover{
+    background:#FFFFFF ;
+    color:#666;
+}
+#dialog_content__container table{
+    margin-top:12px;
+}
+#dialog_content__container table thead{
+    background:#F5F5F5;
+}
+
+#dialog_content__container table tr td{
+    border-bottom: 1px solid #DDD;
+}
+#dialog_content__container table tr:hover{
+    background:#F5F5F5;
+}
+
+#dialog_content__container select{
+    height: 26.9px;
+    padding-top:5px;
+}
+#dialog_content__container input{
+    margin-top:1.5px;
+}
+#easydialog_close{
+    position:relative;
+    text-decoration:none;
+    font-size:25px;
+    color:#555;
+    left:520px;
+    top:-20px;
+}
+#easydialog_close:hover{
+    color:#2EA2CC;
+}
+#dialog_content__container{
+	min-height: 310px;
+}
