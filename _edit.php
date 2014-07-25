@@ -262,7 +262,7 @@ require_once( 'content.php' );
 <link href="<?php echo WPWSL_PLUGIN_URL;?>/css/easydialog.css" rel="stylesheet">
 <div class="wrap">
 	<?php echo $content['header'];?>
-	<?php echo $content['tips_contect'];?>
+	<?php echo $content['tips_content'];?>
 	<hr>
 	<h2><?php _e('Edit Reply Template','WPWSL');?></h2>
 	<br>

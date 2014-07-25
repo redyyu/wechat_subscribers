@@ -104,7 +104,7 @@ require_once( 'content.php' );
 	<h2>
 	<?php _e('Reply Templates','WPWSL');?>
 	<a href="<?php menu_page_url(WPWSL_GENERAL_PAGE);?>&edit" class="add-new-h2"><?php _e('Add New Template','WPWSL');?></a>
-    <a href="<?php menu_page_url(WPWSL_GENERAL_PAGE);?>&keywords" class="add-new-h2"><?php _e('Statistics','WPWSL');?></a>
+    <a href="<?php menu_page_url(WPWSL_HISTORY_PAGE);?>" class="add-new-h2"><?php _e('History','WPWSL');?></a>
 	</h2>
 	<br>
 	<!--<ul class='subsubsub'>

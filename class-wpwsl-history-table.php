@@ -5,7 +5,7 @@
  
 //This part is our very own WP_List_Table
 
-class WPWSL_KeyWords_Table extends WP_List_Table {
+class WPWSL_History_Table extends WP_List_Table {
 
 	private $rawData = array();
 	    

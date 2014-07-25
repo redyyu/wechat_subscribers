@@ -3,7 +3,8 @@
  * Settings Page, It's required by WPWSLGeneral Class only.
  *
  */
-require_once( 'class-wpwsl-keywords-table.php' );
+require_once( 'class-wpwsl-history-table.php' );
+
 function delete_record($id){
 	global $wpdb;
     $wpdb->query("delete from wechat_subscribers_lite_keywords where id='$id'");
@@ -36,7 +37,7 @@ foreach($raw as $d){
 }
 
 //Prepare Table of elements 
-$wp_list_table = new WPWSL_KeyWords_Table($data);
+$wp_list_table = new WPWSL_History_Table($data);
 $wp_list_table->prepare_items();
 
 //Load content

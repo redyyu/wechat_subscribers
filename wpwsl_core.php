@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 define('WPWSL_PLUGIN_URL', plugins_url('', __FILE__));
 define('WPWSL_GENERAL_PAGE', 'wpwsl-general-page');
+define('WPWSL_HISTORY_PAGE', 'wpwsl-history-page');
 define('WPWSL_SETTINGS_PAGE', 'wpwsl-settings-page');
 define('WPWSL_SETTINGS_OPTION', 'wpwsl_settings_option');
 
@@ -77,10 +78,13 @@ function wpwsl_admin_setup(){
 
 	require_once( 'class-wpwsl-settings.php' );
 	require_once( 'class-wpwsl-general.php' );
+	require_once( 'class-wpwsl-history.php' );
 	//Settings
 	$settingObject=WPWSL_Settings::get_instance();
 	//General
 	$generalObject=WPWSL_General::get_instance();
+	//History
+	$hitsotryObject=WPWSL_History::get_instance();
 }
 
 //Safe Redirect

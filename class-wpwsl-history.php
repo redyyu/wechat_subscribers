@@ -1,9 +1,7 @@
 <?php
-class WPWSL_General{
-	
-	
-	private $file_general_tpl='_general.php';
-	private $file_edit_tpl='_edit.php';
+class WPWSL_History{
+
+    private $file_history_tpl='_history.php';
 
 	
 	private static $_instance;
@@ -36,9 +34,9 @@ class WPWSL_General{
         // This page will be under Content manage section.
         $parent_slug=WPWSL_GENERAL_PAGE;
         $page_title=__('WeChat Subscribers', 'WPWSL');
-        $menu_title=__('General', 'WPWSL');
+        $menu_title=__('Histroy', 'WPWSL');
         $capability='edit_posts';
-        $menu_slug=WPWSL_GENERAL_PAGE;
+        $menu_slug=WPWSL_HISTORY_PAGE;
         add_submenu_page( 
         	$parent_slug,
         	$page_title,
@@ -53,11 +51,7 @@ class WPWSL_General{
      * Options page callback
      */
     public function create_admin_page(){
-    	if(isset($_GET['edit'])){
-			require_once( $this->file_edit_tpl);
-		}else{
-			require_once( $this->file_general_tpl);
-		}
+		require_once( $this->file_history_tpl);
     }
 
 }
