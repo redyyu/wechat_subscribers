@@ -4,7 +4,7 @@
  * Plugin URI: http://www.imredy.com/wp_wechat/
  * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
  * Version: 1.04
- * Author: Redy Ru
+ * Author: Redy Ru,Gu Yue
  * Author URI: http://www.imredy.com/
  * License: GPLv2 or later
  * Text Domain: WPWSL
@@ -32,6 +32,34 @@ add_action('plugins_loaded', 'load_languages_file');
 function load_languages_file(){
 	load_plugin_textdomain( 'WPWSL', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
+//create db table wechat_subscribers_lite_messages
+ global $wpdb;
+ $table_name ="wechat_subscribers_lite_keywords"; 
+ $sql = "CREATE TABLE $table_name (
+  id bigint(20) NOT NULL KEY AUTO_INCREMENT,  
+  openid   varchar(100) NOT NULL,
+  keyword  varchar(255) NOT NULL,
+  is_match char(1)   NOT NULL,
+  time     datetime  NOT NULL
+  );";
+
+require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+dbDelta($sql);
+//Setup wechat image size
+function set_wechat_img_size(){
+	add_image_size( 'sup_wechat_big'  , 360,200, true );
+	add_image_size( 'sup_wechat_small', 200,200, true );
+}
+add_action( 'after_setup_theme','set_wechat_img_size'); 
+
+function sup_wechat_custom_sizes( $sizes ) {
+    return array_merge($sizes, array(
+        'sup_wechat_big' => __('WeChat big image','WPWSL'),
+        'sup_wechat_small' => __('WeChat small image','WPWSL')
+    ));
+}
+add_filter( 'image_size_names_choose', 'sup_wechat_custom_sizes' );
+
 
 
 //Setup Admin
@@ -108,7 +136,7 @@ function prefix_ajax_add_foobar(){
 		 $args_cate = array(
 		'type'                     => 'post',
 		'orderby'                  => 'name',
-		'order'                    => 'ASC',
+		'order'                    => 'name ASC',
 		'taxonomy'                 => 'category',
 		'pad_counts'               => false 
 		);
@@ -124,7 +152,7 @@ function prefix_ajax_add_foobar(){
 	    'offset'           => $offset,	
 		'posts_per_page'   => $posts_per_page,
 		'orderby'          => 'post_date',
-		'order'            => 'ASC',
+		'order'            => 'post_date desc',
 		'post_type'        => $post_type,
 		'post_status'      => 'publish'
 		);
@@ -182,11 +210,11 @@ function prefix_ajax_add_foobar(){
          <a href="#" id="easydialog_close">✕</a>
 	     <br class="clear">
 	     </div>
-	     <table class="wp-list-table widefat fixed posts" style="min-height:100px;">');
+	     <table class="wp-list-table widefat fixed posts" width="100%" style="min-height:100px;">');
     if(count($posts_array)==0){
         _e("<thead><tr><th style='text-align:center;height: 77px;'>".__('Search results is empty....','WPWSL')."</th></tr></thead>");
     }else{
-    _e("<thead><tr><th class=''>".__('Title','WPWSL')."</th><th>".$typeORcate."</th><th>".__('Create Date','WPWSL')."</th><th>".__('Action','WPWSL')."</th></tr></thead>
+    _e("<thead><tr><th class='' width='50%'>".__('Title','WPWSL')."</th><th width='16%'><div sytle='text-align:center;'>".$typeORcate."</div></th><th width='22%'>".__('Create Date','WPWSL')."</th><th width='12%'>".__('Action','WPWSL')."</th></tr></thead>
     	<tbody>");
         $i=1;
 	    foreach ($posts_array as $key) {
@@ -210,7 +238,7 @@ function prefix_ajax_add_foobar(){
 			}
 			if($i%2!=0) $trclass = "one";else $trclass = "two";
 			$i++;
-	    	_e("<tr class='$trclass'><td>".$key->post_title."</td><td>".$cats."</td><td>".$key->post_date."</td><td><button class='insert_content_to_input' postid='".$key->ID."' tid='".$targetID."'>".__('Insert','WPWSL')."</button></td></tr>");
+	    	_e("<tr class='$trclass'><td>".$key->post_title."</td><td>".$cats."</td><td><div sytle='text-align:center;'>".$key->post_date."</div></td><td><button class='insert_content_to_input' postid='".$key->ID."' tid='".$targetID."'>".__('Insert','WPWSL')."</button></td></tr>");
 	    }
     }
     _e('</tbody></table><div id="paginate_div">'.paginate_links($args_paginate).'</div>');
@@ -220,6 +248,7 @@ function prefix_ajax_add_foobar(){
 
 add_action( 'wp_ajax_get_insert_content', 'prefix_ajax_get_insert_content' );
 function prefix_ajax_get_insert_content(){
+	require_once('simple_html_dom.php');
 	if($_GET['rtype']=="posts"){
 	        $myrow = get_post($_GET['postid']);
 	        $post_categories  =  wp_get_post_categories($myrow->ID);
@@ -229,11 +258,10 @@ function prefix_ajax_get_insert_content(){
 				$cats .= ",".$cat->name;
 			}
 			$cats = substr($cats,1);
-			require_once('simple_html_dom.php');
             $post = htmlspecialchars_decode($myrow->post_content);
     		$html = str_get_html($post);
 
-			$rpost = "#".$myrow->post_title."#[".$myrow->post_date."]{".$html->plaintext."}~".$myrow->post_date."~";
+			$rpost = "#".wp_trim_words(trim($myrow->post_title),80,'...' )."#".wp_trim_words(trim($html->plaintext),500,'...' )."[".$myrow->guid."][".$myrow->post_date."]";
 			$r = array(
 				"status" => "success",
 				"data"   => $rpost
@@ -244,6 +272,44 @@ function prefix_ajax_get_insert_content(){
         	"status"=>"success",
             "data"  =>$myrow->guid
         	);
+	}else if($_GET['rtype']=="phmsg"){
+		$imageSize = isset($_GET['imagesize'])&&$_GET['imagesize']=="small" ? "sup_wechat_small":"sup_wechat_big";
+		$myrow = get_post($_GET['postid']);
+				$myrow->pic = WPWSL_PLUGIN_URL."/img/".$imageSize.".png";
+				if(has_post_thumbnail($_GET['postid'])){
+				   $myrow->pic = wp_get_attachment_image_src(get_post_thumbnail_id($_GET['postid']),$imageSize)[0];
+
+				}else if(has_post_thumbnail($_GET['postid'])==""&&trim($myrow->post_content)!=""){			   
+				   $html = str_get_html(htmlspecialchars_decode($myrow->post_content));
+				   $img = $html->find('img',0);
+				   if($img){
+					   if($img->class&&stripos($img->class,"wp-image-")!==false){
+					      $classes = explode(" ",$img->class);
+					      $id = null;
+					      foreach ($classes as $value) {
+					      	if(stripos($value,"wp-image-")!==false){ $id = substr(trim($value),9);break;} 
+					      }
+					      if($id){
+					      	$myrow->pic = wp_get_attachment_image_src($id,$imageSize)[0];
+					      }  
+					      
+					   }else{
+					   	  $myrow->pic = $img->src;
+					   }
+				   }
+				}
+                if(trim($myrow->post_excerpt)!=""){
+                   $myrow->post_content = $myrow->post_excerpt;
+                }else if(trim($myrow->post_content!="")){
+					$html = str_get_html(htmlspecialchars_decode($myrow->post_content));
+					$myrow->post_content = wp_trim_words(trim($html->plaintext),140, '...' );
+				}
+				
+	
+        $r = array(
+        	"status"=>"success",
+            "data"  =>$myrow
+        	);   
 	}else{
 		$r = array(
 				"status" => "error",

@@ -4,6 +4,7 @@ class WPWSL_General{
 	
 	private $file_general_tpl='_general.php';
 	private $file_edit_tpl='_edit.php';
+    private $file_keywords_tpl='_keywords.php';
 
 	
 	private static $_instance;
@@ -53,10 +54,12 @@ class WPWSL_General{
      * Options page callback
      */
     public function create_admin_page(){
-    	if(!isset($_GET['edit'])){
-			require_once( $this->file_general_tpl);
-		}else{
+    	if(isset($_GET['edit'])){
 			require_once( $this->file_edit_tpl);
+		}else if(isset($_GET['keywords'])){
+            require_once( $this->file_keywords_tpl);
+        }else{
+			require_once( $this->file_general_tpl);
 		}
     }
 

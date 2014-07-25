@@ -69,7 +69,7 @@ WeChat Subscribers Lite
 }
 #phmsg-base .preview-box img{
 	width: 360px;
-	height: 220px;
+	height: 200px;
 	background: transparent url('../img/default_large_img.png') no-repeat 0 0;
 }
 #phmsg-group .msg-box{
@@ -162,17 +162,23 @@ WeChat Subscribers Lite
 #dialog_content__container input{
     margin-top:1.5px;
 }
+#easyDialogWrapper{
+	position: relative;
+}
 #easydialog_close{
-    position:relative;
-    text-decoration:none;
-    font-size:25px;
-    color:#555;
-    left:520px;
-    top:-20px;
+	position: absolute;
+	text-decoration: none;
+	font-size: 25px !important;
+	color: #555;
+	top: 5px;
+	margin: 0px;
+	padding: 0px;
+	right: 7px;
 }
 #easydialog_close:hover{
     color:#2EA2CC;
 }
 #dialog_content__container{
-	min-height: 310px;
+	min-height: 320px;
 }
+

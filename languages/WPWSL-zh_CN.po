@@ -59,6 +59,14 @@ msgstr "操作"
 msgid "Insert"
 msgstr "插入"
 
+#: wpwsl_core.php:44
+msgid "WeChat big image"
+msgstr "微信大图"
+
+#: wpwsl_core.php:45
+msgid "WeChat small image"
+msgstr "微信小图"
+
 #: _edit.php:217
 msgid "Basic Settings"
 msgstr "基本设置"
@@ -245,6 +253,10 @@ msgstr "取消"
 msgid "Delete"
 msgstr "删除"
 
+#: _edit.php:361
+msgid "Edit"
+msgstr "编辑"
+
 #: _edit.php:407
 msgid "Recently messages"
 msgstr "最近消息"
@@ -298,6 +310,9 @@ msgstr "（空）"
 msgid "Add New Template"
 msgstr "添加新模版"
 
+msgid "Statistics"
+msgstr "消息统计"
+
 #: class-wpwsl-list-table.php:24
 msgid "No Item found."
 msgstr "什么都没有。"
@@ -340,3 +355,19 @@ msgid ""
 "&quot;Bind&quot; this URL to WeChat Platform."
 msgstr ""
 "首先设置好上面的TOKEN，保存设置以后使用这个URL绑定到你的微信公众平台订阅号。"
+
+#: _keywords.php 34
+msgid "Yes"
+msgstr "是"
+
+#: _keywords.php 34
+msgid "No"
+msgstr "否"
+
+#: class-wpwsl-keywords-table.php 35
+msgid "No records"
+msgstr "没有消息记录!"
+
+#: class-wpwsl-keywords-table.php 35
+msgid "Match"
+msgstr "匹配"

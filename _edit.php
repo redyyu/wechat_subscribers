@@ -211,15 +211,20 @@ $args_cate = array(
 		'taxonomy'                 => 'category',
 		'pad_counts'               => false 
 		);
-$_re_type = $_re_type !="page" ? "post":"page";
 $defauleCate = new stdClass();
 $defauleCate->term_id = "all";
 $defauleCate->cat_name = __("All categories","WPWSL");
 $_re_cates = array_merge(array($defauleCate),get_categories($args_cate));
-$_re_cate_show = ($_re_type=="post") ? true:false;
+$_re_cate_show = ($_re_type=="post"||$_re_type=="") ? false:true;
 $_re_count_label = __("Amount","WPWSL");
-
-
+// global $wp_post_types; //get all post types
+$args = array(
+   'public'   => true,
+   'show_ui'  =>true
+);
+$output = 'objects'; // names or objects, note names is the default
+$operator = 'and'; // 'and' or 'or'
+$_re_types= get_post_types( $args, $output, $operator ); 
 //switch type
 $type=get_post_meta($current_id,'_type',TRUE);
 $type_options=array(
@@ -347,7 +352,7 @@ require_once( 'content.php' );
 							<h3><?php _e('News Message','WPWSL');?></h3>
 							<div id="phmsg-base">
 								<div class="msg-box">
-									<h3 rel="title" class="msg-box-title" data-subtitle="<?php _e('Sub','WPWSL');?>"><?php _e('Main Photo and Text','WPWSL');?></h3>
+									<h3 rel="title" class="msg-box-title" data-subtitle="<?php _e('Sub','WPWSL');?>"><?php _e('Main Photo and Text','WPWSL');?>(<a href="javascript:;" rtype='phmsg' class="alert_dialog_include_posts insert_resp_phmsg"><?php _e('Insert','WPWSL'); ?></a>)</h3>
 									<div class="func-msg-box"><a href="#" class="up-msg-box-btn">&nbsp;</a>&nbsp;<a href="#" class="down-msg-box-btn">&nbsp;</a></div>
 									<div class="clear"></div>
 									<table class="form-table">
@@ -416,17 +421,16 @@ require_once( 'content.php' );
 								    <tr valign="top">
 								    	<th scope="row"><label><?php _e('Type','WPWSL');?></label></th>
 									    <td>
-									    <select name="re_type" id="re_type_select">
+									     <select name="re_type" id="re_type_select">
 									    <?php 
-									    $_re_types = array("post"=>__('Articles','WPWSL'),"page"=>__('Pages','WPWSL'));
 									    foreach($_re_types as $key=>$val):?>
 						        		<?php $selected=($key==$_re_type)?'selected':'';?>
-						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val ;?></option>
+						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val->labels->name ;?></option>
 						        		<?php endforeach;?>
 									    </select>
 									    </td>
 								    </tr>
-								    <tr valign="top" <?php if(!$_re_cate_show):?>style="display:none;"<?php endif; ?> id="re_cate_tr">
+								    <tr valign="top" <?php if($_re_cate_show):?>style="display:none;"<?php endif; ?> id="re_cate_tr">
 								    	<th scope="row"><label><?php _e('Category','WPWSL');?></label></th>
 									    <td>
 									    <select name="re_cate">
@@ -548,8 +552,11 @@ jQuery(document).ready(function ($) {
     function UUID(){this.id=this.createUUID()}UUID.prototype.valueOf=function(){return this.id};UUID.prototype.toString=function(){return this.id};UUID.prototype.createUUID=function(){var c=new Date(1582,10,15,0,0,0,0);var f=new Date();var h=f.getTime()-c.getTime();var i=UUID.getIntegerBits(h,0,31);var g=UUID.getIntegerBits(h,32,47);var e=UUID.getIntegerBits(h,48,59)+"2";var b=UUID.getIntegerBits(UUID.rand(4095),0,7);var d=UUID.getIntegerBits(UUID.rand(4095),0,7);var a=UUID.getIntegerBits(UUID.rand(8191),0,7)+UUID.getIntegerBits(UUID.rand(8191),8,15)+UUID.getIntegerBits(UUID.rand(8191),0,7)+UUID.getIntegerBits(UUID.rand(8191),8,15)+UUID.getIntegerBits(UUID.rand(8191),0,15);return i+g+e+b+d+a};UUID.getIntegerBits=function(f,g,b){var a=UUID.returnBase(f,16);var d=new Array();var e="";var c=0;for(c=0;c<a.length;c++){d.push(a.substring(c,c+1))}for(c=Math.floor(g/4);c<=Math.floor(b/4);c++){if(!d[c]||d[c]==""){e+="0"}else{e+=d[c]}}return e};UUID.returnBase=function(c,d){var e=["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];if(c<d){var b=e[c]}else{var f=""+Math.floor(c/d);var a=c-f*d;if(f>=d){var b=this.returnBase(f,d)+e[a]}else{var b=e[f]+e[a]}}return b};UUID.rand=function(a){return Math.floor(Math.random()*a)}; 
 	//when DOM is  ready, create a new UUID() for $('#phmsg-base .msg-box')[0]
 	var oneid =  new UUID();
-	$($('#phmsg-base .msg-box')[0]).find(".alert_dialog_include_posts:first").attr("tid",oneid);
+	var twoid =  new UUID();
+	$($('#phmsg-base .msg-box')[0]).find("button.alert_dialog_include_posts").attr("tid",oneid);
 	$($('#phmsg-base .msg-box')[0]).find(".phmsg-base-input-url:first").attr("id",oneid);
+	$($('#phmsg-base .msg-box')[0]).find(".insert_resp_phmsg:first").attr("tid",twoid);
+	$($('#phmsg-base .msg-box')[0]).attr("id",twoid);
 	function add_phmsg_box(title,pic,des,url){
 		var title = typeof title !== 'undefined' ? title : '';
 		var pic = typeof pic !== 'undefined' ? pic : '';
@@ -561,16 +568,18 @@ jQuery(document).ready(function ($) {
 			var tpl=$($('#phmsg-base .msg-box')[0]);
 			var clone=tpl.clone(true);
 			var subtitle=clone.children('h3[rel="title"]').data('subtitle');
-			clone.children('h3[rel="title"]').html(subtitle+'.'+count_phmsg);
-
+			clone.children('h3[rel="title"]').html(subtitle+'.'+count_phmsg+"(<a href='javascript:;' rtype='phmsg' class='alert_dialog_include_posts insert_resp_phmsg'><?php _e('Insert','WPWSL'); ?></a>)");
+            
 			clone.find('.preview-box img').each(function(){
 				$(this).attr('src', '');
 			});
 			//set button id className is .alert_dialog_include_posts when clone 
 			var oneid =  new UUID();
-            clone.find(".alert_dialog_include_posts:first").attr("tid",oneid);
+			var twoid =  new UUID();
+            clone.find("button.alert_dialog_include_posts").attr("tid",oneid);
             clone.find(".phmsg-base-input-url:first").attr("id",oneid);
-
+            clone.find(".insert_resp_phmsg:first").attr("tid",twoid);
+	        clone.attr("id",twoid).attr("wechat-small","yes");
 			clone.find('input').each(function(){
 				if($(this).attr('name')=='title[]'){
 					$(this).val(title);
@@ -618,7 +627,8 @@ jQuery(document).ready(function ($) {
 		for(var i=0; i<length;i++){
 			var cur=$($('#phmsg-group .msg-box')[i]);
 			var subtitle=cur.children('h3[rel="title"]').data('subtitle');
-			cur.children('h3[rel="title"]').html(subtitle+'.'+(i+1));
+			var id = cur.attr("id");
+			cur.children('h3[rel="title"]').html(subtitle+'.'+(i+1)+"(<a href='javascript:;' tid='"+id+"' rtype='phmsg' class='alert_dialog_include_posts insert_resp_phmsg'><?php _e('Insert','WPWSL');?></a>)");
 		}
 	}
 
@@ -637,14 +647,13 @@ jQuery(document).ready(function ($) {
        //alert(data.tid+"  |  "+data.rtype);
        easyDialog.open({
 		container : {
-			content : '<div id="dialog_content__container" style="width:925px;margin:0px auto;border-radius:5px;"><table class="wp-list-table widefat fixed posts" style="min-height:100px;"><thead><tr><th style="text-align:center;height: 77px;">loading....</th></tr></thead></table></div>'
+			content : '<div id="dialog_content__container" style="width:inherit;margin:0px auto;border-radius:5px;"><table class="wp-list-table widefat fixed posts" style="min-height:100px;"><thead><tr><th style="text-align:center;height: 77px;">loading....</th></tr></thead></table></div>'
 			
 		},
 		fixed : true,
 		drag : false
 	    });
         jQuery.get(admin_url,data,function(d,s){
-            //alert(d);
             $("#dialog_content__container").html(d);
 	        //ajax paginate
 		    $("#paginate_div").find(".page-numbers").live("click",function(){
@@ -683,13 +692,25 @@ jQuery(document).ready(function ($) {
        	   rtype   :  $("#hidden_post_type").val()
        }
        var tid = $this.attr('tid');
+       if($("#"+tid).attr("wechat-small")=="yes"){
+       	   data.imagesize = "small";
+       }
        var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
        jQuery.get(admin_url,data,function(d,s){
-       	   //alert(d);
        	if(d = JSON.parse(d)){
-       	   //alert(d.data);
        	   if(d.status="success"){
-       	   	  $("#"+tid).val(d.data);
+       	   	  if(data.rtype=="phmsg"){
+       	   	  var $container = $("#"+tid);	
+              if(d.data.pic!="none"){
+              if(d.data.pic) $container.find(".preview-box img").attr("src",d.data.pic);
+              }
+       	   	  $container.find("input[name='title[]']").val(d.data.post_title);
+       	   	  $container.find("input[name='pic[]']").val(d.data.pic);
+       	   	  $container.find("input[name='des[]']").val(d.data.post_content);
+       	   	  $container.find("input[name='url[]']").val(d.data.guid);
+       	   	  }else{
+       	   	   $("#"+tid).val(d.data);
+       	   	  }
        	   	  easyDialog.close();
        	   }else{
        	   	  alert(d.data);
@@ -802,9 +823,7 @@ jQuery(document).ready(function ($) {
 		           return false;
 		       });	 
             });
-     }
-
-    
+       }
 
 });
 </script>

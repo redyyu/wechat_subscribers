@@ -101,7 +101,11 @@ require_once( 'content.php' );
 		&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.imredy.com/wp_wechat/" target="_blank"><?php _e('Help','WPWSL');?></a>
 	</p>
 	<hr>
-	<h2><?php _e('Reply Templates','WPWSL');?> <a href="<?php menu_page_url(WPWSL_GENERAL_PAGE);?>&edit" class="add-new-h2"><?php _e('Add New Template','WPWSL');?></a></h2>
+	<h2>
+	<?php _e('Reply Templates','WPWSL');?>
+	<a href="<?php menu_page_url(WPWSL_GENERAL_PAGE);?>&edit" class="add-new-h2"><?php _e('Add New Template','WPWSL');?></a>
+    <a href="<?php menu_page_url(WPWSL_GENERAL_PAGE);?>&keywords" class="add-new-h2"><?php _e('Statistics','WPWSL');?></a>
+	</h2>
 	<br>
 	<!--<ul class='subsubsub'>
 		<li class='all'><a href='<?php menu_page_url( WPWSL_GENERAL_PAGE);?>' class="current">All<span class="count"> (0) </span></a> |</li>

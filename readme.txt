@@ -1,6 +1,6 @@
 === WeChat Subscribers Lite 微信公众订阅号插件 ===
 Name: WeChat Subscribers Lite 微信公众订阅号插件
-Contributors: redyyu
+Contributors: redyyu, GuYue
 Tags: weixin,wechat,微信,subscribers,微信公众平台,wx,订阅号
 Donate link: http://www.imredy.com/wp_wechat/
 Requires at least: 3.7
