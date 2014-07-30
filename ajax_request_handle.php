@@ -2,22 +2,18 @@
 //Set ajax callback function
 add_action( 'wp_ajax_add_foobar', 'prefix_ajax_add_foobar' );
 function prefix_ajax_add_foobar(){
-
         $targetID = $_GET['tid'];
         $posts_per_page = 5;
         $current = isset($_GET['cur'])?$_GET['cur']:1;
         
 		$offset = ($current-1)*$posts_per_page;
-		$post_type = isset($_GET['ptype'])&&$_GET['ptype']=="page" ?"page":"post";
+		$post_type = isset($_GET['ptype']) ? $_GET['ptype'] : "post";
+
 		if (isset($_GET['catid'])&&$_GET['catid']!="default"){
 			    $published_posts = get_category($_GET['catid'])->count;
 	    }else{
 	        //count all posts 
-			if($post_type=="post"){
-			    $published_posts = wp_count_posts("post")->publish;
-		    }else if ($post_type =="page") {
-		    	$published_posts = wp_count_posts("page")->publish;
-		    }
+			$published_posts = wp_count_posts($post_type)->publish;
 	    }
 	    if(isset($_GET['key'])&&trim($_GET['key'])!=""){
 	    	global $wpdb;
@@ -25,10 +21,6 @@ function prefix_ajax_add_foobar(){
 	    	$published_posts = $wpdb->get_results("select ID,post_date,post_title,post_type from wp_posts where post_status = 'publish' and post_title LIKE '%{$str}%' order by post_title asc limit 30 ");
 	        $published_posts = count($published_posts);
 	    }
-
-
-		$pageselect = $post_type =="page" ? 'selected="selected"' : null;
-		$postselect = $post_type =="post" ? 'selected="selected"' : null;
 		//show cates list
 		 $args_cate = array(
 		'type'                     => 'post',
@@ -51,8 +43,8 @@ function prefix_ajax_add_foobar(){
 		'orderby'          => 'post_date',
 		'order'            => 'post_date desc',
 		'post_type'        => $post_type,
-		'post_status'      => 'publish'
 		);
+		if($post_type=="post"||$post_type=="page"){ $args['post_status'] = 'publish';}
 		
 		if(isset($_GET['catid'])&&$_GET['catid']!="default") $args['category'] = $_GET['catid'];
 		
@@ -88,7 +80,7 @@ function prefix_ajax_add_foobar(){
 		);
      switch ($_GET['rtype']) {
      	case 'posts':
-     		$button_value = __("Insert Article","WPWSL");
+     		$button_value = __("Insert Content","WPWSL");
      		break;
      	case 'urls':
      		$button_value = __("Insert URL","WPWSL");
@@ -97,17 +89,27 @@ function prefix_ajax_add_foobar(){
      		$button_value = __("Sync","WPWSL");
      		break;
      }
+     $args = array(
+		   'public'   => true,
+		   'show_ui'  =>true
+		);
+		$output = 'objects'; // names or objects, note names is the default
+		$operator = 'and'; // 'and' or 'or'
+		$_re_types= get_post_types( $args, $output, $operator ); 
+		$_post_types = "";
+        foreach ($_re_types as $key => $val){
+        	     $selected=($key==$post_type)?'selected = "selected"':'';
+        	     $_post_types .= '<option value="'.$key.'" class="select_type_choose"  '.$selected.'>'.$val->labels->name.'</option>';
+        }	
+        $isCateShow = $post_type == "post" ? "" : "display:none;";
 	_e('<input type="hidden" id="hidden_post_tid" value="'.$_GET['tid'].'">
 		<input type="hidden" id="hidden_post_type" value="'.$_GET['rtype'].'">
 		<input type="hidden" id="hidden_search_key" value="'.$searchKeyInput.'">
 		<div class="tablenav top">
           <div class="alignleft actions bulkactions">
-		  <select id="select_type_action">
-          <option value="post" class="select_type_choose"  '.$postselect.'>'.__('Articles','WPWSL').'</option>
-	      <option value="page" class="select_type_choose"  '.$pageselect.'>'.__('Pages','WPWSL').'</option>
-	      </select>
+		  <select id="select_type_action">'.$_post_types.'</select>
 		  </div>
-		  <div class="alignleft actions" id="select_cate_conatiner">
+		  <div class="alignleft actions" id="select_cate_conatiner" style="'.$isCateShow.'">
 		  <select id="select_cate_action">'.$cateoptions.'</select>
          </div>
          <div class="alignleft actions">
@@ -122,28 +124,31 @@ function prefix_ajax_add_foobar(){
     if(count($posts_array)==0){
         _e("<thead><tr><th style='text-align:center;height: 77px;'>".__('Search results is empty....','WPWSL')."</th></tr></thead>");
     }else{
-    _e("<thead><tr><th class='' width='50%'>".__('Title','WPWSL')."</th><th width='16%'><div sytle='text-align:center;'>".$typeORcate."</div></th><th width='22%'>".__('Create Date','WPWSL')."</th><th width='14%'>".__('Action','WPWSL')."</th></tr></thead>
+    _e("<thead><tr><th class='' width='50%'>".__('Title','WPWSL')."</th><th width='16%'><div sytle='text-align:center;'>".$typeORcate."</div></th><th width='22%'>".__('Create Date','WPWSL')."</th><th width='19%'>".__('Action','WPWSL')."</th></tr></thead>
     	<tbody>");
         $i=1;
 	    foreach ($posts_array as $key) {
-	    	if($key->post_type=="post"){
-		    	//get cates
-		    	$post_categories  =  wp_get_post_categories($key->ID);
-		    	$cats = "";
+	    	$post_categories  =  wp_get_post_categories($key->ID);
+	    	if(count($post_categories)>0){
+	    	   $cats = "";
 				foreach($post_categories as $c){
 					$cat = get_category($c);
 					$cats .= ",".$cat->name;
 				}
 				$cats = substr($cats,1);
 				if(isset($_GET['key'])){
-					$cats = __('Articles','WPWSL').":".$cats; 	
+					$cats = $cats; 	
 				}
-			}else if($key->post_type=="page"){
-			 	 $cats = "-";
-			 	 if(isset($_GET['key'])){
-				 $cats = __('Pages','WPWSL'); 	
-				 }
-			}
+	    	}else{
+	    		$cats = $key->post_type;
+	    		foreach($_re_types as $cat_key => $cat_val){
+	    			if($cat_key==$key->post_type){
+	    				$cats = "[".$cat_val->labels->name."]";
+	    				break;
+	    			}
+        	     
+                }	
+	    	}
 			if($i%2!=0) $trclass = "one";else $trclass = "two";
 			$i++;
 	    	_e("<tr class='$trclass'><td>".$key->post_title."</td><td>".$cats."</td><td><div sytle='text-align:center;'>".$key->post_date."</div></td><td><button type='button' class='button button-primary insert_content_to_input' postid='".$key->ID."' tid='".$targetID."'>".$button_value."</button></td></tr>");
@@ -168,8 +173,16 @@ function prefix_ajax_get_insert_content(){
 			$cats = substr($cats,1);
             $post = htmlspecialchars_decode($myrow->post_content);
     		$html = str_get_html($post);
-
-			$rpost = "#".wp_trim_words(trim($myrow->post_title),80,'...' )."#".wp_trim_words(trim($html->plaintext),500,'...' )."[".$myrow->guid."][".$myrow->post_date."]";
+            $plaintext = is_object($html) ? $html->plaintext : $post;
+			$rpost = "#"
+			         .wp_trim_words(trim($myrow->post_title),80,'...' )
+			         ."#"
+			         .wp_trim_words(trim($plaintext),500,'...' )
+			         ."["
+			         .$myrow->guid
+			         ."]["
+			         .$myrow->post_date
+			         ."]";
 			$r = array(
 				"status" => "success",
 				"data"   => $rpost

@@ -341,7 +341,7 @@ require_once( 'content.php' );
 								    	<th scope="row"><label><?php _e('Content','WPWSL');?></label></th>
 									    <td>
 									    	<textarea id="resp_msg_textarea" name="content" rows="10" class="large-text"><?php echo $_content;?></textarea>
-									    	<p class="description"><button type='button' rtype="posts" tid='resp_msg_textarea' class="button alert_dialog_include_posts"><?php _e('Insert Article','WPWSL'); ?></button>&nbsp;<?php _e('Only plain text, without any script.','WPWSL');?></p>
+									    	<p class="description"><button type='button' rtype="posts" tid='resp_msg_textarea' class="button alert_dialog_include_posts"><?php _e('Insert Content','WPWSL'); ?></button>&nbsp;<?php _e('Only plain text, without any script.','WPWSL');?></p>
 									    </td>
 								    </tr>
 								</table>
@@ -362,7 +362,7 @@ require_once( 'content.php' );
 												<h3 rel="title" class="msg-box-title" data-subtitle="<?php _e('Sub','WPWSL');?>"><?php _e('Main Photo and Text','WPWSL');?></h3>
 											</th>
 											<td>
-												<div class='phmsg_sync_link'><a href="javascript:;" rtype='phmsg' class="button button-primary alert_dialog_include_posts insert_resp_phmsg">&nbsp;&nbsp;<img width="16" height="16" src="<?php _e(WPWSL_PLUGIN_URL) ?>/img/sync.png">&nbsp;<span><?php _e('Article Sync','WPWSL');?></span>&nbsp;&nbsp;</a></div>
+												<div class='phmsg_sync_link'><a href="javascript:;" rtype='phmsg' class="button button-primary alert_dialog_include_posts insert_resp_phmsg">&nbsp;&nbsp;<img width="16" height="16" src="<?php _e(WPWSL_PLUGIN_URL) ?>/img/sync.png">&nbsp;<span><?php _e('Post Sync','WPWSL');?></span>&nbsp;&nbsp;</a></div>
 											</td>
 										</tr>
 										<tr valign="top">

@@ -1,6 +1,6 @@
 <?php
 /*
- * Settings Page, It's required by WPWSLGeneral Class only.
+ * History page ,record user's wechat messages
  *
  */
 define("SELECT_ROWS_AMOUNT", 100);

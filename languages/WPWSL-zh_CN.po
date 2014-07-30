@@ -16,8 +16,8 @@ msgstr ""
 # Version: 1.0
 # Author: Redy Ru
 #: wpwsl_core.php:109
-msgid "Insert Article"
-msgstr "插入文章"
+msgid "Insert Content"
+msgstr "插入内容"
 
 #: wpwsl_core.php:109
 msgid "Insert URL"
@@ -246,8 +246,8 @@ msgid "Cancel"
 msgstr "取消"
 
 #: _edit.php:357
-msgid "Article Sync"
-msgstr "同步文章"
+msgid "Post Sync"
+msgstr "同步图文"
 
 #: _edit.php:357
 msgid "Sync"
