@@ -55,10 +55,6 @@ msgstr "创建时间"
 msgid "Action"
 msgstr "操作"
 
-#: wpwsl_core.php:188
-msgid "Insert"
-msgstr "插入"
-
 #: wpwsl_core.php:44
 msgid "WeChat big image"
 msgstr "微信大图"
@@ -92,16 +88,16 @@ msgid "News (Picture with text)"
 msgstr "图文消息"
 
 #: _edit.php:208
-msgid "Edit Reply Template"
-msgstr "编辑消息模版"
+msgid "Edit Reply Message"
+msgstr "编辑回复消息"
 
 #: _edit.php:219
-msgid "Template Title"
-msgstr "模版标题"
+msgid "Reply Title"
+msgstr "回复标题"
 
 #: _edit.php:222
-msgid "Title of this template, only for easier to manage it."
-msgstr "这个消息模版的标题，只用来方便管理，不会出现在发送消息中。"
+msgid "Title of this reply message, only for easier to manage it."
+msgstr "这个消息的标题，只用来方便管理，不会出现在发送消息中。"
 
 #: _edit.php:226
 msgid "Date"
@@ -157,7 +153,7 @@ msgid ""
 "Check &quot;Publish&quot; to activate this message, otherwise deactivate as "
 "&quot;Draft&quot;."
 msgstr ""
-"勾上“发布”就会激活这条回复模版，否则的话他会被保存成为一个“草稿”，草稿不会响"
+"勾上“发布”就会激活这条回复消息，否则的话他会被保存成为一个“草稿”，草稿不会响"
 "应订阅者的任何操作。"
 
 #: _edit.php:264
@@ -165,8 +161,8 @@ msgid "Type"
 msgstr "类型"
 
 #: _edit.php:272
-msgid "Select your Template type."
-msgstr "选择一个模版类型"
+msgid "Select your reply message type."
+msgstr "选择一个回复消息类型"
 
 #: _edit.php:278
 msgid "Text Message"
@@ -249,6 +245,14 @@ msgstr "保存"
 msgid "Cancel"
 msgstr "取消"
 
+#: _edit.php:357
+msgid "Article Sync"
+msgstr "同步文章"
+
+#: _edit.php:357
+msgid "Sync"
+msgstr "同步"
+
 #: _edit.php:361
 msgid "Delete"
 msgstr "删除"
@@ -282,9 +286,9 @@ msgstr "插件设置"
 msgid "Help"
 msgstr "帮助"
 
-#: _general.php:104
-msgid "Reply Templates"
-msgstr "消息模版"
+#: _general.php 104
+msgid "Custom Replies"
+msgstr "自定义回复"
 
 #: _general.php:59
 msgid "Conflict"
@@ -307,11 +311,24 @@ msgid "(empty)"
 msgstr "（空）"
 
 #: _general.php:102
-msgid "Add New Template"
-msgstr "添加新模版"
+msgid "Add New Reply"
+msgstr "添加新回复"
 
+#: _history.php:50
 msgid "Statistics"
 msgstr "消息统计"
+
+#: _history.php:50
+msgid "Charts"
+msgstr "统计图"
+
+#: _history.php:71
+msgid "Empty all the records ?"
+msgstr "清空所有的消息记录 ?"
+
+#: _history.php:53
+msgid "Clear All Records"
+msgstr "清空所有记录"
 
 #: class-wpwsl-list-table.php:24
 msgid "No Item found."

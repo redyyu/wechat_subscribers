@@ -2,7 +2,7 @@
 class WPWSL_History{
 
     private $file_history_tpl='_history.php';
-
+    private $file_charts_tpl='_charts.php';
 	
 	private static $_instance;
 
@@ -34,7 +34,7 @@ class WPWSL_History{
         // This page will be under Content manage section.
         $parent_slug=WPWSL_GENERAL_PAGE;
         $page_title=__('WeChat Subscribers', 'WPWSL');
-        $menu_title=__('Histroy', 'WPWSL');
+        $menu_title=__('Statistics', 'WPWSL');
         $capability='edit_posts';
         $menu_slug=WPWSL_HISTORY_PAGE;
         add_submenu_page( 
@@ -51,7 +51,11 @@ class WPWSL_History{
      * Options page callback
      */
     public function create_admin_page(){
-		require_once( $this->file_history_tpl);
+        if(isset($_GET['charts'])){
+           require_once($this->file_charts_tpl);
+        }else{
+		   require_once( $this->file_history_tpl);
+        }
     }
 
 }

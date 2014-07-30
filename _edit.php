@@ -264,7 +264,7 @@ require_once( 'content.php' );
 	<?php echo $content['header'];?>
 	<?php echo $content['tips_content'];?>
 	<hr>
-	<h2><?php _e('Edit Reply Template','WPWSL');?></h2>
+	<h2><?php _e('Edit Reply Message','WPWSL');?></h2>
 	<br>
 
 		<div class="postbox">
@@ -275,10 +275,10 @@ require_once( 'content.php' );
 						<h3><?php _e('Basic Settings','WPWSL');?></h3>
 						<table class="form-table">
 						    <tr valign="top">
-							    <th scope="row"><label><?php _e('Template Title','WPWSL');?></label></th>
+							    <th scope="row"><label><?php _e('Reply Title','WPWSL');?></label></th>
 							    <td>
 							    	<input type="text" name="post_title" value="<?php echo $_post_title;?>" class="large-text"/>
-							    	<p class="description"><?php _e('Title of this template, only for easier to manage it.','WPWSL');?></p>
+							    	<p class="description"><?php _e('Title of this reply message, only for easier to manage it.','WPWSL');?></p>
 							    </td>
 						    </tr>
 						    <tr valign="top">
@@ -328,7 +328,7 @@ require_once( 'content.php' );
 						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val ;?></option>
 						        		<?php endforeach;?>
 						        	</select>
-						        	<p class="description"><?php _e('Select your Template type.','WPWSL');?></p>
+						        	<p class="description"><?php _e('Select your reply message type.','WPWSL');?></p>
 						        </td>
 						    </tr>
 						</table>
@@ -341,7 +341,7 @@ require_once( 'content.php' );
 								    	<th scope="row"><label><?php _e('Content','WPWSL');?></label></th>
 									    <td>
 									    	<textarea id="resp_msg_textarea" name="content" rows="10" class="large-text"><?php echo $_content;?></textarea>
-									    	<p class="description"><button type='button' rtype="posts" tid='resp_msg_textarea' class="alert_dialog_include_posts"><?php _e('Insert Article','WPWSL'); ?></button><?php _e('Only plain text, without any script.','WPWSL');?></p>
+									    	<p class="description"><button type='button' rtype="posts" tid='resp_msg_textarea' class="button alert_dialog_include_posts"><?php _e('Insert Article','WPWSL'); ?></button>&nbsp;<?php _e('Only plain text, without any script.','WPWSL');?></p>
 									    </td>
 								    </tr>
 								</table>
@@ -352,10 +352,19 @@ require_once( 'content.php' );
 							<h3><?php _e('News Message','WPWSL');?></h3>
 							<div id="phmsg-base">
 								<div class="msg-box">
-									<h3 rel="title" class="msg-box-title" data-subtitle="<?php _e('Sub','WPWSL');?>"><?php _e('Main Photo and Text','WPWSL');?>(<a href="javascript:;" rtype='phmsg' class="alert_dialog_include_posts insert_resp_phmsg"><?php _e('Insert','WPWSL'); ?></a>)</h3>
+									
+									
 									<div class="func-msg-box"><a href="#" class="up-msg-box-btn">&nbsp;</a>&nbsp;<a href="#" class="down-msg-box-btn">&nbsp;</a></div>
 									<div class="clear"></div>
 									<table class="form-table">
+									    <tr valign="top">
+											<th scope="row">
+												<h3 rel="title" class="msg-box-title" data-subtitle="<?php _e('Sub','WPWSL');?>"><?php _e('Main Photo and Text','WPWSL');?></h3>
+											</th>
+											<td>
+												<div class='phmsg_sync_link'><a href="javascript:;" rtype='phmsg' class="button button-primary alert_dialog_include_posts insert_resp_phmsg">&nbsp;&nbsp;<img width="16" height="16" src="<?php _e(WPWSL_PLUGIN_URL) ?>/img/sync.png">&nbsp;<span><?php _e('Article Sync','WPWSL');?></span>&nbsp;&nbsp;</a></div>
+											</td>
+										</tr>
 										<tr valign="top">
 											<th scope="row">
 												<label><?php _e('Title','WPWSL');?></label>
@@ -394,7 +403,7 @@ require_once( 'content.php' );
 											</th>
 											<td>
 												<input class="phmsg-base-input-url" type="text" name="url[]" value="<?php echo $_phmsg_main->url;?>" class="large-text"/>
-												<p class="description"><button type="button" rtype='urls' class="alert_dialog_include_posts"><?php _e('Insert URL','WPWSL'); ?></button><?php _e('The URL you want direct to. etc., http://www.tinforce.com','WPWSL');?></p>
+												<p class="description"><button type="button" rtype='urls' class="button alert_dialog_include_posts"><?php _e('Insert URL','WPWSL'); ?></button>&nbsp;<?php _e('The URL you want direct to. etc., http://www.tinforce.com','WPWSL');?></p>
 											</td>
 										</tr>
 									</table>
@@ -568,7 +577,7 @@ jQuery(document).ready(function ($) {
 			var tpl=$($('#phmsg-base .msg-box')[0]);
 			var clone=tpl.clone(true);
 			var subtitle=clone.children('h3[rel="title"]').data('subtitle');
-			clone.children('h3[rel="title"]').html(subtitle+'.'+count_phmsg+"(<a href='javascript:;' rtype='phmsg' class='alert_dialog_include_posts insert_resp_phmsg'><?php _e('Insert','WPWSL'); ?></a>)");
+			clone.children('h3[rel="title"]').html(subtitle+'.'+count_phmsg);
             
 			clone.find('.preview-box img').each(function(){
 				$(this).attr('src', '');
@@ -628,7 +637,7 @@ jQuery(document).ready(function ($) {
 			var cur=$($('#phmsg-group .msg-box')[i]);
 			var subtitle=cur.children('h3[rel="title"]').data('subtitle');
 			var id = cur.attr("id");
-			cur.children('h3[rel="title"]').html(subtitle+'.'+(i+1)+"(<a href='javascript:;' tid='"+id+"' rtype='phmsg' class='alert_dialog_include_posts insert_resp_phmsg'><?php _e('Insert','WPWSL');?></a>)");
+			cur.children('h3[rel="title"]').html(subtitle+'.'+(i+1));
 		}
 	}
 
