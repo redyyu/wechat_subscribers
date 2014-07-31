@@ -13,27 +13,40 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 =汉语=
 
-这是一个简单通用的微信(weixin)公众平台订阅号专用插件。现在这个版本的插件只支持普通订阅号，任何人只要以个人身份免费注册微信公众平台就可以足以使用这个插件的全部功能，不需要转门为了这个插件去付费获得(weixin)公众号认证。
-如果任何人有什么新功能需求，欢迎朝我发送电子邮件。<a href="mailto:redy.ru@gmail.com">redy.ru@gmail.com</a>
-我将尽可能在每月的第一周发布新版本更新。
+尽力千难万险，升级至2.0。
 
-“请求URL超时”验证无法通过和回复的消息小概率丢失的问题，更好的修正了!! 这要感谢Limit Lin的帮助。
-另外，图文消息的中文转换编码错误的问题也修正了。
+2.0版本最大都更新是支持了“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，
+此版本由苦工－古月，担任全部php开发工作。
+
+如果发现任何bug或者有什么新功能需求，欢迎朝我发送电子邮件。<a href="mailto:redy.ru@gmail.com">redy.ru@gmail.com</a>
+
+这是一个简单通用的微信(weixin)公众平台订阅号专用插件。现在这个版本的插件只支持普通订阅号，任何人只要以个人身份免费注册微信公众平台就可以足以使用这个插件的全部功能，不需要转门为了这个插件去付费获得(weixin)公众号认证。
+
+另外要感谢以下这些人的帮助这个插件成长：
+Limit Lin
+
 
 这个插件将永久免费：）
 
 特色：
 
-1. 无需安装任何其他程序，完全使用Wordpress原生支持。
-2. 便捷管理多种weixin消息模版，可随时切换，数量不限。
-3. 多种消息模式，默认自动回复消息，关键词自动回复消息，weixin订阅自动回复欢迎消息，都可以随时便捷更改。
-4. 自动检测关键词冲突。
-5. 自由设置纯文本消息、图文消息、最近消息，可随时切换消息类型，排序。
-6. 图片上传管理都使用Wordpress原生图片管理器。
+1. 无需安装任何其他程序，完全使用Wordpress原生支持；
+2. 便捷管理多种weixin消息模版，可随时切换，数量不限；
+3. 可将其他文章类型的内容轻松的同步到自动回复消息中；
+4. 可设定自动回复某个文章的最新消息；
+5. 增加了接收消息的历史记录；
+6. 多种消息模式，默认自动回复消息，关键词自动回复消息，weixin订阅自动回复欢迎消息；
+7. 自动检测关键词冲突；
+8. 自由设置纯文本消息、图文消息、最近消息，可随时切换消息类型，排序；
+9. 图片上传管理都使用Wordpress原生图片管理器。
 
 访问插件主页获得更多帮助: <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a>.
 
 =English=
+
+Upgrade to 2.0.
+
+Version 2.0 support "synchronous Article contents" (supporting news and text messages), "Automatic Replies Recent Content" (news only), "Message History”, This release is develop by GuYue.
 
 This is a simple WeChat public platform plug-in for subscription accounts. Current version of the plug-in now supports ordinary subscription account only, anyone Register free WeChat public platform with subscription account can get full functionality of this plug-in, no need pay for a certified to upgrade your account.
 
@@ -89,7 +102,7 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 
 == Changelog ==
 =汉语=
-2014年7月39日 更新到 2.0
+2014年7月30日 更新到 2.0
 1. 增加了编辑自定义消息的时候选择已有的文章或页面插入到文字类型的内容中或同步到图文模板，在图文模板中也可以选择只插入文章或页面的URL。
 2. 增加了最近消息回复回复类型
 3. 增加了图片上传时自动裁剪至适合微信显示的尺寸。
@@ -141,5 +154,6 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. Fix strange symbol in 'token' will mass up interface url.
 
 == Upgrade Notice ==
+Update to 2.00
 Update to 1.02
 Update to 1.01
