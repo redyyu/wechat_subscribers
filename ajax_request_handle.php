@@ -80,10 +80,10 @@ function prefix_ajax_add_foobar(){
 		);
      switch ($_GET['rtype']) {
      	case 'posts':
-     		$button_value = __("Insert Content","WPWSL");
+     		$button_value = __("Insert","WPWSL")."<span>".__(" Content","WPWSL")."</span>";
      		break;
      	case 'urls':
-     		$button_value = __("Insert URL","WPWSL");
+     		$button_value = __("Insert","WPWSL")."<span>".__(" URL","WPWSL")."</span>";
      		break;
      	case 'phmsg':
      		$button_value = __("Sync","WPWSL");
@@ -106,13 +106,16 @@ function prefix_ajax_add_foobar(){
 		<input type="hidden" id="hidden_post_type" value="'.$_GET['rtype'].'">
 		<input type="hidden" id="hidden_search_key" value="'.$searchKeyInput.'">
 		<div class="tablenav top">
-          <div class="alignleft actions bulkactions">
+          <div class="alignleft actions bulkactions" id="type_con">
 		  <select id="select_type_action">'.$_post_types.'</select>
-		  </div>
-		  <div class="alignleft actions" id="select_cate_conatiner" style="'.$isCateShow.'">
+
+		  <span style="'.$isCateShow.'">
 		  <select id="select_cate_action">'.$cateoptions.'</select>
-         </div>
-         <div class="alignleft actions">
+          </span>
+		  
+		  </div>
+		  
+         <div class="alignleft actions" id="search_con">
          <label class="screen-reader-text" for="post-search-input"></label>
          <input id="post-search-key" type="search" value="'.$searchKeyInput.'" style="padding-top:5px;padding-bottom:4px;"></input>
          <input id="post-search-submit" class="button" type="submit" value="'.__('Search','WPWSL').'"></input>
@@ -120,11 +123,12 @@ function prefix_ajax_add_foobar(){
          <a href="#" id="easydialog_close">✕</a>
 	     <br class="clear">
 	     </div>
-	     <table class="wp-list-table widefat fixed posts" width="100%" style="min-height:100px;">');
+	</div>
+	     <table class="wp-list-table widefat fixed posts" width="100%" style="min-height:100px;padding:10px;">');
     if(count($posts_array)==0){
         _e("<thead><tr><th style='text-align:center;height: 77px;'>".__('Search results is empty....','WPWSL')."</th></tr></thead>");
     }else{
-    _e("<thead><tr><th class='' width='40%'>".__('Title','WPWSL')."</th><th width='16%'><div sytle='text-align:center;'>".$typeORcate."</div></th><th width='22%'>".__('Create Date','WPWSL')."</th><th width='22%'>".__('Action','WPWSL')."</th></tr></thead>
+    _e("<thead><tr><th class='' width='40%'>".__('Title','WPWSL')."</th><th width='16%'><div sytle='text-align:center;'>".$typeORcate."</div></th><th width='22%'>".__('Create Date','WPWSL')."</th><th width='22%' style='text-align:center;'>".__('Action','WPWSL')."</th></tr></thead>
     	<tbody>");
         $i=1;
 	    foreach ($posts_array as $key) {
@@ -151,7 +155,7 @@ function prefix_ajax_add_foobar(){
 	    	}
 			if($i%2!=0) $trclass = "one";else $trclass = "two";
 			$i++;
-	    	_e("<tr class='$trclass'><td>".$key->post_title."</td><td>".$cats."</td><td><div sytle='text-align:center;'>".$key->post_date."</div></td><td><button type='button' class='button button-primary insert_content_to_input' postid='".$key->ID."' tid='".$targetID."'>".$button_value."</button></td></tr>");
+	    	_e("<tr class='$trclass'><td>".$key->post_title."</td><td>".$cats."</td><td><div sytle='text-align:center;'>".$key->post_date."</div></td><td style='text-align:center;'><button type='button' class='button button-primary insert_content_to_input' postid='".$key->ID."' tid='".$targetID."'>".$button_value."</button></td></tr>");
 	    }
     }
     _e('</tbody></table><div id="paginate_div">'.paginate_links($args_paginate).'</div>');

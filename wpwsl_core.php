@@ -102,8 +102,8 @@ function custom_admin_scripts() {
 	wp_enqueue_media();
 	wp_register_script('custom-upload', WPWSL_PLUGIN_URL.'/js/custom_upload.js', array('jquery','media-upload','thickbox'),"2.0");
 	wp_enqueue_script('custom-upload');
-	wp_register_script('easydialog', WPWSL_PLUGIN_URL.'/js/easydialog.min.js',array(),"2.0");
-	wp_enqueue_script('easydialog');
+	wp_register_script('modal', WPWSL_PLUGIN_URL.'/js/modal.js',array(),"2.0");
+	wp_enqueue_script('modal');
 }
 // Add settings link on plugin page
 function wpwsl_plugin_settings_link($links) {

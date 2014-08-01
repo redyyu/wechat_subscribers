@@ -1,0 +1,183 @@
+/*
+ -------------------------------------------------
+ Overlay
+ -------------------------------------------------
+ */
+.custombox-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 9999999;
+}
+
+/*
+ -------------------------------------------------
+ Modal
+ -------------------------------------------------
+ */
+.custombox-modal {
+    position:fixed;
+    top: 150px;
+    left: 50%; 
+    /*overflow: scroll;*/
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.custombox-modal {
+    height: auto;
+    visibility: hidden;
+}
+
+/*
+ -------------------------------------------------
+ Error
+ -------------------------------------------------
+ */
+.custombox-error {
+    padding: 20px;
+    text-align: center;
+    color: #F00;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #FFF;
+    border-radius: 5px;
+}
+
+/*
+ -------------------------------------------------
+ Actions
+ -------------------------------------------------
+ */
+.custombox-show {
+    visibility: visible;
+}
+.custombox-show ~ .custombox-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+.custombox-perspective,
+.custombox-perspective body {
+    height: 100%;
+    overflow: hidden;
+}
+.custombox-perspective body  {
+    -webkit-perspective: 600px;
+    perspective: 600px;
+}
+.custombox-container {
+    min-height: 100%;
+}
+.custombox-hide-scrollbar {
+    overflow-y: hidden;
+}
+.custombox-hide-scrollbar body {
+    position: relative;
+    overflow: hidden;
+}
+
+/*
+ -------------------------------------------------
+ Fade in and scale up
+ -------------------------------------------------
+ */
+.custombox-fadein .custombox-modal-content {
+    -webkit-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    transform: scale(0.7);
+    -webkit-transition-property: all;
+    -ms-transition-property: all;
+    transition-property: all;
+    opacity: 0;
+}
+.custombox-show.custombox-fadein .custombox-modal-content {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+}
+
+/*
+-------------------------
+custom  modal csss 
+-------------------------
+*/
+.hide-modal-content {
+    width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background-color: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    outline: 0 none;
+}
+.hide-modal-header {
+    border-bottom: 1px solid #E5E5E5;
+    padding: 15px;
+}
+.hide-modal-body p,
+.hide-modal-header h4 {
+    margin: 0;
+}
+.hide-modal-body {
+    padding: 20px;
+}
+
+/*
+ ----------------------------
+ Custom animation
+ ----------------------------
+ */
+.custombox-close.customslide .custombox-modal-content {
+    -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    transform: scale(2);
+    opacity: 1;
+    -webkit-transition-property: all;
+    -ms-transition-property: all;
+    transition-property: all !important;
+}
+ .insert_content_to_input{
+    min-width: 42px;
+}
+@media(max-width:780px) {
+  @media (max-width:606px) {
+  .insert_content_to_input{
+    padding: 4px !important;
+    text-align: center !important;
+  }
+  .insert_content_to_input span{
+     display: block;
+  }
+ }
+  #dialog_content__container tr th:first-child{
+  width: 24%;
+  }
+  #dialog_content__container tr th:last-child{
+  width: 26%;
+  }
+}
+ @media (max-width: 790px){
+  #search_con{
+    display: block;
+    clear: both;
+    padding-top: 3px;
+  }
+  #type_con{
+    display: block;
+    clear:both;
+  }
+  #post-search-submit{
+    position: relative;
+     top:-4px;
+   padding:4px 4px 5px 4px;
+  }
+  #dialog_content__container table{
+    margin-top: 0px !important;
+  }
+ }

@@ -15,18 +15,6 @@ msgstr ""
 # WeChat Subscribers Lite
 # Version: 1.0
 # Author: Redy Ru
-#: wpwsl_core.php:109
-msgid "Insert Content"
-msgstr "插入内容"
-
-#: wpwsl_core.php:109
-msgid "Insert URL"
-msgstr "插入URL"
-
-#: wpwsl_core.php:109
-msgid "All categories"
-msgstr "所有分类"
-
 #: wpwsl_core.php:171
 msgid "Articles"
 msgstr "文章"
@@ -277,6 +265,30 @@ msgstr "根据选项，自动返回最新添加的文章或页面."
 #: _edit.php:220
 msgid "Amount"
 msgstr "数量"
+
+#: ajax_request_handle.php
+msgid "Insert"
+msgstr "插入"
+
+#: ajax_request_handle.php
+msgid " Content"
+msgstr "内容"
+
+#: ajax_request_handle.php
+msgid " URL"
+msgstr "URL"
+
+#: _edit.php:
+msgid "Insert Content"
+msgstr "插入内容"
+
+#: ajax_request_handle.php:80
+msgid "Insert URL"
+msgstr "插入URL"
+
+#: wpwsl_core.php:109
+msgid "All categories"
+msgstr "所有分类"
 
 #: _general.php:99
 msgid "Settings"

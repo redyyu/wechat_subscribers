@@ -259,7 +259,7 @@ $_status=($_post_status=='publish')?'checked':'';
 require_once( 'content.php' );
 ?>
 <link href="<?php echo WPWSL_PLUGIN_URL;?>/css/style.css" rel="stylesheet">
-<link href="<?php echo WPWSL_PLUGIN_URL;?>/css/easydialog.css" rel="stylesheet">
+<link href="<?php echo WPWSL_PLUGIN_URL;?>/css/modal.css" rel="stylesheet">
 <div class="wrap">
 	<?php echo $content['header'];?>
 	<?php echo $content['tips_content'];?>
@@ -482,7 +482,14 @@ require_once( 'content.php' );
 				</form>
 			</div>
 		</div>
-</div>
+</div><!--wrap-->
+
+<!-- model -->
+		<div id="hide-modal" style="display: none; width:800px; position:absolute;" class="hide-modal-content">
+        <div class="hide-modal-body"> 
+           
+        </div>
+        </div>
 <script>
 var limit_phmsg=9;
 var count_phmsg=0;
@@ -645,7 +652,7 @@ jQuery(document).ready(function ($) {
 		add_phmsg_box('<?php echo $item->title;?>','<?php echo $item->pic;?>','<?php echo $item->des;?>','<?php echo $item->url;?>');
 	<?php endforeach;?>
     //set ajax request
-    $(".alert_dialog_include_posts").live("click",function(){
+    $(".alert_dialog_include_posts").live("click",function(e){
        var $this = $(this);
        var data = {
        	   action: 'add_foobar',
@@ -653,21 +660,18 @@ jQuery(document).ready(function ($) {
        	   rtype : $this.attr('rtype')
        }
        var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
-       //alert(data.tid+"  |  "+data.rtype);
-       easyDialog.open({
-		container : {
-			content : '<div id="dialog_content__container" style="width:inherit;margin:0px auto;border-radius:5px;"><table class="wp-list-table widefat fixed posts" style="min-height:100px;"><thead><tr><th style="text-align:center;height: 77px;">loading....</th></tr></thead></table></div>'
-			
-		},
-		fixed : true,
-		drag : false
-	    });
+        $("#hide-modal").find(".hide-modal-body").html('<div id="dialog_content__container" style="width:inherit;margin:0px auto;border-radius:5px;"><table class="wp-list-table widefat fixed posts" style="min-height:100px;"><thead><tr><th style="text-align:center;height: 77px;">loading....</th></tr></thead></table></div>');
+        $(this).attr("href","#hide-modal");
+        $.fn.custombox( this, {
+            effect: 'fadein',
+            overlaySpeed : "100"
+        });
+
         jQuery.get(admin_url,data,function(d,s){
             $("#dialog_content__container").html(d);
-	        //ajax paginate
 		    $("#paginate_div").find(".page-numbers").live("click",function(){
 		       var $this = $(this);
-		       var cur = ($this.attr("href")).substr(1);
+		       var cur = $this.attr("href") ? ($this.attr("href")).substr(1) : "";
 		           cur = cur ==""?1:cur;	
 		       var data = {
 		       	   action: 'add_foobar',
@@ -689,9 +693,13 @@ jQuery(document).ready(function ($) {
             
             bindEvents();
 	        });
-            
+            e.preventDefault();
 
         });
+    $("#easydialog_close").live("click",function(){
+    	$.fn.custombox('close');
+    	return false;
+    });
     //ajax to get content or url
     $(".insert_content_to_input").live("click",function(){
        var $this = $(this);
@@ -720,12 +728,12 @@ jQuery(document).ready(function ($) {
        	   	  }else{
        	   	   $("#"+tid).val(d.data);
        	   	  }
-       	   	  easyDialog.close();
+       	   	  $.fn.custombox('close');
        	   }else{
-       	   	  alert(d.data);
+       	   	  alert("Error:"+d.data);
        	   }
        	}else{
-       		alert(d);
+       		alert("Error:"+d);
        	}
        });
     }); 
@@ -743,7 +751,6 @@ jQuery(document).ready(function ($) {
 					       }
 					var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
 					$.get(admin_url,data,function(d,s){
-					//alert(d);
 					$("#dialog_content__container").html(d);
 					bindEvents();
 					$("#post-search-key").select();
@@ -766,21 +773,12 @@ jQuery(document).ready(function ($) {
 		       }
 		var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
 		$.get(admin_url,data,function(d,s){
-		//alert(d);
 		$("#dialog_content__container").html(d);
 		bindEvents();
 		$("#post-search-key").select();
 		    return false;
 		});	
 		}
-    });
-    //close insert window event easyDialog.close();
-    $("#easydialog_close").live("click",function(){
-    	easyDialog.close();
-    	return false;
-    });
-    $("#overlay").live("click",function(){
-    	easyDialog.close();
     });
     /***************
      *message type : recently
