@@ -285,7 +285,7 @@ class wechatCallbackapi{
 						'post_parent' => $post_id,
 						'exclude'     => get_post_thumbnail_id($post_id)
 					));
-					if(count($attachments)>1){
+					if(count($attachments)>0){
 						$rimg=wp_get_attachment_image_src($attachments[0]->ID,$imageSize)[0];
 					}
 				}	

@@ -220,7 +220,7 @@ $_re_count_label = __("Amount","WPWSL");
 // global $wp_post_types; //get all post types
 $args = array(
    'public'   => true,
-   'show_ui'  =>true
+   'show_ui'  => true
 );
 $output = 'objects'; // names or objects, note names is the default
 $operator = 'and'; // 'and' or 'or'

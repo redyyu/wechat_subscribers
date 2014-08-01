@@ -211,14 +211,16 @@ function prefix_ajax_get_insert_content(){
 						'post_parent' => $_GET['postid'],
 						'exclude'     => get_post_thumbnail_id($_GET['postid'])
 					));
-					if(count($attachments)>1){
+					
+					if(count($attachments)>0){
 						$myrow->pic=wp_get_attachment_image_src($attachments[0]->ID,$imageSize)[0];
 					}
 				}
                 if(trim($myrow->post_excerpt)!=""){
 					$myrow->post_content = $myrow->post_excerpt;
                 }else{
-					$myrow->post_content = wp_trim_words(strip_tags($myrow->post_content),SYNC_EXCERPT_LIMIT, '...' );
+                    $_tmp_text = mb_substr(strip_tags($myrow->post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
+                    $myrow->post_content = mb_strlen(strip_tags($myrow->post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
 				}
 				
 	
