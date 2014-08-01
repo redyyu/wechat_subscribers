@@ -206,7 +206,7 @@ function prefix_ajax_get_insert_content(){
 					$attachments = get_posts( array(
 						'post_type' => 'attachment',
 						'posts_per_page' => -1,
-						'post_parent' => $post_id,
+						'post_parent' => $_GET['postid'],
 						'exclude'     => get_post_thumbnail_id($_GET['postid'])
 					));
 					if(count($attachments)>1){
