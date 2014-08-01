@@ -198,7 +198,9 @@ function prefix_ajax_get_insert_content(){
 	}else if($_GET['rtype']=="phmsg"){
 		$imageSize = isset($_GET['imagesize'])&&$_GET['imagesize']=="small" ? "sup_wechat_small":"sup_wechat_big";
 		$myrow = get_post($_GET['postid']);
+				
 				$myrow->pic = WPWSL_PLUGIN_URL."/img/".$imageSize.".png";
+				
 				if(get_the_post_thumbnail($_GET['postid'])!=''){
 				   $myrow->pic = wp_get_attachment_image_src(get_post_thumbnail_id($_GET['postid']),$imageSize)[0];
 
