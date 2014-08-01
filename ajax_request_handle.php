@@ -165,7 +165,7 @@ function prefix_ajax_add_foobar(){
 
 add_action( 'wp_ajax_get_insert_content', 'prefix_ajax_get_insert_content' );
 function prefix_ajax_get_insert_content(){
-	require_once('simple_html_dom.php');
+
 	if($_GET['rtype']=="posts"){
 	        $myrow = get_post($_GET['postid']);
 	        $post_categories  =  wp_get_post_categories($myrow->ID);
@@ -175,13 +175,11 @@ function prefix_ajax_get_insert_content(){
 				$cats .= ",".$cat->name;
 			}
 			$cats = substr($cats,1);
-            $post = htmlspecialchars_decode($myrow->post_content);
-    		$html = str_get_html($post);
-            $plaintext = is_object($html) ? $html->plaintext : $post;
+            $post_content = strip_tags($myrow->post_content);
 			$rpost = "#"
-			         .wp_trim_words(trim($myrow->post_title),80,'...' )
+			         .wp_trim_words(trim($myrow->post_title),SYNC_TITLE_LIMIT,'...' )
 			         ."#"
-			         .wp_trim_words(trim($plaintext),500,'...' )
+			         .wp_trim_words(trim($post_content),SYNC_CONTENT_LIMIT,'...' )
 			         ."["
 			         .$myrow->guid
 			         ."]["
@@ -201,33 +199,24 @@ function prefix_ajax_get_insert_content(){
 		$imageSize = isset($_GET['imagesize'])&&$_GET['imagesize']=="small" ? "sup_wechat_small":"sup_wechat_big";
 		$myrow = get_post($_GET['postid']);
 				$myrow->pic = WPWSL_PLUGIN_URL."/img/".$imageSize.".png";
-				if(has_post_thumbnail($_GET['postid'])){
+				if(get_the_post_thumbnail($_GET['postid'])!=''){
 				   $myrow->pic = wp_get_attachment_image_src(get_post_thumbnail_id($_GET['postid']),$imageSize)[0];
 
-				}else if(has_post_thumbnail($_GET['postid'])==""&&trim($myrow->post_content)!=""){			   
-				   $html = str_get_html(htmlspecialchars_decode($myrow->post_content));
-				   $img = $html->find('img',0);
-				   if($img){
-					   if($img->class&&stripos($img->class,"wp-image-")!==false){
-					      $classes = explode(" ",$img->class);
-					      $id = null;
-					      foreach ($classes as $value) {
-					      	if(stripos($value,"wp-image-")!==false){ $id = substr(trim($value),9);break;} 
-					      }
-					      if($id){
-					      	$myrow->pic = wp_get_attachment_image_src($id,$imageSize)[0];
-					      }  
-					      
-					   }else{
-					   	  $myrow->pic = $img->src;
-					   }
-				   }
+				}else{			   
+					$attachments = get_posts( array(
+						'post_type' => 'attachment',
+						'posts_per_page' => -1,
+						'post_parent' => $post_id,
+						'exclude'     => get_post_thumbnail_id($_GET['postid'])
+					));
+					if(count($attachments)>1){
+						$myrow->pic=wp_get_attachment_image_src($attachments[0]->ID,$imageSize)[0];
+					}
 				}
                 if(trim($myrow->post_excerpt)!=""){
-                   $myrow->post_content = $myrow->post_excerpt;
-                }else if(trim($myrow->post_content!="")){
-					$html = str_get_html(htmlspecialchars_decode($myrow->post_content));
-					$myrow->post_content = wp_trim_words(trim($html->plaintext),140, '...' );
+					$myrow->post_content = $myrow->post_excerpt;
+                }else{
+					$myrow->post_content = wp_trim_words(strip_tags($myrow->post_content),SYNC_EXCERPT_LIMIT, '...' );
 				}
 				
 	

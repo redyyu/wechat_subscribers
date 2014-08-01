@@ -13,9 +13,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 =汉语=
 
-尽力千难万险，升级至2.0。
+尽力千难万险，升级至1.50。
 
-2.0版本最大都更新是支持了“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，
+1.50版本最大都更新是支持了“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，
 此版本由苦工－古月，担任全部php开发工作。
 
 如果发现任何bug或者有什么新功能需求，欢迎朝我发送电子邮件。<a href="mailto:redy.ru@gmail.com">redy.ru@gmail.com</a>
@@ -44,9 +44,9 @@ Limit Lin
 
 =English=
 
-Upgrade to 2.0.
+Upgrade to 1.50.
 
-Version 2.0 support "synchronous Article contents" (supporting news and text messages), "Automatic Replies Recent Content" (news only), "Message History”, This release is develop by GuYue.
+Version 1.5 support "synchronous Article contents" (supporting news and text messages), "Automatic Replies Recent Content" (news only), "Message History”, This release is develop by GuYue.
 
 This is a simple WeChat public platform plug-in for subscription accounts. Current version of the plug-in now supports ordinary subscription account only, anyone Register free WeChat public platform with subscription account can get full functionality of this plug-in, no need pay for a certified to upgrade your account.
 
@@ -102,7 +102,7 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 
 == Changelog ==
 =汉语=
-2014年7月30日 更新到 2.0
+2014年7月30日 更新到 1.50
 1. 增加了编辑自定义消息的时候选择已有的文章或页面插入到文字类型的内容中或同步到图文模板，在图文模板中也可以选择只插入文章或页面的URL。
 2. 增加了最近消息回复回复类型
 3. 增加了图片上传时自动裁剪至适合微信显示的尺寸。
@@ -127,7 +127,7 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. 修正了设置TOKEN时候可能误输入奇葩字符导致接口URL错误的问题。
 
 =English=
-2014 July 30 Update to 2.0
+2014 July 30 Update to 1.50
 1. Adds the function that choose a existing article or page insert to the form when editing a custom message, it's also could just insert the URL of atricle or page in wordpress.
 2. Increase the types of recent news Reply 
 3. Increased upload pictures automatically cropped to fit the wechat display size. 
@@ -154,6 +154,6 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. Fix strange symbol in 'token' will mass up interface url.
 
 == Upgrade Notice ==
-Update to 2.00
+Update to 1.50
 Update to 1.02
 Update to 1.01

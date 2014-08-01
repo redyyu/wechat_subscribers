@@ -18,6 +18,11 @@ define('WPWSL_GENERAL_PAGE', 'wpwsl-general-page');
 define('WPWSL_HISTORY_PAGE', 'wpwsl-history-page');
 define('WPWSL_SETTINGS_PAGE', 'wpwsl-settings-page');
 define('WPWSL_SETTINGS_OPTION', 'wpwsl_settings_option');
+define("SELECT_ROWS_AMOUNT", 100);
+define("SYNC_TITLE_LIMIT", 80);
+define("SYNC_CONTENT_LIMIT", 500);
+define("SYNC_EXCERPT_LIMIT", 140);
+
 require_once('ajax_request_handle.php');
 
 //Interface

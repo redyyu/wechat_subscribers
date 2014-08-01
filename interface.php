@@ -1,11 +1,21 @@
 <?php
 /**
-  * WeChat Interface
-  * 
-  * 
-  *   
-  */
-require_once('simple_html_dom.php');
+ * Plugin Name: WeChat Subscribers Lite
+ * Plugin URI: http://www.imredy.com/wp_wechat/
+ * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
+ * Version: 2.0
+ * Author: Redy Ru,Gu Yue
+ * Author URI: http://www.imredy.com/
+ * License: GPLv2 or later
+ * Text Domain: WPWSL
+ * Domain Path: /languages
+ *
+ * WeChat Interface
+ * 
+ * 
+ *   
+ */
+
 global $token;
 
 define('IS_DEBUG', false);
@@ -258,7 +268,7 @@ class wechatCallbackapi{
 		$posts = get_posts($args);
 		return $posts;
     }
-    private function getImgsSrcInPost($post_id,$post=null,$i,$type,$post_excerpt){
+    private function getImgsSrcInPost($post_id=null,$post_content=null,$i,$type,$post_excerpt){
 
 	    	$imageSize = $i == 1 ? "sup_wechat_big":"sup_wechat_small";
 	    	$text = "";
@@ -266,35 +276,25 @@ class wechatCallbackapi{
 	    	if($type=="attachment"){
 	           $rimg = wp_get_attachment_image_src($post_id,$imageSize)[0];
 	    	}else{
-		    	if(has_post_thumbnail($post_id)){
+		    	if(get_the_post_thumbnail($post_id)!=''){
 				   $rimg = wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$imageSize)[0];
-				}else if(has_post_thumbnail($post_id)==""&&trim($post)!=""){
-				   $post = htmlspecialchars_decode($post);
-	    	       $html = str_get_html($post);
-				   $img = $html->find('img',0);
-				   if($img){
-					   if($img->class&&stripos($img->class,"wp-image-")!==false){
-					      $classes = explode(" ",$img->class);
-					      $id = null;
-					      foreach ($classes as $value) {
-					      	if(stripos($value,"wp-image-")!==false){ $id = substr(trim($value),9);break;} 
-					      }
-					      if($id){
-					      	$rimg = wp_get_attachment_image_src($id,$imageSize)[0];
-					      }  
-					      
-					   }else{
-					   	  $rimg = $img->src;
-					   }
-				   }
+				}else{
+					$attachments = get_posts( array(
+						'post_type' => 'attachment',
+						'posts_per_page' => -1,
+						'post_parent' => $post_id,
+						'exclude'     => get_post_thumbnail_id($post_id)
+					));
+					if(count($attachments)>1){
+						$rimg=wp_get_attachment_image_src($attachments[0]->ID,$imageSize)[0];
+					}
 				}	
 	    	}
 	    	if(trim($post_excerpt)!=""){
                     $text = $post_excerpt;
-                }else if(trim($post!="")){
-					$html = str_get_html(htmlspecialchars_decode($post)); 
-					$text = mb_substr($html->plaintext,0,140,DB_CHARSET);
-					$text = mb_strlen($html->plaintext,DB_CHARSET)>140 ? $text."..." : $text;
+                }else if(trim($post_content!="")){
+					$text = mb_substr(strip_tags($post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
+					$text = mb_strlen(strip_tags($post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $text."..." : $text;
 				}
 	    	// if($rimg) 
 	    	$result = array("src"=>$rimg,"text"=>$text);

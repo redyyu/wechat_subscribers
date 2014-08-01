@@ -1,9 +1,9 @@
 <?php
 /*
- * History page ,record user's wechat messages
+ * History page, record subscribers's messages while send to this plugin.
  *
  */
-define("SELECT_ROWS_AMOUNT", 100);
+
 require_once( 'class-wpwsl-history-table.php' );
 
 if(isset($_GET['clear_all_records'])){
