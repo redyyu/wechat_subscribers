@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 搞这个需要一定的技术常识，不会的话找个懂事儿的去弄。（如果这样都不行，那么不是你的服务器和微信不合，就是微信和你的服务器不合。换供应商是唯一的途径了。）
 
-————————————————————————————————————————————
+———————————————————————
 
 新版本最大的更新是支持了“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，
 此版本由苦工－古月，担任全部php开发工作。
@@ -56,7 +56,7 @@ Limit Lin
 
 First you have to follow the regular steps to setup this plugin, After you meet the problem can’t valid your token or time out… I provider a crack file __wechatsucks__.php, try use it to replace wordpres’s index.php temporary, and try to valid again. Good luck!
 
-———————————
+———————————————————————
 
 New version support "synchronous Article contents" (supporting news and text messages), "Automatic Replies Recently Post” (news only), "Message History”, This release is develop by GuYue.
 
