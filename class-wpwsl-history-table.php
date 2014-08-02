@@ -78,7 +78,7 @@ class WPWSL_History_Table extends WP_List_Table {
 									   $sortable
 									);
 		global $wpdb;
-		$total = $wpdb->get_results("select count(id) as total from wechat_subscribers_lite_keywords");
+		$total = $wpdb->get_results("select count(id) as total from wechat_subscribers_lite_history");
 		$this->set_pagination_args( array(
 				'total_items' => $total[0]->total,                  //WE have to calculate the total number of items
 				'per_page'    => SELECT_ROWS_AMOUNT                    //WE have to determine how many items to show on a page

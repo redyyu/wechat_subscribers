@@ -3,8 +3,8 @@
  * Plugin Name: WeChat Subscribers Lite
  * Plugin URI: http://www.imredy.com/wp_wechat/
  * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
- * Version: 1.50
- * Author: Redy Ru,Gu Yue
+ * Version: 1.51
+ * Author: Redy Ru, Gu Yue
  * Author URI: http://www.imredy.com/
  * License: GPLv2 or later
  * Text Domain: WPWSL
@@ -23,8 +23,6 @@ define("SYNC_TITLE_LIMIT", 80);
 define("SYNC_CONTENT_LIMIT", 500);
 define("SYNC_EXCERPT_LIMIT", 140);
 
-require_once('ajax_request_handle.php');
-
 //Interface
 $options=get_option(WPWSL_SETTINGS_OPTION);
 $token=isset($options['token'])?$options['token']:'';
@@ -39,18 +37,22 @@ function load_languages_file(){
 	load_plugin_textdomain( 'WPWSL', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 //create db table wechat_subscribers_lite_messages
- global $wpdb;
- $table_name ="wechat_subscribers_lite_keywords"; 
- $sql = "CREATE TABLE $table_name (
-  id bigint(20) NOT NULL KEY AUTO_INCREMENT,  
-  openid   varchar(100) NOT NULL,
-  keyword  varchar(255) NOT NULL,
-  is_match char(1)   NOT NULL,
-  time     datetime  NOT NULL
-  );";
+add_action( 'plugins_loaded', 'create_history_table' );
+function create_history_table(){
+    global $wpdb;
+    $table_name ="wechat_subscribers_lite_history"; 
+    $sql = "CREATE TABLE $table_name (
+    id bigint(20) NOT NULL KEY AUTO_INCREMENT,  
+    openid   varchar(100) NOT NULL,
+    keyword  varchar(255) NOT NULL,
+    is_match char(1)   NOT NULL,
+    time     datetime  NOT NULL
+    );";
+    
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta($sql);
+}
 
-require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-dbDelta($sql);
 //Setup wechat image size
 function set_wechat_img_size(){
 	add_image_size( 'sup_wechat_big'  , 360,200, true );
@@ -72,6 +74,7 @@ add_filter( 'image_size_names_choose', 'sup_wechat_custom_sizes' );
 add_action('_admin_menu', 'wpwsl_admin_setup');
 function wpwsl_admin_setup(){
 	require_once( 'posttype_wpwsl_template.php' );
+	require_once( 'ajax_request_handle.php' );
 	$page_title=__('WeChat Subscribers Lite', 'WPWSL');
 	$menu_title=__('WeChat Subscribers Lite', 'WPWSL');
 	$capability='edit_posts';
@@ -79,7 +82,6 @@ function wpwsl_admin_setup(){
 	$function='';
 	$icon_url=WPWSL_PLUGIN_URL.'/img/wpwsl_icon_16.png';
 	add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url );
-
 
 	require_once( 'class-wpwsl-settings.php' );
 	require_once( 'class-wpwsl-general.php' );

@@ -13,9 +13,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 =汉语=
 
-尽力千难万险，升级至1.50。
+***增加了一个作弊文件，用来解决一些服务器无法通过token验证的问题***
+使用方法：先按照攻略所说的步骤来，插件中设定好token，然后得到用于接受消息的url，带着这个token和url跑去微信的官方管理后台绑定，要是怎么搞都是无法验证通过，那么请你死马当活马医，把wordpress根目录中的index.php备份了，接着把插件包中的__wechatsucks__.php这文件改名成index.php，复制到wordpress根目录下。
 
-1.50版本最大都更新是支持了“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，
+这时候，再跑去验证试试看，还是用刚才的token和url，不是十分倒霉的话，这时候应该已经验证通过了。把那个假的index.php删掉，恢复之前备份的那个index.php。
+
+搞这个需要一定的技术常识，不会的话找个懂事儿的去弄。（如果这样都不行，那么不是你的服务器和微信不合，就是微信和你的服务器不合。换供应商是唯一的途径了。）
+
+
+新版本最大的更新是支持了“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，
 此版本由苦工－古月，担任全部php开发工作。
 
 如果发现任何bug或者有什么新功能需求，欢迎朝我发送电子邮件。<a href="mailto:redy.ru@gmail.com">redy.ru@gmail.com</a>
@@ -44,9 +50,10 @@ Limit Lin
 
 =English=
 
-Upgrade to 1.50.
+***Fix token can’t valid problem***
+First you have to follow the regular steps to setup this plugin, After you meet the problem can’t valid your token or time out… I provider a crack file __wechatsucks__.php, try use it to replace wordpres’s index.php temporary, and try to valid again. Good luck!
 
-Version 1.5 support "synchronous Article contents" (supporting news and text messages), "Automatic Replies Recent Content" (news only), "Message History”, This release is develop by GuYue.
+New version support "synchronous Article contents" (supporting news and text messages), "Automatic Replies Recently Post” (news only), "Message History”, This release is develop by GuYue.
 
 This is a simple WeChat public platform plug-in for subscription accounts. Current version of the plug-in now supports ordinary subscription account only, anyone Register free WeChat public platform with subscription account can get full functionality of this plug-in, no need pay for a certified to upgrade your account.
 
@@ -87,7 +94,7 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 == Screenshots ==
 
 1. 安装后激活插件，左侧的菜单中会出现一微信(weixin/Wechat)一栏。
-2. 在Wordpress的设置菜单中多了微信(weixin/Wechat)一项，到这里设置你的Token，这个可以随便写，字母、符号、数字都可以，汉字的不要。
+2. 在Wordpress的设置菜单中多了微信(weixin/Wechat)一项，到这里设置你的Token，这个可以随便写，字母、符号、数字都可以，汉字的不要。插件会替你生成一个URL。URL和Token将在后面用到。
 3. 然后去微信(weixin/Wechat)公众平台上绑定你所设置的Token和URL。
 4. 回到插件的微信(weixin/Wechat)管理界面，在这里可以添加自定义回复消息，这些自定义消息会根据条件自动回复给向你的微信公众号发消息的订阅者。
 5. 添加或者编辑一条新自定义回复消息时，首先设置基本项目。关键字可以多个，但是要用“,”逗号隔开。选择触发方式中除了关键词，还可以选择“默认”那么当没有任何关键字匹配的时候就会使用这条默认发送，而选择“订阅”则这条消息会在新订阅者加入以后触发。选择消息类型可以切换“纯文本”，“图文消息”或是“最近消息”。最后要记得勾选“发布”，这样保存以后系统就会按照设置的规则自动回复用户消息了。
@@ -103,6 +110,11 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 
 == Changelog ==
 =汉语=
+
+2014年8月2日 更新到 1.51
+
+1. 修改了个吧命名错误。
+2. 增加了一个用来解决一些服务器无法验证通过token的作弊文件。
 
 2014年7月30日 更新到 1.50
 
@@ -130,6 +142,11 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. 修正了设置TOKEN时候可能误输入奇葩字符导致接口URL错误的问题。
 
 =English=
+
+2014 August 2 Update to 1.51
+
+1. Fix some naming problem.
+2. Add a crack file for “token no response” or “time out“ problem.
 
 2014 July 30 Update to 1.50
 
