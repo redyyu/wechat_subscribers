@@ -279,8 +279,8 @@ msgid ""
 "Automatic reply search results while trigger this response. Must set trigger "
 "by Default."
 msgstr ""
-"当无法匹配关键字时，自动回复文章搜索结果。必须将触发机制设置成－默认－才能有"
-"效。"
+"当无法匹配关键字触发时，自动使用关键字搜索文章，并且回复6条搜索结果。必须将触"
+"发机制设置成－默认－才能有效。"
 
 #: ajax_request_handle.php:
 msgid "Insert"
