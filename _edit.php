@@ -115,6 +115,7 @@ if(isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])){
 	foreach($_phmsg_group as $_phmsg_item){
 		add_post_meta($current_id, '_phmsg_item',json_encode($_phmsg_item));
 	}
+	
     //recently
     if(isset($_POST['re_type'])){
 		update_post_meta($current_id, '_re_type',$_POST['re_type']);
@@ -125,9 +126,6 @@ if(isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])){
 	if(isset($_POST['re_count'])){
 		update_post_meta($current_id, '_re_count',$_POST['re_count']);
 	}
-
-
-
 
 	if(isset($_POST['submit-save-exit'])){
 		redirect();
@@ -225,12 +223,14 @@ $args = array(
 $output = 'objects'; // names or objects, note names is the default
 $operator = 'and'; // 'and' or 'or'
 $_re_types= get_post_types( $args, $output, $operator ); 
+
 //switch type
 $type=get_post_meta($current_id,'_type',TRUE);
 $type_options=array(
 				'text'=>__('Text (Plain text)','WPWSL'),
 				'news'=>__('News (Picture with text)','WPWSL'),
-				'recently' =>__("Recently messages","WPWSL")
+				'recently' =>__("Recently messages","WPWSL"),
+				'search' =>__("Search Keyword","WPWSL")
 				);
 
 
@@ -239,16 +239,25 @@ switch($type){
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:block"';
 		$display_resp_remsg='style="display:none"';
+		$display_resp_shmsg='style="display:none"';
 	break;
 	case "recently":
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:none"';
 		$display_resp_remsg='style="display:block"';
+		$display_resp_shmsg='style="display:none"';
+	break;
+	case "search":
+		$display_resp_msg='style="display:none"';
+		$display_resp_phmsg='style="display:none"';
+		$display_resp_remsg='style="display:none"';
+		$display_resp_shmsg='style="display:block"';
 	break;
 	default:
+	    $display_resp_msg='style="display:block"';
 		$display_resp_phmsg='style="display:none"';
-		$display_resp_msg='style="display:block"';
 		$display_resp_remsg='style="display:none"';
+		$display_resp_shmsg='style="display:none"';
 }
 
 //switch status
@@ -402,7 +411,7 @@ require_once( 'content.php' );
 												<label><?php _e('URL','WPWSL');?></label>
 											</th>
 											<td>
-												<input class="phmsg-base-input-url" type="text" name="url[]" value="<?php echo $_phmsg_main->url;?>" class="large-text"/>
+												<input type="text" name="url[]" value="<?php echo $_phmsg_main->url;?>" class="phmsg-base-input-url large-text"/>
 												<p class="description"><button type="button" rtype='urls' class="button alert_dialog_include_posts"><?php _e('Insert URL','WPWSL'); ?></button>&nbsp;<?php _e('The URL you want direct to. etc., http://www.tinforce.com','WPWSL');?></p>
 											</td>
 										</tr>
@@ -467,6 +476,13 @@ require_once( 'content.php' );
 								</table>
 							</div>
 						</div>
+						<div id="resp_shmsg" <?php echo $display_resp_shmsg;?>>
+							<hr>
+							<h3><?php _e('Search Keyword','WPWSL');?></h3>
+							<div class="msg-box">
+								<p><?php _e('Automatic reply search results while trigger this response. Must set trigger by Default.','WPWSL');?></p>
+							</div>
+						</div>
 					<hr>
 					<div class="func-submit">
 						<?php submit_button(__('Save and exit','WPWSL'),'primary','submit-save-exit', false); ?>&nbsp;&nbsp;
@@ -503,16 +519,25 @@ jQuery(document).ready(function ($) {
 					$('#resp_msg').show();
 					$('#resp_phmsg').hide();
 					$('#resp_remsg').hide();
+					$('#resp_shmsg').hide();
 				break;
 				case 'news':
 					$('#resp_msg').hide();
 					$('#resp_phmsg').show();
 					$('#resp_remsg').hide();
+					$('#resp_shmsg').hide();
 				break;
 				case 'recently':
 					$('#resp_msg').hide();
 					$('#resp_phmsg').hide();
 					$('#resp_remsg').show();
+					$('#resp_shmsg').hide();
+				break;
+				case 'search':
+				    $('#resp_msg').hide();
+				    $('#resp_phmsg').hide();
+				    $('#resp_remsg').hide();
+				    $('#resp_shmsg').show();
 				break;
 			}
 		});
@@ -534,7 +559,7 @@ jQuery(document).ready(function ($) {
 				img.next('.remove-pic-btn').hide();
 			}else{
 				var pic_url=$(this).val();
-				console.log(img.next('.remove-pic-btn'));
+//				console.log(img.next('.remove-pic-btn'));
 				img.next('.remove-pic-btn').show();
 			}
 			img.attr('src', pic_url);
@@ -651,7 +676,9 @@ jQuery(document).ready(function ($) {
 	<?php foreach($_phmsg_group as $item):?>
 		add_phmsg_box('<?php echo $item->title;?>','<?php echo $item->pic;?>','<?php echo $item->des;?>','<?php echo $item->url;?>');
 	<?php endforeach;?>
-    //set ajax request
+
+
+//set ajax request
     $(".alert_dialog_include_posts").live("click",function(e){
        var $this = $(this);
        var data = {
@@ -714,6 +741,7 @@ jQuery(document).ready(function ($) {
        }
        var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
        jQuery.get(admin_url,data,function(d,s){
+//       console.log(d);
        	if(d = JSON.parse(d)){
        	   if(d.status="success"){
        	   	  if(data.rtype=="phmsg"){

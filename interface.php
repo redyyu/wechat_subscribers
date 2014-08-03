@@ -66,7 +66,7 @@ class wechatCallbackapi{
 						<FromUserName><![CDATA[fromUser]]></FromUserName> 
 						<CreateTime>1348831860</CreateTime>
 						<MsgType><![CDATA[text]]></MsgType>
-						<Content><![CDATA[1]]></Content>
+						<Content><![CDATA[testsearch]]></Content>
 						<MsgId>1234567890123456</MsgId>
 						</xml>";
 		}else{
@@ -113,7 +113,7 @@ class wechatCallbackapi{
 				$curr_key=$d->key;
 				foreach($curr_key as $k){
 					if(strtolower($keyword) == strtolower(trim($k))){
-							$is_match=true;
+						$is_match=true;
 					}
 				}
 				
@@ -127,12 +127,10 @@ class wechatCallbackapi{
 		$match = $is_match ? "y" : "n";
 		if(!$is_match){
 			foreach($this->data as $d){
-				if($d->trigger=='default' && !$is_match){
-					$is_match=true;
-					if($is_match){
-						$resultStr =$this->get_msg_by_type($d, $fromUsername, $toUsername); 
-						break;
-					}
+				if($d->trigger=='default'){
+				    $d->key[0]=$keyword;
+					$resultStr =$this->get_msg_by_type($d, $fromUsername, $toUsername); 
+					break;
 				}
 			}
 		}
@@ -172,6 +170,9 @@ class wechatCallbackapi{
 			break;
 			case "recently": 
 			    $resultStr = $this->sendReMsg($fromUsername, $toUsername, $d->remsg); 
+			break;
+			case "search":
+			    $resultStr = $this->sendShMsg($fromUsername, $toUsername, $d->key[0]); 
 			break;
 			default: //text
 				$resultStr = $this->sendMsg($fromUsername, $toUsername, $d->msg);
@@ -259,7 +260,7 @@ class wechatCallbackapi{
 		$posts = get_posts($args);
 		return $posts;
     }
-    private function getImgsSrcInPost($post_id=null,$post_content=null,$i,$type,$post_excerpt){
+    private function getImgsSrcInPost($post_id=null,$post_content=null,$i=1,$type='',$post_excerpt){
 
 	    	$imageSize = $i == 1 ? "sup_wechat_big":"sup_wechat_small";
 	    	$text = "";
@@ -336,6 +337,68 @@ class wechatCallbackapi{
 		return $resultStr;
 	}
 	
+	private function sendShMsg($fromUsername, $toUsername, $keyword){
+			if($keyword==''){
+				return '';
+			}
+			$query_array = array(
+						's' 					=> $keyword, 
+						'posts_per_page'		=> MAX_SEARCH_LIMIT, 
+						'post_status' 			=> 'publish', 
+						'ignore_sticky_posts'	=> 1
+					);
+			$query = new WP_Query($query_array);
+			if($query->have_posts()){
+    			$posts = $query->posts;
+    	        $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
+    				        <FromUserName><![CDATA[%s]]></FromUserName>
+    				        <CreateTime>%s</CreateTime>
+    				        <MsgType><![CDATA[%s]]></MsgType>
+    				        <ArticleCount>%s</ArticleCount>";
+    				        
+    			$itemTpl=  "<item>
+    						<Title><![CDATA[%s]]></Title> 
+    						<Description><![CDATA[%s]]></Description>
+    						<PicUrl><![CDATA[%s]]></PicUrl>
+    						<Url><![CDATA[%s]]></Url>
+    						</item>";
+    			$itemStr="";
+    			$mediaCount=0;
+    			$i=1;
+    			foreach ($posts as $mediaObject){
+    			    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,$mediaObject->post_content,$i,$mediaObject->post_type,$mediaObject->post_excerpt);			
+    				$title= $mediaObject->post_title;
+    				$des  = $src_and_text['text'];  // strip_tags or not
+    				$media= $this->parseurl($src_and_text['src']);;
+    				$url  = $mediaObject->guid;
+    				$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
+    				$mediaCount++;
+    				$i++;
+    			}
+    			
+    			$msgType = "news";
+    			$time = time();
+    			$headerStr = sprintf($headerTpl, $fromUsername, $toUsername, $time, $msgType, $mediaCount);
+    			$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
+	        }else{
+	            $textTpl = "<xml>
+        					<ToUserName><![CDATA[%s]]></ToUserName>
+        					<FromUserName><![CDATA[%s]]></FromUserName>
+        					<CreateTime>%s</CreateTime>
+        					<MsgType><![CDATA[%s]]></MsgType>
+        					<Content><![CDATA[%s]]></Content>
+        					<FuncFlag>0</FuncFlag>
+        					</xml>";
+        
+        		$msgType = "text";
+        		$time = time();
+        		$no_result=__('Sorry! No search result.','WPWSL');
+        		$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $no_result);
+	        }
+	        
+			return $resultStr;
+		}
+	
 	private function checkSignature(){
 		if(IS_DEBUG){
 			return true;
@@ -397,6 +460,7 @@ function get_data(){
 		$tmp_msg->trigger=get_post_meta($p->ID,'_trigger',TRUE);
 		$tmp_msg->msg=get_post_meta($p->ID,'_content',TRUE);
 		$tmp_msg->phmsg=$phmsg_group;
+		
 		//recently
 		$tmp_msg->remsg=array(
 			                  "type"=>get_post_meta($p->ID,'_re_type',TRUE),

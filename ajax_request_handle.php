@@ -200,7 +200,6 @@ function prefix_ajax_get_insert_content(){
 	    $myrow->pic = WPWSL_PLUGIN_URL.'/img/'.$imageSize.'.png';
 	    if(get_the_post_thumbnail($_GET['postid'])!=''){
 	       $tmp_img_obj= wp_get_attachment_image_src(get_post_thumbnail_id($_GET['postid']), $imageSize);
-	       print_r($tmp_img_obj[0]);
 	       $myrow->pic = $tmp_img_obj[0];
 	    }else{
 	    	$attachments = get_posts( array(
@@ -233,7 +232,7 @@ function prefix_ajax_get_insert_content(){
 				'data'   => 'rtype error!'
 				);
 	}
-	_e(json_encode($r));
+	print(json_encode($r));
 	die();
 }
 ?>

@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: WeChat Subscribers Lite\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Hu <hu@tinforce.com>\n"
+"Last-Translator: redy <redy.ru@gmail.com>\n"
 "Language-Team: Redy <redy.ru@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 # WeChat Subscribers Lite
@@ -266,21 +266,33 @@ msgstr "根据选项，自动返回最新添加的文章或页面."
 msgid "Amount"
 msgstr "数量"
 
-#: ajax_request_handle.php
-msgid "Insert"
-msgstr "插入"
-
-#: ajax_request_handle.php
-msgid " Content"
-msgstr "内容"
-
-#: ajax_request_handle.php
-msgid " URL"
-msgstr "URL"
-
 #: _edit.php:
 msgid "Insert Content"
 msgstr "插入内容"
+
+#: _edit.php:233
+msgid "Search Keyword"
+msgstr "搜索关键字"
+
+#: _edit.php:
+msgid ""
+"Automatic reply search results while trigger this response. Must set trigger "
+"by Default."
+msgstr ""
+"当无法匹配关键字时，自动回复文章搜索结果。必须将触发机制设置成－默认－才能有"
+"效。"
+
+#: ajax_request_handle.php:
+msgid "Insert"
+msgstr "插入"
+
+#: ajax_request_handle.php:
+msgid " Content"
+msgstr "内容"
+
+#: ajax_request_handle.php:
+msgid " URL"
+msgstr "URL"
 
 #: ajax_request_handle.php:80
 msgid "Insert URL"
@@ -385,18 +397,22 @@ msgid ""
 msgstr ""
 "首先设置好上面的TOKEN，保存设置以后使用这个URL绑定到你的微信公众平台订阅号。"
 
-#: _keywords.php 34
+#: _keywords.php:34
 msgid "Yes"
 msgstr "是"
 
-#: _keywords.php 34
+#: _keywords.php:34
 msgid "No"
 msgstr "否"
 
-#: class-wpwsl-keywords-table.php 35
+#: class-wpwsl-keywords-table.php:35
 msgid "No records"
 msgstr "没有消息记录!"
 
-#: class-wpwsl-keywords-table.php 35
+#: class-wpwsl-keywords-table.php:35
 msgid "Match"
 msgstr "匹配"
+
+#: interface.php:395
+msgid "Sorry! No search result."
+msgstr "对不起！没有找到匹配的关键字"
