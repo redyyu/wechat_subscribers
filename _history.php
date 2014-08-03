@@ -8,12 +8,14 @@ require_once( 'class-wpwsl-history-table.php' );
 
 if(isset($_GET['clear_all_records'])){
 	global $wpdb;
-    $wpdb->query("delete from wechat_subscribers_lite_history");
+	$db_table=DB_TABLE_WPWSL_HISTORY;
+    $wpdb->query("delete from $db_table");
 }
 
 function delete_record($id){
 	global $wpdb;
-    $wpdb->query("delete from wechat_subscribers_lite_history where id='$id'");
+	$db_table=DB_TABLE_WPWSL_HISTORY;
+    $wpdb->query("delete from $db_table where id='$id'");
 }
 if(isset($_GET['action']) && isset($_GET['action2'])){
 	if($_GET['action']=='delete' || $_GET['action2']=='delete'){
@@ -36,15 +38,16 @@ $paged = isset($_GET['paged']) ? $_GET['paged'] : 1;
 $start = ($paged-1)*SELECT_ROWS_AMOUNT;
 global $wpdb;
 //history
-$match   = $wpdb->get_results("select count(id) as count from wechat_subscribers_lite_history where is_match = 'y';");
-$unmatch = $wpdb->get_results("select count(id) as count from wechat_subscribers_lite_history where is_match = 'n';");
+$db_table=DB_TABLE_WPWSL_HISTORY;
+$match   = $wpdb->get_results("select count(id) as count from $db_table where is_match = 'y';");
+$unmatch = $wpdb->get_results("select count(id) as count from $db_table where is_match = 'n';");
 $match   = $match ? $match[0]->count : 0;
 $unmatch = $unmatch ? $unmatch[0]->count : 0;
 $unmatch_ = $unmatch == 0 && $match == 0 ? 0 : $unmatch;
 $unmatch =  $unmatch == 0 && $match == 0 ? 1 : $unmatch;
 
 //records
-$raw = $wpdb->get_results("select id,openid,keyword,is_match,time from wechat_subscribers_lite_history order by $order limit $start,".SELECT_ROWS_AMOUNT);
+$raw = $wpdb->get_results("select id,openid,keyword,is_match,time from $db_table order by $order limit $start,".SELECT_ROWS_AMOUNT);
 $data=array();
 foreach($raw as $d){
 	 $d->is_match = $d->is_match=="y"? __("Yes","WPWSL") :"<span style='color:red;'>".__("No","WPWSL")."<span>";

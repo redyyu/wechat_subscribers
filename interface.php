@@ -1,16 +1,7 @@
 <?php
 /**
- * Plugin Name: WeChat Subscribers Lite
- * Plugin URI: http://www.imredy.com/wp_wechat/
- * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
- * Version: 1.51
- * Author: Redy Ru, Gu Yue
- * Author URI: http://www.imredy.com/
- * License: GPLv2 or later
- * Text Domain: WPWSL
- * Domain Path: /languages
- *
- * WeChat Interface
+ * 
+ * WeChat Interface for WeChat Subscribers Lite
  * 
  * 
  *   
@@ -102,7 +93,7 @@ class wechatCallbackapi{
 	private function saveKeyWord($fromUsername,$keyword,$match){
         $messageRow = array("openid"=>$fromUsername,"keyword"=>$keyword,"is_match"=>$match,"time"=>current_time("Y-m-d H:i:s",0));
         global $wpdb;
-		$rows_affected = $wpdb->insert("wechat_subscribers_lite_history",$messageRow);
+		$rows_affected = $wpdb->insert(DB_TABLE_WPWSL_HISTORY,$messageRow);
 	}
 
 
@@ -274,10 +265,12 @@ class wechatCallbackapi{
 	    	$text = "";
 	    	$rimg = WPWSL_PLUGIN_URL."/img/".$imageSize.".png";;
 	    	if($type=="attachment"){
-	           $rimg = wp_get_attachment_image_src($post_id,$imageSize)[0];
+	    	   $tmp_img_obj= wp_get_attachment_image_src($post_id,$imageSize);
+	           $rimg = $tmp_img_obj[0];
 	    	}else{
 		    	if(get_the_post_thumbnail($post_id)!=''){
-				   $rimg = wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$imageSize)[0];
+                    $tmp_img_obj=wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$imageSize);
+                    $rimg = $tmp_img_obj[0];
 				}else{
 					$attachments = get_posts( array(
 						'post_type' => 'attachment',
@@ -286,7 +279,8 @@ class wechatCallbackapi{
 						'exclude'     => get_post_thumbnail_id($post_id)
 					));
 					if(count($attachments)>0){
-						$rimg=wp_get_attachment_image_src($attachments[0]->ID,$imageSize)[0];
+					    $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,$imageSize);
+						$rimg=$tmp_img_obj[0];
 					}
 				}	
 	    	}

@@ -3,7 +3,7 @@
  * Plugin Name: WeChat Subscribers Lite
  * Plugin URI: http://www.imredy.com/wp_wechat/
  * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
- * Version: 1.51
+ * Version: 1.53
  * Author: Redy Ru, Gu Yue
  * Author URI: http://www.imredy.com/
  * License: GPLv2 or later
@@ -18,10 +18,11 @@ define('WPWSL_GENERAL_PAGE', 'wpwsl-general-page');
 define('WPWSL_HISTORY_PAGE', 'wpwsl-history-page');
 define('WPWSL_SETTINGS_PAGE', 'wpwsl-settings-page');
 define('WPWSL_SETTINGS_OPTION', 'wpwsl_settings_option');
-define("SELECT_ROWS_AMOUNT", 100);
-define("SYNC_TITLE_LIMIT", 80);
-define("SYNC_CONTENT_LIMIT", 500);
-define("SYNC_EXCERPT_LIMIT", 140);
+define('SELECT_ROWS_AMOUNT', 100);
+define('SYNC_TITLE_LIMIT', 80);
+define('SYNC_CONTENT_LIMIT', 500);
+define('SYNC_EXCERPT_LIMIT', 140);
+define('DB_TABLE_WPWSL_HISTORY', 'wechat_subscribers_lite_history');
 
 //Interface
 $options=get_option(WPWSL_SETTINGS_OPTION);
@@ -30,6 +31,7 @@ $token=isset($options['token'])?$options['token']:'';
 if($token!='' && isset($_GET[$token])){
 	require( 'interface.php' );
 }
+
 
 //Languages
 add_action('plugins_loaded', 'load_languages_file');
@@ -40,7 +42,7 @@ function load_languages_file(){
 add_action( 'plugins_loaded', 'create_history_table' );
 function create_history_table(){
     global $wpdb;
-    $table_name ="wechat_subscribers_lite_history"; 
+    $table_name =DB_TABLE_WPWSL_HISTORY; 
     $sql = "CREATE TABLE $table_name (
     id bigint(20) NOT NULL KEY AUTO_INCREMENT,  
     openid   varchar(100) NOT NULL,
@@ -74,7 +76,7 @@ add_filter( 'image_size_names_choose', 'sup_wechat_custom_sizes' );
 add_action('_admin_menu', 'wpwsl_admin_setup');
 function wpwsl_admin_setup(){
 	require_once( 'posttype_wpwsl_template.php' );
-	require_once( 'ajax_request_handle.php' );
+	
 	$page_title=__('WeChat Subscribers Lite', 'WPWSL');
 	$menu_title=__('WeChat Subscribers Lite', 'WPWSL');
 	$capability='edit_posts';
@@ -93,6 +95,14 @@ function wpwsl_admin_setup(){
 	//History
 	$hitsotryObject=WPWSL_History::get_instance();
 }
+
+//AJAX handle
+//Safe Redirect
+add_action('admin_init', 'ajax_handle', 999);
+function ajax_handle(){
+    require_once( 'ajax_request_handle.php');
+}
+
 //Safe Redirect
 add_action('admin_init', 'safe_redirect', 999);
 function safe_redirect(){

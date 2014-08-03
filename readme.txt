@@ -116,6 +116,14 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 == Changelog ==
 =汉语=
 
+2014年8月2日 更新到 1.53
+
+1. 修正了一些版本PHP环境无法激活的问题。
+
+2014年8月2日 更新到 1.52
+
+1. 修正了一些乌龙BUG。
+
 2014年8月2日 更新到 1.51
 
 1. 修改了个吧命名错误。
@@ -148,9 +156,17 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 
 =English=
 
+2014 August 2 Update to 1.53
+
+1. Fixed some php version unable to active problem.
+
+2014 August 2 Update to 1.52
+
+1. Fixed some stupid bugs.....
+
 2014 August 2 Update to 1.51
 
-1. Fix some naming problem.
+1. Fixed some naming problem.
 2. Add a crack file for “token no response” or “time out“ problem.
 
 2014 July 30 Update to 1.50

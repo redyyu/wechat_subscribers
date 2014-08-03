@@ -165,6 +165,7 @@ function prefix_ajax_add_foobar(){
 
 add_action( 'wp_ajax_get_insert_content', 'prefix_ajax_get_insert_content' );
 function prefix_ajax_get_insert_content(){
+    
 	if($_GET['rtype']=='posts'){
 	        $myrow = get_post($_GET['postid']);
 	        $post_categories  =  wp_get_post_categories($myrow->ID);
@@ -174,7 +175,7 @@ function prefix_ajax_get_insert_content(){
 				$cats .= ','.$cat->name;
 			}
 			$cats = substr($cats,1);
-	        $post_content = strip_tags($myrow->post_content);
+            $post_content = strip_tags($myrow->post_content);
 			$rpost = '#'
 			         .wp_trim_words(trim($myrow->post_title),SYNC_TITLE_LIMIT,'...' )
 			         .'#'
@@ -189,44 +190,43 @@ function prefix_ajax_get_insert_content(){
 				'data'   => $rpost
 				);
 	}else if($_GET['rtype']=='urls'){
-	    $myrow = get_post($_GET['postid']);
-	    $r = array(
-	    	'status'=>'success',
-	        'data'  =>$myrow->guid
-        );
+        $myrow = get_post($_GET['postid']);
+        $r = array(
+        	'status'=>'success',
+            'data'  =>$myrow->guid
+        	);
 	}else if($_GET['rtype']=='phmsg'){
 		$imageSize = isset($_GET['imagesize'])&&$_GET['imagesize']=='small' ? 'sup_wechat_small':'sup_wechat_big';
 		$myrow = get_post($_GET['postid']);
-	    $myrow->pic = WPWSL_PLUGIN_URL.'/img/'.$imageSize.'.png';
-	    if(get_the_post_thumbnail($_GET['postid'])!=''){
-	       $tmp_img_obj= wp_get_attachment_image_src(get_post_thumbnail_id($_GET['postid']), $imageSize);
-	       print_r($tmp_img_obj[0]);
-	       $myrow->pic = $tmp_img_obj[0];
-	    }else{
-	    	$attachments = get_posts( array(
-	    		'post_type' => 'attachment',
-	    		'posts_per_page' => -1,
-	    		'post_parent' => $_GET['postid'],
-	    		'exclude'     => get_post_thumbnail_id($_GET['postid'])
-	    	));
-	    	
-	    	if(count($attachments)>0){
-	    	    $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,$imageSize);
-	    		$myrow->pic=$tmp_img_obj[0];
-	    	}
-	    }
-	    
-	    if(trim($myrow->post_excerpt)!=''){
-	    	$myrow->post_content = $myrow->post_excerpt;
-	    }else{
-	        $_tmp_text = mb_substr(strip_tags($myrow->post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
-	        $myrow->post_content = mb_strlen(strip_tags($myrow->post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
-	    }
-	    
-	    $r = array(
-	    	'status'=>'success',
-	        'data'  => $myrow
-	    	);   
+				
+        $myrow->pic = WPWSL_PLUGIN_URL.'/img/'.$imageSize.'.png';
+        
+        if(get_the_post_thumbnail($_GET['postid'])!=''){
+           $myrow->pic = wp_get_attachment_image_src(get_post_thumbnail_id($_GET['postid']),$imageSize)[0];
+        }else{
+        	$attachments = get_posts( array(
+        		'post_type' => 'attachment',
+        		'posts_per_page' => -1,
+        		'post_parent' => $_GET['postid'],
+        		'exclude'     => get_post_thumbnail_id($_GET['postid'])
+        	));
+        	
+        	if(count($attachments)>0){
+        		$myrow->pic=wp_get_attachment_image_src($attachments[0]->ID,$imageSize)[0];
+        	}
+        }
+        
+        if(trim($myrow->post_excerpt)!=''){
+        	$myrow->post_content = $myrow->post_excerpt;
+        }else{
+            $_tmp_text = mb_substr(strip_tags($myrow->post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
+            $myrow->post_content = mb_strlen(strip_tags($myrow->post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
+        }
+        
+        $r = array(
+        	'status'=>'success',
+            'data'  => $myrow
+        	);   
 	}else{
 		$r = array(
 				'status' => 'error',
