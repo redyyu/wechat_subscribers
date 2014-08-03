@@ -7,7 +7,7 @@ $content['header']='<h1>'.__('WeChat Subscribers Lite','WPWSL').'</h1>
 <p>This is a simple WeChat public platform plug-in for subscription accounts. Current version of the plug-in now supports ordinary subscription account only, anyone Register free WeChat public platform with subscription account can get full functionality of this plug-in, no need pay for a certified to upgrade your account.</p>';
 
 $content['tips_phmsg']='<p>You can attach multiple picture and text item intro one Photo message, but only the first one will show up large photo. you can add 9 more item in this message, then use the arrow right top of the box to move up and move down the message item. The URL can link to any website, make sure your target website is available and safety.</p>';
-$content['tips_content']='<p>If you got any question please visit my <a target="_blank" href="http://www.imredy.com/wechat">Online Help</a>. If you find any problem with this plugin please <a href="mailto:redy.ru@gmail.com">contact me</a>.</p>';
+$content['tips_content']='<p>If you got any question please visit my <a target="_blank" href="http://www.imredy.com/wp_wechat/">Online Help</a>. If you find any problem with this plugin please <a href="mailto:redy.ru@gmail.com">contact me</a>.</p>';
 
 $locale=get_locale();
 if(stripos('-'.$locale,'zh')){
