@@ -174,11 +174,12 @@ function prefix_ajax_get_insert_content(){
 				$cats .= ','.$cat->name;
 			}
 			$cats = substr($cats,1);
-	        $post_content = strip_tags($myrow->post_content);
+	        $text_title = trim_words($myrow->post_title,SYNC_TITLE_LIMIT);
+            $text_content = trim_words($myrow->post_content,SYNC_CONTENT_LIMIT);
 			$rpost = '#'
-			         .wp_trim_words(trim($myrow->post_title),SYNC_TITLE_LIMIT,'...' )
+			         .$text_title
 			         .'#'
-			         .wp_trim_words(trim($post_content),SYNC_CONTENT_LIMIT,'...' )
+			         .$text_content
 			         .'['
 			         .$myrow->guid
 			         .']['
@@ -215,11 +216,20 @@ function prefix_ajax_get_insert_content(){
 	    	}
 	    }
 	    
+//	    $_tmp_title = mb_substr(strip_tags($myrow->post_title),0,SYNC_TITLE_LIMIT,DB_CHARSET);
+//	    $myrow->post_title = mb_strlen($myrow->post_title,DB_CHARSET)>SYNC_TITLE_LIMIT ? $_tmp_title."..." : $_tmp_title;
+//      $myrow->post_title=wp_trim_words(strip_tags($myrow->post_title),SYNC_TITLE_LIMIT,'...' );
+        $myrow->post_title = trim_words($myrow->post_title,SYNC_TITLE_LIMIT);
+	    
 	    if(trim($myrow->post_excerpt)!=''){
-	    	$myrow->post_content = $myrow->post_excerpt;
+//	        $_tmp_text = mb_substr(strip_tags($myrow->post_excerpt),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
+//	    	$myrow->post_content = mb_strlen($myrow->post_excerpt,DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
+//          $myrow->post_content = wp_trim_words(strip_tags($myrow->post_excerpt),SYNC_EXCERPT_LIMIT,'...' );
+            $myrow->post_content = trim_words($myrow->post_excerpt,SYNC_EXCERPT_LIMIT);
 	    }else{
-	        $_tmp_text = mb_substr(strip_tags($myrow->post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
-	        $myrow->post_content = mb_strlen(strip_tags($myrow->post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
+//	        $_tmp_text = mb_substr(strip_tags($myrow->post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
+//	        $myrow->post_content = mb_strlen($myrow->post_content,DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
+	        $myrow->post_content = trim_words($myrow->post_content,SYNC_EXCERPT_LIMIT);
 	    }
 	    
 	    $r = array(

@@ -116,6 +116,10 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 == Changelog ==
 =汉语=
 
+2014年8月3日 更新到 1.56
+
+1. 修改了返回消息的字数限制
+
 2014年8月3日 更新到 1.55
 
 1. 修正了同步文章时发生的AJAX错误
@@ -161,7 +165,11 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 
 =English=
 
-2014 August 2 Update to 1.55
+2014 August 3 Update to 1.56
+
+1. Modify contents words limit.
+
+2014 August 3 Update to 1.55
 
 1. Fixed ajax error while sync a post.
 2. Add automatic search by keywords.
@@ -207,6 +215,7 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. Fix strange symbol in 'token' will mass up interface url.
 
 == Upgrade Notice ==
+Update to 1.56
 Update to 1.55
 Update to 1.52
 Update to 1.02

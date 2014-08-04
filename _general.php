@@ -27,9 +27,9 @@ function delete_template($id){
 $args = array(
 		'post_type' => 'wpwsl_template',
 		'posts_per_page' => -1,
-		'orderby' => 'date',
+		'orderby' => 'post_date',
 		'post_status' => 'any',
-		'order'=> 'DESC'
+		'order'=> 'ASC'
 );
 
 $raw=get_posts($args);

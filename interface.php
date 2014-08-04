@@ -260,7 +260,7 @@ class wechatCallbackapi{
 		$posts = get_posts($args);
 		return $posts;
     }
-    private function getImgsSrcInPost($post_id=null,$post_content=null,$i=1,$type='',$post_excerpt){
+    private function getImgsSrcInPost($post_id=null,$post_content='',$i=1,$type='',$post_excerpt=''){
 
 	    	$imageSize = $i == 1 ? "sup_wechat_big":"sup_wechat_small";
 	    	$text = "";
@@ -286,11 +286,16 @@ class wechatCallbackapi{
 				}	
 	    	}
 	    	if(trim($post_excerpt)!=""){
-                    $text = $post_excerpt;
-                }else if(trim($post_content!="")){
-					$text = mb_substr(strip_tags($post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
-					$text = mb_strlen(strip_tags($post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $text."..." : $text;
-				}
+//    	        $text = mb_substr(strip_tags($post_excerpt),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
+//              $text = mb_strlen(strip_tags($post_excerpt),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $text."..." : $text;
+//              $text = wp_trim_words(strip_tags($post_excerpt),SYNC_EXCERPT_LIMIT,'...' );
+                $text = trim_words($post_excerpt,SYNC_EXCERPT_LIMIT);
+            }else if(trim($post_content!="")){
+//				$text = mb_substr(strip_tags($post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
+//				$text = mb_strlen(strip_tags($post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $text."..." : $text;
+//				$text = wp_trim_words(strip_tags($post_content),SYNC_EXCERPT_LIMIT,'...' );
+                $text = trim_words($post_content,SYNC_EXCERPT_LIMIT);
+			}
 	    	// if($rimg) 
 	    	$result = array("src"=>$rimg,"text"=>$text);
 	    	// else $result = array("src"=>WPWSL_PLUGIN_URL."/img/trans.png","text"=>$text);
@@ -320,7 +325,11 @@ class wechatCallbackapi{
 		$i=1;
 		foreach ($posts as $mediaObject){
 		    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,$mediaObject->post_content,$i,$contentData['type'],$mediaObject->post_excerpt);			
-			$title= $mediaObject->post_title;
+			
+//			$title= mb_substr(strip_tags($mediaObject->post_title),0,SYNC_TITLE_LIMIT,DB_CHARSET);
+//			$title= mb_strlen($mediaObject->post_title,DB_CHARSET)>SYNC_TITLE_LIMIT ? $title."..." : $title;
+//			$title = wp_trim_words(strip_tags($mediaObject->post_title),SYNC_TITLE_LIMIT,'...' );
+			$title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
 			$des  = $src_and_text['text'];  // strip_tags or not
 			$media= $this->parseurl($src_and_text['src']);;
 			$url  = $contentData['type']=="attachment"?home_url('/?attachment_id='.$mediaObject->ID):$mediaObject->guid;
@@ -367,7 +376,10 @@ class wechatCallbackapi{
     			$i=1;
     			foreach ($posts as $mediaObject){
     			    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,$mediaObject->post_content,$i,$mediaObject->post_type,$mediaObject->post_excerpt);			
-    				$title= $mediaObject->post_title;
+//    				$title= mb_substr(strip_tags($mediaObject->post_title),0,SYNC_TITLE_LIMIT,DB_CHARSET);
+//    				$title= mb_strlen($mediaObject->post_title,DB_CHARSET)>SYNC_TITLE_LIMIT ? $title."..." : $title;
+//    				$title = wp_trim_words(strip_tags($mediaObject->post_title),SYNC_TITLE_LIMIT,'...' );
+                    $title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
     				$des  = $src_and_text['text'];  // strip_tags or not
     				$media= $this->parseurl($src_and_text['src']);;
     				$url  = $mediaObject->guid;

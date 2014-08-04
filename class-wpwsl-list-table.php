@@ -61,7 +61,7 @@ class WPWSL_List_Table extends WP_List_Table {
 		// If no sort, default to title
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'ID';
 		// If no order, default to asc
-		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'desc';
 		// Determine sort order
 		$result = strcmp( $a[$orderby], $b[$orderby] );
 		// Send final sort direction to usort

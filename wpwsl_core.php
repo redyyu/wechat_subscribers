@@ -3,7 +3,7 @@
  * Plugin Name: WeChat Subscribers Lite
  * Plugin URI: http://www.imredy.com/wp_wechat/
  * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
- * Version: 1.55
+ * Version: 1.56
  * Author: Redy Ru, Gu Yue
  * Author URI: http://www.imredy.com/
  * License: GPLv2 or later
@@ -19,11 +19,21 @@ define('WPWSL_HISTORY_PAGE', 'wpwsl-history-page');
 define('WPWSL_SETTINGS_PAGE', 'wpwsl-settings-page');
 define('WPWSL_SETTINGS_OPTION', 'wpwsl_settings_option');
 define('SELECT_ROWS_AMOUNT', 100);
-define('SYNC_TITLE_LIMIT', 80);
-define('SYNC_CONTENT_LIMIT', 500);
-define('SYNC_EXCERPT_LIMIT', 140);
+define('SYNC_TITLE_LIMIT', 50);
+define('SYNC_CONTENT_LIMIT', 300);
+define('SYNC_EXCERPT_LIMIT', 100);
 define('MAX_SEARCH_LIMIT', 6);
 define('DB_TABLE_WPWSL_HISTORY', 'wechat_subscribers_lite_history');
+
+//utils
+function trim_words($str,$limit,$suffix='...',$db_charset=DB_CHARSET,$strip_tags=true){
+    if($strip_tags){
+        $str=strip_tags($str);
+    }
+    $new_str= mb_substr($str,0,$limit,$db_charset);
+    $new_str= mb_strlen($str,$db_charset)>$limit ? $new_str.$suffix : $new_str;
+    return $new_str;
+}
 
 //Interface
 $options=get_option(WPWSL_SETTINGS_OPTION);
