@@ -2,7 +2,7 @@
 class WPWSL_Settings{
 	
 	private $page_slug=WPWSL_SETTINGS_PAGE;
-	private $capability='edit_posts';
+	private $capability='edit_pages';
 	
 	private $option_group='wpwsl_settings_option_group';
 	private $option_name=WPWSL_SETTINGS_OPTION;

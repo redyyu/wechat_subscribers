@@ -37,7 +37,7 @@ class WPWSL_General{
         $parent_slug=WPWSL_GENERAL_PAGE;
         $page_title=__('WeChat Subscribers', 'WPWSL');
         $menu_title=__('Custom Replies', 'WPWSL');
-        $capability='edit_posts';
+        $capability='edit_pages';
         $menu_slug=WPWSL_GENERAL_PAGE;
         add_submenu_page( 
         	$parent_slug,

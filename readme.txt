@@ -116,6 +116,10 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 == Changelog ==
 =汉语=
 
+2014年8月31日 更新到 1.57
+
+1. 修改了插件使用的权限
+
 2014年8月3日 更新到 1.56
 
 1. 修改了返回消息的字数限制
@@ -164,6 +168,10 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. 修正了设置TOKEN时候可能误输入奇葩字符导致接口URL错误的问题。
 
 =English=
+
+2014 August 31 Update to 1.57
+
+1. Change the permissions to use this plugin.
 
 2014 August 3 Update to 1.56
 
@@ -215,6 +223,7 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. Fix strange symbol in 'token' will mass up interface url.
 
 == Upgrade Notice ==
+Update to 1.57
 Update to 1.56
 Update to 1.55
 Update to 1.52
