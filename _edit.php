@@ -308,7 +308,7 @@ require_once( 'content.php' );
 						        <td>
 						        		<?php foreach($trigger_options as $key=>$val):?>
 						        		<?php $checked=($key==$_trigger)?'checked':'';?>
-						        		<label><input type="radio" name="trigger" value="<?php echo $key;?>" <?php echo $checked;?>><?php echo $val;?></label>&nbsp;&nbsp;
+						        		<label><input id="trigger-way-<?php echo $key;?>" type="radio" name="trigger" value="<?php echo $key;?>" <?php echo $checked;?> class="trigger-way"><?php echo $val;?></label>&nbsp;&nbsp;
 						        		<?php endforeach;?>
 						        	<p class="description"><?php _e('You can set this message trigger by special condition, special trigger is higher priority than keywords.','WPWSL');?></p>
 						        	<ul class="description deslist">
@@ -480,7 +480,51 @@ require_once( 'content.php' );
 							<hr>
 							<h3><?php _e('Search Keyword','WPWSL');?></h3>
 							<div class="msg-box">
-								<p><?php _e('Automatic reply search results while trigger this response. Must set trigger by Default.','WPWSL');?></p>
+							    <table class="form-table">
+								    <tr valign="top">
+								    	<th scope="row"><label><?php _e('Illustration','WPWSL');?></label></th>
+									    <td>
+									    <?php _e('Automatic reply search results while trigger this response. Must set trigger by Default.','WPWSL');?>
+									    </td>
+								    </tr>
+								    <tr valign="top">
+								    	<th scope="row"><label><?php _e('Type','WPWSL');?></label></th>
+									    <td>
+									     <select name="sh_type" id="sh_type_select">
+									    <?php 
+									    foreach($_re_types as $key=>$val):?>
+						        		<?php $selected=($key==$_re_type)?'selected':'';?>
+						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val->labels->name ;?></option>
+						        		<?php endforeach;?>
+									    </select>
+									    </td>
+								    </tr>
+								    <tr valign="top" <?php if($_re_cate_show):?>style="display:none;"<?php endif; ?> id="sh_cate_tr">
+								    	<th scope="row"><label><?php _e('Category','WPWSL');?></label></th>
+									    <td>
+									    <select name="sh_cate">
+									    <?php 
+									    foreach($_re_cates as $val):?>
+						        		<?php $selected=($val->term_id==$_re_cate)?'selected':'';?>
+						        		<option value="<?php echo $val->term_id;?>" <?php echo $selected;?>><?php echo $val->cat_name ;?></option>
+						        		<?php endforeach;?>	
+									    </select>
+									    </td>
+								    </tr>
+								    <tr valign="top">
+								    	<th scope="row"><label><?php _e($_re_count_label);?></label></th>
+									    <td>
+									    <select name="sh_count">
+									    <?php 
+									    $_re_counts = array("1"=>1,"2"=>2,"3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10);
+									    foreach($_re_counts as $key=>$val):?>
+						        		<?php $selected=($key==$_re_count)?'selected':'';?>
+						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val ;?></option>
+						        		<?php endforeach;?>	
+									    </select>
+									    </td>
+								    </tr>
+								</table>
 							</div>
 						</div>
 					<hr>
@@ -509,12 +553,12 @@ require_once( 'content.php' );
 <script>
 var limit_phmsg=9;
 var count_phmsg=0;
-
 jQuery(document).ready(function ($) {
-
+    var $cur_trigger_way = $(".trigger-way:checked").attr("id");;
 	if($('#msg_type').length>0){
 		$('#msg_type').change(function(){
-			switch($('#msg_type').val()){
+			var val = $('#msg_type').val();
+			switch(val){
 				case 'text':
 					$('#resp_msg').show();
 					$('#resp_phmsg').hide();
@@ -538,11 +582,19 @@ jQuery(document).ready(function ($) {
 				    $('#resp_phmsg').hide();
 				    $('#resp_remsg').hide();
 				    $('#resp_shmsg').show();
+				    $('.trigger-way').removeAttr("checked").attr("disabled","disabled");
+				    $("#trigger-way-default").attr("checked","checked").removeAttr("disabled");
 				break;
 			}
+			if(val!='search'){
+                 $('.trigger-way').removeAttr("disabled");
+				 $("#"+$cur_trigger_way).click();
+		     }
 		});
 	}
-
+    $(".trigger-way").click(function(){
+        $cur_trigger_way = $(this).attr('id');
+    });
 	$('.remove-pic-btn').click(function(){
 		var input=$(this).parent().next('input[rel="img-input"]');
 
@@ -814,6 +866,17 @@ jQuery(document).ready(function ($) {
      $("#re_type_select").change(function(){
         var val = $(this).attr("value");
         var $tr = $("#re_cate_tr");
+        switch(val){
+        	case "post": $tr.show();break;
+        	default    : $tr.hide();
+        }
+     });
+     /***************
+     *message type : search
+     ***************/
+     $("#sh_type_select").change(function(){
+        var val = $(this).attr("value");
+        var $tr = $("#sh_cate_tr");
         switch(val){
         	case "post": $tr.show();break;
         	default    : $tr.hide();
