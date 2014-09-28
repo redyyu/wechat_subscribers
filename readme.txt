@@ -13,25 +13,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 =汉语=
 
-***增加了一个作弊文件，用来解决一些服务器无法通过token验证的问题***
-
-使用方法：先按照攻略所说的步骤来，插件中设定好token，然后得到用于接受消息的url，带着这个token和url跑去微信的官方管理后台绑定，要是怎么搞都是无法验证通过，那么请你死马当活马医，把wordpress根目录中的index.php备份了，接着把插件包中的__wechatsucks__.php这文件改名成index.php，复制到wordpress根目录下。
-
-这时候，再跑去验证试试看，还是用刚才的token和url，不是十分倒霉的话，这时候应该已经验证通过了。把那个假的index.php删掉，恢复之前备份的那个index.php。
-
-搞这个需要一定的技术常识，不会的话找个懂事儿的去弄。（如果这样都不行，那么不是你的服务器和微信不合，就是微信和你的服务器不合。换供应商是唯一的途径了。）
-
-———————————————————————
-
 新版本最大的更新是支持了“可选关键字搜索模式（需默认触发）”，“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，此版本由苦工－古月，担任全部php开发工作。
 
 如果发现任何bug或者有什么新功能需求，欢迎朝我发送电子邮件。<a href="mailto:redy.ru@gmail.com">redy.ru@gmail.com</a>
 
 这是一个简单通用的微信(weixin)公众平台订阅号专用插件。现在这个版本的插件只支持普通订阅号，任何人只要以个人身份免费注册微信公众平台就可以足以使用这个插件的全部功能，不需要专门为了这个插件去付费获得(weixin)公众号认证。
-
-另外要感谢以下这些人的帮助这个插件成长：
-Limit Lin
-
 
 这个插件将永久免费：）
 
@@ -49,6 +35,16 @@ Limit Lin
 10. 图片上传管理都使用Wordpress原生图片管理器。
 
 访问插件主页获得更多帮助: <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a>.
+
+***增加了一个作弊文件，用来解决一些服务器无法通过token验证的问题***
+
+使用方法：先按照攻略所说的步骤来，插件中设定好token，然后得到用于接受消息的url，带着这个token和url跑去微信的官方管理后台绑定，要是怎么搞都是无法验证通过，那么请你死马当活马医，把wordpress根目录中的index.php备份了，接着把插件包中的__wechatsucks__.php这文件改名成index.php，复制到wordpress根目录下。
+
+这时候，再跑去验证试试看，还是用刚才的token和url，不是十分倒霉的话，这时候应该已经验证通过了。把那个假的index.php删掉，恢复之前备份的那个index.php。
+
+搞这个需要一定的技术常识，不会的话找个懂事儿的去弄。（如果这样都不行，那么不是你的服务器和微信不合，就是微信和你的服务器不合。换供应商是唯一的途径了。）
+
+———————————————————————
 
 =English=
 
@@ -116,6 +112,10 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 == Changelog ==
 =汉语=
 
+2014年9月28日 更新到 1.58
+
+1. 修改了上传的JS接口，支持引入外链图片
+
 2014年8月31日 更新到 1.57
 
 1. 修改了插件使用的权限
@@ -168,6 +168,10 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. 修正了设置TOKEN时候可能误输入奇葩字符导致接口URL错误的问题。
 
 =English=
+
+2014 September 28 Update to 1.58
+
+1. Change the custom-upload.js to support online pictures.
 
 2014 August 31 Update to 1.57
 
