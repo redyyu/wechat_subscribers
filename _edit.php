@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Settings Page, It's required by WPWSLGeneral Class only.
  *
