@@ -332,7 +332,7 @@ class wechatCallbackapi{
 			$title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
 			$des  = $src_and_text['text'];  // strip_tags or not
 			$media= $this->parseurl($src_and_text['src']);;
-			$url  = $contentData['type']=="attachment"?home_url('/?attachment_id='.$mediaObject->ID):$mediaObject->guid;
+			$url  = $contentData['type']=="attachment"?home_url('/?attachment_id='.$mediaObject->ID):html_entity_decode($mediaObject->guid);
 			$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
 			$mediaCount++;
 			$i++;
@@ -382,7 +382,7 @@ class wechatCallbackapi{
                     $title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
     				$des  = $src_and_text['text'];  // strip_tags or not
     				$media= $this->parseurl($src_and_text['src']);;
-    				$url  = $mediaObject->guid;
+    				$url  = html_entity_decode($mediaObject->guid);
     				$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
     				$mediaCount++;
     				$i++;
