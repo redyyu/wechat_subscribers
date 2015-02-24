@@ -117,8 +117,8 @@ if(isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])){
 		add_post_meta($current_id, '_phmsg_item',json_encode($_phmsg_item));
 	}
 	
-    //recently
-    if(isset($_POST['re_type'])){
+  //recent
+  if(isset($_POST['re_type'])){
 		update_post_meta($current_id, '_re_type',$_POST['re_type']);
 	}
 	if(isset($_POST['re_cate'])){
@@ -198,7 +198,7 @@ foreach($_phmsg_group as $item){
 	$_tmp_phmsg_group[]=$_tmp_item;
 }
 $_phmsg_group=$_tmp_phmsg_group;
-//recently message
+//recent message
 $_re_type=get_post_meta($current_id,'_re_type',TRUE);
 $_re_cate=get_post_meta($current_id,'_re_cate',TRUE);
 $_re_count=get_post_meta($current_id,'_re_count',TRUE);
@@ -230,7 +230,8 @@ $type=get_post_meta($current_id,'_type',TRUE);
 $type_options=array(
 				'text'=>__('Text (Plain text)','WPWSL'),
 				'news'=>__('News (Picture with text)','WPWSL'),
-				'recently' =>__("Recently messages","WPWSL"),
+				'recent' =>__("Recent messages","WPWSL"),
+        'random' =>__("Random messages","WPWSL"),
 				'search' =>__("Search Keyword","WPWSL")
 				);
 
@@ -240,24 +241,35 @@ switch($type){
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:block"';
 		$display_resp_remsg='style="display:none"';
+    $display_resp_randmsg='style="display:none"';
 		$display_resp_shmsg='style="display:none"';
 	break;
-	case "recently":
+	case "recent":
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:none"';
 		$display_resp_remsg='style="display:block"';
+    $display_resp_randmsg='style="display:none"';
+		$display_resp_shmsg='style="display:none"';
+	break;
+	case "random":
+		$display_resp_msg='style="display:none"';
+		$display_resp_phmsg='style="display:none"';
+		$display_resp_remsg='style="display:none"';
+    $display_resp_randmsg='style="display:block"';
 		$display_resp_shmsg='style="display:none"';
 	break;
 	case "search":
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:none"';
 		$display_resp_remsg='style="display:none"';
+    $display_resp_randmsg='style="display:none"';
 		$display_resp_shmsg='style="display:block"';
 	break;
 	default:
-	    $display_resp_msg='style="display:block"';
+	  $display_resp_msg='style="display:block"';
 		$display_resp_phmsg='style="display:none"';
 		$display_resp_remsg='style="display:none"';
+    $display_resp_randmsg='style="display:none"';
 		$display_resp_shmsg='style="display:none"';
 }
 
@@ -428,7 +440,7 @@ require_once( 'content.php' );
 						</div>
 						<div id="resp_remsg" <?php echo $display_resp_remsg;?>>
 							<hr>
-							<h3><?php _e('Recently messages','WPWSL');?></h3>
+							<h3><?php _e('Recent messages','WPWSL');?></h3>
 							<div class="msg-box">
 								<table class="form-table">
 								    <tr valign="top">
@@ -564,38 +576,56 @@ jQuery(document).ready(function ($) {
 					$('#resp_msg').show();
 					$('#resp_phmsg').hide();
 					$('#resp_remsg').hide();
+          $('#resp_randmsg').hide();
 					$('#resp_shmsg').hide();
 				break;
 				case 'news':
 					$('#resp_msg').hide();
 					$('#resp_phmsg').show();
 					$('#resp_remsg').hide();
+          $('#resp_randmsg').hide();
 					$('#resp_shmsg').hide();
 				break;
-				case 'recently':
+				case 'recent':
 					$('#resp_msg').hide();
 					$('#resp_phmsg').hide();
 					$('#resp_remsg').show();
+          $('#resp_randmsg').hide();
 					$('#resp_shmsg').hide();
 				break;
-				case 'search':
-				    $('#resp_msg').hide();
-				    $('#resp_phmsg').hide();
-				    $('#resp_remsg').hide();
-				    $('#resp_shmsg').show();
-				    $('.trigger-way').removeAttr("checked").attr("disabled","disabled");
-				    $("#trigger-way-default").attr("checked","checked").removeAttr("disabled");
-				break;
+  			case 'random':
+  				$('#resp_msg').hide();
+  				$('#resp_phmsg').hide();
+  				$('#resp_remsg').hide();
+          $('#resp_randmsg').show();
+  				$('#resp_shmsg').hide();
+  			break;
+  			case 'search':
+  			    $('#resp_msg').hide();
+  			    $('#resp_phmsg').hide();
+  			    $('#resp_remsg').hide();
+            $('#resp_randmsg').hide();
+  			    $('#resp_shmsg').show();
+            
+  				  $('.trigger-way').removeAttr("checked")
+            .attr("disabled","disabled");
+            
+            $("#trigger-way-default").attr("checked","checked")
+            .removeAttr("disabled");
+
+  			break;
 			}
 			if(val!='search'){
-                 $('.trigger-way').removeAttr("disabled");
-				 $("#"+$cur_trigger_way).click();
-		     }
+        $('.trigger-way').removeAttr("disabled");
+				$("#"+$cur_trigger_way).click();
+		  }
 		});
 	}
-    $(".trigger-way").click(function(){
-        $cur_trigger_way = $(this).attr('id');
-    });
+  
+  $(".trigger-way").click(function(){
+      $cur_trigger_way = $(this).attr('id');
+  });
+  
 	$('.remove-pic-btn').click(function(){
 		var input=$(this).parent().next('input[rel="img-input"]');
 
@@ -862,9 +892,20 @@ jQuery(document).ready(function ($) {
 		}
     });
     /***************
-     *message type : recently
+     *message type : recent
      ***************/
      $("#re_type_select").change(function(){
+        var val = $(this).attr("value");
+        var $tr = $("#re_cate_tr");
+        switch(val){
+        	case "post": $tr.show();break;
+        	default    : $tr.hide();
+        }
+     });
+    /***************
+     *message type : random
+     ***************/
+     $("#rand_type_select").change(function(){
         var val = $(this).attr("value");
         var $tr = $("#re_cate_tr");
         switch(val){

@@ -168,11 +168,15 @@ class wechatCallbackapi{
 			case "news":
 				$resultStr = $this->sendPhMsg($fromUsername, $toUsername, $d->phmsg);
 			break;
-			case "recently": 
-			    $resultStr = $this->sendReMsg($fromUsername, $toUsername, $d->remsg); 
+			case "recent": 
+			  $resultStr = $this->sendReMsg($fromUsername, $toUsername, $d->remsg);
+    	case "random": 
+    		$resultStr = $this->sendRandMsg($fromUsername,
+                                        $toUsername,
+                                        $d->randmsg);
 			break;
 			case "search":
-			    $resultStr = $this->sendShMsg($fromUsername, $toUsername, $d->key[0]); 
+			  $resultStr = $this->sendShMsg($fromUsername, $toUsername, $d->key[0]); 
 			break;
 			default: //text
 				$resultStr = $this->sendMsg($fromUsername, $toUsername, $d->msg);
@@ -240,27 +244,31 @@ class wechatCallbackapi{
     private function getRecentlyPosts($contentData = null){
     	if(!$contentData) return null;
     	$re_type  = isset($contentData['type']) ?$contentData['type'] :"";
-		$re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
-		$re_count = isset($contentData['count'])?$contentData['count']:"";
-        $args = array(
-		'posts_per_page'   => $re_count,
-		'orderby'          => 'post_date',
-		'order'            => 'desc',
-		'post_type'        => $re_type,
-		);
-		if($re_type=="post"){
-			if($re_cate!="all"){
-               $args['category'] = $re_cate;
-			}
-			$args['post_status'] = "publish";
-		}else if($re_type=="page"){
-            $args['post_status'] = "publish";
-        }
+		  $re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
+		  $re_count = isset($contentData['count'])?$contentData['count']:"";
+      $args = array(
+    		'posts_per_page'   => $re_count,
+    		'orderby'          => 'post_date',
+    		'order'            => 'desc',
+    		'post_type'        => $re_type,
+  		);
+  		if($re_type=="post"){
+  			if($re_cate!="all"){
+          $args['category'] = $re_cate;
+  			}
+  			$args['post_status'] = "publish";
+  		}else if($re_type=="page"){
+        $args['post_status'] = "publish";
+      }
         
-		$posts = get_posts($args);
-		return $posts;
+		  $posts = get_posts($args);
+		  return $posts;
     }
-    private function getImgsSrcInPost($post_id=null,$post_content='',$i=1,$type='',$post_excerpt=''){
+    private function getImgsSrcInPost($post_id=null,
+                                      $post_content='',
+                                      $i=1,
+                                      $type='',
+                                      $post_excerpt=''){
 
 	    	$imageSize = $i == 1 ? "sup_wechat_big":"sup_wechat_small";
 	    	$text = "";
@@ -270,8 +278,10 @@ class wechatCallbackapi{
 	           $rimg = $tmp_img_obj[0];
 	    	}else{
 		    	if(get_the_post_thumbnail($post_id)!=''){
-                    $tmp_img_obj=wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$imageSize);
-                    $rimg = $tmp_img_obj[0];
+            $_tmp_id = get_post_thumbnail_id($post_id);
+            $tmp_img_obj=wp_get_attachment_image_src($_tmp_id, 
+                                                     $imageSize);
+            $rimg = $tmp_img_obj[0];
 				}else{
 					$attachments = get_posts( array(
 						'post_type' => 'attachment',
@@ -280,27 +290,18 @@ class wechatCallbackapi{
 						'exclude'     => get_post_thumbnail_id($post_id)
 					));
 					if(count($attachments)>0){
-					    $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,$imageSize);
+					  $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,
+                                                     $imageSize);
 						$rimg=$tmp_img_obj[0];
 					}
 				}	
 	    	}
 	    	if(trim($post_excerpt)!=""){
-//    	        $text = mb_substr(strip_tags($post_excerpt),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
-//              $text = mb_strlen(strip_tags($post_excerpt),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $text."..." : $text;
-//              $text = wp_trim_words(strip_tags($post_excerpt),SYNC_EXCERPT_LIMIT,'...' );
-                $text = trim_words($post_excerpt,SYNC_EXCERPT_LIMIT);
-            }else if(trim($post_content!="")){
-//				$text = mb_substr(strip_tags($post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
-//				$text = mb_strlen(strip_tags($post_content),DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $text."..." : $text;
-//				$text = wp_trim_words(strip_tags($post_content),SYNC_EXCERPT_LIMIT,'...' );
-                $text = trim_words($post_content,SYNC_EXCERPT_LIMIT);
-			}
-	    	// if($rimg) 
+          $text = trim_words($post_excerpt,SYNC_EXCERPT_LIMIT);
+        }else if(trim($post_content!="")){
+          $text = trim_words($post_content,SYNC_EXCERPT_LIMIT);
+			  }
 	    	$result = array("src"=>$rimg,"text"=>$text);
-	    	// else $result = array("src"=>WPWSL_PLUGIN_URL."/img/trans.png","text"=>$text);
-
-    	
         return $result;
     }
 	private function sendReMsg($fromUsername, $toUsername, $contentData){
@@ -324,15 +325,21 @@ class wechatCallbackapi{
 		$mediaCount=0;
 		$i=1;
 		foreach ($posts as $mediaObject){
-		    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,$mediaObject->post_content,$i,$contentData['type'],$mediaObject->post_excerpt);			
-			
-//			$title= mb_substr(strip_tags($mediaObject->post_title),0,SYNC_TITLE_LIMIT,DB_CHARSET);
-//			$title= mb_strlen($mediaObject->post_title,DB_CHARSET)>SYNC_TITLE_LIMIT ? $title."..." : $title;
-//			$title = wp_trim_words(strip_tags($mediaObject->post_title),SYNC_TITLE_LIMIT,'...' );
+		    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
+                                                $mediaObject->post_content,
+                                                $i,
+                                                $contentData['type'],
+                                                $mediaObject->post_excerpt);
+
 			$title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
 			$des  = $src_and_text['text'];  // strip_tags or not
-			$media= $this->parseurl($src_and_text['src']);;
-			$url  = $contentData['type']=="attachment"?home_url('/?attachment_id='.$mediaObject->ID):html_entity_decode($mediaObject->guid);
+			$media = $this->parseurl($src_and_text['src']);
+      if ($contentData['type']=="attachment"){
+        $url = home_url('/?attachment_id='.$mediaObject->ID)
+      }else{
+        $url = html_entity_decode($mediaObject->guid);
+      }
+
 			$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
 			$mediaCount++;
 			$i++;
@@ -340,7 +347,13 @@ class wechatCallbackapi{
 		
 		$msgType = "news";
 		$time = time();
-		$headerStr = sprintf($headerTpl, $fromUsername, $toUsername, $time, $msgType, $mediaCount);
+		$headerStr = sprintf($headerTpl,
+                         $fromUsername,
+                         $toUsername,
+                         $time,
+                         $msgType,
+                         $mediaCount);
+
 		$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
 
 		return $resultStr;
@@ -375,11 +388,13 @@ class wechatCallbackapi{
     			$mediaCount=0;
     			$i=1;
     			foreach ($posts as $mediaObject){
-    			    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,$mediaObject->post_content,$i,$mediaObject->post_type,$mediaObject->post_excerpt);			
-//    				$title= mb_substr(strip_tags($mediaObject->post_title),0,SYNC_TITLE_LIMIT,DB_CHARSET);
-//    				$title= mb_strlen($mediaObject->post_title,DB_CHARSET)>SYNC_TITLE_LIMIT ? $title."..." : $title;
-//    				$title = wp_trim_words(strip_tags($mediaObject->post_title),SYNC_TITLE_LIMIT,'...' );
-                    $title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
+    			  $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
+                                            $mediaObject->post_content,
+                                            $i,
+                                            $mediaObject->post_type,
+                                            $mediaObject->post_excerpt);			
+
+            $title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
     				$des  = $src_and_text['text'];  // strip_tags or not
     				$media= $this->parseurl($src_and_text['src']);;
     				$url  = html_entity_decode($mediaObject->guid);
@@ -390,7 +405,9 @@ class wechatCallbackapi{
     			
     			$msgType = "news";
     			$time = time();
-    			$headerStr = sprintf($headerTpl, $fromUsername, $toUsername, $time, $msgType, $mediaCount);
+    			$headerStr = sprintf($headerTpl,
+                               $fromUsername, 
+                               $toUsername, $time, $msgType, $mediaCount);
     			$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
 	        }else{
 	            $textTpl = "<xml>
@@ -473,7 +490,7 @@ function get_data(){
 		$tmp_msg->msg=get_post_meta($p->ID,'_content',TRUE);
 		$tmp_msg->phmsg=$phmsg_group;
 		
-		//recently
+		//recent
 		$tmp_msg->remsg=array(
 			                  "type"=>get_post_meta($p->ID,'_re_type',TRUE),
 			                  "cate"=>get_post_meta($p->ID,'_re_cate',TRUE),

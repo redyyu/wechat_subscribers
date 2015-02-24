@@ -250,7 +250,7 @@ msgid "Edit"
 msgstr "编辑"
 
 #: _edit.php:407
-msgid "Recently messages"
+msgid "Recent messages"
 msgstr "最近消息"
 
 #: _edit.php:411

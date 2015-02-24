@@ -64,7 +64,7 @@ Features:
 2. Easy to manage multiple weixin message template.
 3. Multiple message type, default reply message, trigger by keywords and new weixin subscriber join in. you can switch thier types any time.
 4. Automatic check keywords conflict.
-5. Free to set message type any time. both text message , graphic news message and recently news message.
+5. Free to set message type any time. both text message , graphic news message and recent news message.
 6. Use native wordpress media manage tool to upload pitcures.
 
 Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a>.
