@@ -211,9 +211,9 @@ $args_cate = array(
 		'pad_counts'               => false 
 		);
 $defauleCate = new stdClass();
-$defauleCate->term_id = "all";
+$defauleCate->term_id = "";
 $defauleCate->cat_name = __("All categories","WPWSL");
-$_re_cates = array_merge(array($defauleCate),get_categories($args_cate));
+$_re_cates = array_merge(array($defauleCate), get_categories($args_cate));
 $_re_cate_show = ($_re_type=="post"||$_re_type=="") ? false:true;
 $_re_count_label = __("Amount","WPWSL");
 // global $wp_post_types; //get all post types
@@ -223,7 +223,14 @@ $args = array(
 );
 $output = 'objects'; // names or objects, note names is the default
 $operator = 'and'; // 'and' or 'or'
-$_re_types= get_post_types( $args, $output, $operator ); 
+
+$defauleTypes = new stdClass();
+$defauleTypes->key = "";
+$defauleTypes->labels = new stdClass();
+$defauleTypes->labels -> name = __("All types","WPWSL");
+
+$_re_types = array_merge(array($defauleTypes),
+                         get_post_types( $args, $output, $operator ));
 
 //switch type
 $type=get_post_meta($current_id,'_type',TRUE);
@@ -469,11 +476,10 @@ require_once( 'content.php' );
                       </th>
 									    <td>
 									      <select name="re_type" id="re_type_select">
-									    <?php 
-									    foreach($_re_types as $key=>$val):?>
-						        		<?php $selected=($key==$_re_type)?'selected':'';?>
-						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val->labels->name ;?></option>
-						        		<?php endforeach;?>
+  									      <?php foreach($_re_types as $key=>$val):?>
+  						        		  <?php $selected=($key==$_re_type)?'selected':'';?>
+  						        		  <option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val->labels->name ;?></option>
+  						        		<?php endforeach;?>
 									    </select>
 									    </td>
 								    </tr>
@@ -535,7 +541,7 @@ require_once( 'content.php' );
 var limit_phmsg=9;
 var count_phmsg=0;
 jQuery(document).ready(function ($) {
-  var test_msg_type = function(){
+  var init_msg_type = function(){
 		var val = $('#msg_type').val();
 		switch(val){
 			case 'text':
@@ -586,12 +592,12 @@ jQuery(document).ready(function ($) {
 	  }
   }
   
-  test_msg_type();
+  init_msg_type();
   
   var $cur_trigger_way = $(".trigger-way:checked").attr("id");;
 	if($('#msg_type').length>0){
 		$('#msg_type').change(function(){
-			test_msg_type();
+			init_msg_type();
 		});
 	}
   

@@ -262,8 +262,7 @@ msgid "Description"
 msgstr "说明"
 
 #: _edit.php:413
-msgid ""
-"According to the options, automatic return to a post or page newly added."
+msgid "According to the options, automatic return to a post or page newly added."
 msgstr "根据选项，自动返回最新添加的文章或页面."
 
 #: _edit.php:220
@@ -279,12 +278,12 @@ msgid "Search Keyword"
 msgstr "搜索关键字"
 
 #: _edit.php:
-msgid ""
-"Automatic reply search results while trigger this response. Must set trigger "
-"by Default."
-msgstr ""
-"当无法匹配关键字触发时，自动使用关键字搜索文章，并且回复6条搜索结果。必须将触"
-"发机制设置成－默认－才能有效。"
+msgid "Automatic reply search results while trigger this response. Must set trigger by Default."
+msgstr "使用关键字搜索文章，并且回复搜索结果。必须将触发机制设置成－默认－才能有效。"
+
+#: _edit.php:
+msgid "Automatic reply random results while trigger this response."
+msgstr "自动回复随机的文章。"
 
 #: ajax_request_handle.php:
 msgid "Insert"
@@ -419,4 +418,8 @@ msgstr "匹配"
 
 #: interface.php:395
 msgid "Sorry! No search result."
-msgstr "对不起！没有找到匹配的关键字"
+msgstr "对不起！没有找到匹配的关键字。"
+
+#: interface.php:395
+msgid "Sorry! No result."
+msgstr "对不起！什么也没有找到。"

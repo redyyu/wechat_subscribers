@@ -236,35 +236,91 @@ class wechatCallbackapi{
 		
 		$msgType = "news";
 		$time = time();
-		$headerStr = sprintf($headerTpl, $fromUsername, $toUsername, $time, $msgType, $mediaCount);
+		$headerStr = sprintf($headerTpl,
+                         $fromUsername,
+                         $toUsername,
+                         $time,
+                         $msgType,
+                         $mediaCount);
+
 		$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
 
 		return $resultStr;
 	}
   
-  private function getRecentlyPosts($contentData = null){
+  private function getSearchPosts($keyword, $contentData = null){
   	if(!$contentData) return null;
   	$re_type  = isset($contentData['type']) ?$contentData['type'] :"";
 	  $re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
-	  $re_count = isset($contentData['count'])?$contentData['count']:"";
+	  $re_count = isset($contentData['count'])?$contentData['count']:6;
     $args = array(
-  		'posts_per_page'   => $re_count,
-  		'orderby'          => 'post_date',
-  		'order'            => 'desc',
-  		'post_type'        => $re_type,
+  		'posts_per_page'      => $re_count,
+  		'orderby'             => 'post_date',
+      'order'               => 'desc',
+      's'                   => $keyword,
+      'ignore_sticky_posts'	=> 1,
 		);
-		if($re_type=="post"){
-			if($re_cate!="all"){
+    if($re_type!=""){
+      $args['post_type'] = $re_type;
+  		if($re_type=="post" && $re_cate!=""){
         $args['category'] = $re_cate;
-			}
-			$args['post_status'] = "publish";
-		}else if($re_type=="page"){
-      $args['post_status'] = "publish";
+  		}
+    }else{
+      $args['post_type'] = 'any';
     }
+    $args['post_status'] = "publish";
       
 	  $posts = get_posts($args);
 	  return $posts;
   }
+  
+  private function getRandomPosts($contentData = null){
+  	if(!$contentData) return null;
+  	$re_type  = isset($contentData['type']) ?$contentData['type'] :"";
+	  $re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
+	  $re_count = isset($contentData['count'])?$contentData['count']:6;
+    $args = array(
+  		'posts_per_page'   => $re_count,
+  		'orderby'          => 'rand',
+		);
+    if($re_type!=""){
+      $args['post_type'] = $re_type;
+  		if($re_type=="post" && $re_cate!=""){
+        $args['category'] = $re_cate;
+  		}
+    }else{
+      $args['post_type'] = 'any';
+    }
+    $args['post_status'] = "publish";
+      
+	  $posts = get_posts($args);
+	  return $posts;
+  }
+  
+  private function getRecentlyPosts($contentData = null){
+  	if(!$contentData) return null;
+  	$re_type  = isset($contentData['type']) ?$contentData['type'] :"";
+	  $re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
+	  $re_count = isset($contentData['count'])?$contentData['count']:6;
+    $args = array(
+  		'posts_per_page'   => $re_count,
+  		'orderby'          => 'post_date',
+  		'order'            => 'desc',
+		);
+    if($re_type!=""){
+      $args['post_type'] = $re_type;
+  		if($re_type=="post" && $re_cate!=""){
+        $args['category'] = $re_cate;
+  		}
+    }else{
+      $args['post_type'] = 'any';
+    }
+    $args['post_status'] = "publish";
+      
+	  $posts = get_posts($args);
+	  return $posts;
+  }
+  
   private function getImgsSrcInPost($post_id=null,
                                     $post_content='',
                                     $i=1,
@@ -305,119 +361,57 @@ class wechatCallbackapi{
   	$result = array("src"=>$rimg,"text"=>$text);
     return $result;
   }
-    
-	private function sendReMsg($fromUsername, $toUsername, $contentData){
-		if($contentData==''){
-			return '';
-		}
-		$posts = $this->getRecentlyPosts($contentData);
-    
-    $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
-    			        <FromUserName><![CDATA[%s]]></FromUserName>
-    			        <CreateTime>%s</CreateTime>
-    			        <MsgType><![CDATA[%s]]></MsgType>
-    			        <ArticleCount>%s</ArticleCount>";
+  
+  private function sendMsgBase($fromUsername, $toUsername, $posts){
+    if(count($posts)>0){
+      $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
+      			        <FromUserName><![CDATA[%s]]></FromUserName>
+      			        <CreateTime>%s</CreateTime>
+      			        <MsgType><![CDATA[%s]]></MsgType>
+      			        <ArticleCount>%s</ArticleCount>";
 			        
-		$itemTpl = "<item>
-      					<Title><![CDATA[%s]]></Title> 
-      					<Description><![CDATA[%s]]></Description>
-      					<PicUrl><![CDATA[%s]]></PicUrl>
-      					<Url><![CDATA[%s]]></Url>
-      					</item>";
-		$itemStr="";
-		$mediaCount=0;
-		$i=1;
-		foreach ($posts as $mediaObject){
-		    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
-                                                $mediaObject->post_content,
-                                                $i,
-                                                $contentData['type'],
-                                                $mediaObject->post_excerpt);
+  		$itemTpl = "<item>
+        					<Title><![CDATA[%s]]></Title> 
+        					<Description><![CDATA[%s]]></Description>
+        					<PicUrl><![CDATA[%s]]></PicUrl>
+        					<Url><![CDATA[%s]]></Url>
+        					</item>";
+  		$itemStr="";
+  		$mediaCount=0;
+  		$i=1;
+  		foreach ($posts as $mediaObject){
+  		    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
+                                                  $mediaObject->post_content,
+                                                  $i,
+                                                  $contentData['type'],
+                                                  $mediaObject->post_excerpt);
 
-			$title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
-			$des  = $src_and_text['text'];  // strip_tags or not
-			$media = $this->parseurl($src_and_text['src']);
-      if ($contentData['type']=="attachment"){
-        $url = home_url('/?attachment_id='.$mediaObject->ID)
-      }else{
-        $url = html_entity_decode($mediaObject->guid);
-      }
+  			$title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
+  			$des  = $src_and_text['text'];  // strip_tags or not
+  			$media = $this->parseurl($src_and_text['src']);
+        if ($contentData['type']=="attachment"){
+          $url = home_url('/?attachment_id='.$mediaObject->ID)
+        }else{
+          $url = html_entity_decode($mediaObject->guid);
+        }
 
-			$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
-			$mediaCount++;
-			$i++;
-		}
+  			$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
+  			$mediaCount++;
+  			$i++;
+  		}
 		
-		$msgType = "news";
-		$time = time();
-		$headerStr = sprintf($headerTpl,
-                         $fromUsername,
-                         $toUsername,
-                         $time,
-                         $msgType,
-                         $mediaCount);
+  		$msgType = "news";
+  		$time = time();
+  		$headerStr = sprintf($headerTpl,
+                           $fromUsername,
+                           $toUsername,
+                           $time,
+                           $msgType,
+                           $mediaCount);
 
-		$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
+  		$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
 
-		return $resultStr;
-	}
-	
-	private function sendShMsg($fromUsername, $toUsername, $keyword){
-		if($keyword==''){
-			return '';
-		}
-		$query_array = array(
-                    	's' 					        => $keyword, 
-                    	'posts_per_page'		  => MAX_SEARCH_LIMIT, 
-                    	'post_status' 			  => 'publish', 
-                    	'ignore_sticky_posts'	=> 1
-                    );
-
-		$query = new WP_Query($query_array);
-		if($query->have_posts()){
-			$posts = $query->posts;
-	    $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
-    				        <FromUserName><![CDATA[%s]]></FromUserName>
-    				        <CreateTime>%s</CreateTime>
-    				        <MsgType><![CDATA[%s]]></MsgType>
-    				        <ArticleCount>%s</ArticleCount>";
-				        
-			$itemTpl=  "<item>
-      						<Title><![CDATA[%s]]></Title> 
-      						<Description><![CDATA[%s]]></Description>
-      						<PicUrl><![CDATA[%s]]></PicUrl>
-      						<Url><![CDATA[%s]]></Url>
-      						</item>";
-
-			$itemStr="";
-			$mediaCount=0;
-			$i=1;
-			foreach ($posts as $mediaObject){
-			  $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
-                                        $mediaObject->post_content,
-                                        $i,
-                                        $mediaObject->post_type,
-                                        $mediaObject->post_excerpt);			
-
-        $title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
-				$des  = $src_and_text['text'];  // strip_tags or not
-				$media= $this->parseurl($src_and_text['src']);;
-				$url  = html_entity_decode($mediaObject->guid);
-				$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
-				$mediaCount++;
-				$i++;
-			}
-			
-			$msgType = "news";
-			$time = time();
-			$headerStr = sprintf($headerTpl,
-                           $fromUsername, 
-                           $toUsername, $time, $msgType, $mediaCount);
-      
-      $resultStr = "<xml>".$headerStr;
-      $resultStr = $resultStr."<Articles>".$itemStr."</Articles>"
-      $resultStr = $resultStr."</xml>";
-		}else{
+    }else{
       $textTpl = "<xml>
         					<ToUserName><![CDATA[%s]]></ToUserName>
         					<FromUserName><![CDATA[%s]]></FromUserName>
@@ -429,7 +423,7 @@ class wechatCallbackapi{
   
   		$msgType = "text";
   		$time = time();
-  		$no_result=__('Sorry! No search result.','WPWSL');
+  		$no_result=__('Sorry! No result.','WPWSL');
       $resultStr = sprintf($textTpl,
                            $fromUsername,
                            $toUsername,
@@ -437,6 +431,24 @@ class wechatCallbackapi{
                            $msgType,
                            $no_result);
     }
+    return $resultStr;
+  }
+  
+	private function sendReMsg($fromUsername, $toUsername, $contentData){
+		$posts = $this->getRecentlyPosts($contentData);
+    $resultStr = $this->sendMsgBase($fromUsername, $toUsername, $posts);
+		return $resultStr;
+	}
+	
+	private function sendRandMsg($fromUsername, $toUsername){
+    $posts = $this->getRandomPosts($contentData);
+		$resultStr = $this->sendMsgBase($fromUsername, $toUsername, $posts);
+		return $resultStr;
+	}
+  
+	private function sendShMsg($fromUsername, $toUsername, $keyword){
+    $posts = $this->getSearchPosts($keyword, $contentData);
+		$resultStr = $this->sendMsgBase($fromUsername, $toUsername, $posts);
 		return $resultStr;
 	}
 	
