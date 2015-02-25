@@ -249,12 +249,16 @@ msgstr "删除"
 msgid "Edit"
 msgstr "编辑"
 
-#: _edit.php:407
+#: _edit.php:446
 msgid "Recent messages"
 msgstr "最近消息"
 
+#: _edit.php:504
+msgid "Random messages"
+msgstr "随机消息"
+
 #: _edit.php:411
-msgid "Illustration"
+msgid "Description"
 msgstr "说明"
 
 #: _edit.php:413

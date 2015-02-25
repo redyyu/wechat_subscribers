@@ -99,9 +99,9 @@ class wechatCallbackapi{
 
 	private function sendAutoReply($postObj){
 
-        $fromUsername = $postObj->FromUserName;
-        $toUsername = $postObj->ToUserName;
-        $keyword = trim($postObj->Content);
+    $fromUsername = $postObj->FromUserName;
+    $toUsername = $postObj->ToUserName;
+    $keyword = trim($postObj->Content);
 		$resultStr='';
 		
 		$is_match=false;
@@ -173,7 +173,7 @@ class wechatCallbackapi{
     	case "random": 
     		$resultStr = $this->sendRandMsg($fromUsername,
                                         $toUsername,
-                                        $d->randmsg);
+                                        $d->remsg);
 			break;
 			case "search":
 			  $resultStr = $this->sendShMsg($fromUsername, $toUsername, $d->key[0]); 
@@ -241,86 +241,89 @@ class wechatCallbackapi{
 
 		return $resultStr;
 	}
-    private function getRecentlyPosts($contentData = null){
-    	if(!$contentData) return null;
-    	$re_type  = isset($contentData['type']) ?$contentData['type'] :"";
-		  $re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
-		  $re_count = isset($contentData['count'])?$contentData['count']:"";
-      $args = array(
-    		'posts_per_page'   => $re_count,
-    		'orderby'          => 'post_date',
-    		'order'            => 'desc',
-    		'post_type'        => $re_type,
-  		);
-  		if($re_type=="post"){
-  			if($re_cate!="all"){
-          $args['category'] = $re_cate;
-  			}
-  			$args['post_status'] = "publish";
-  		}else if($re_type=="page"){
-        $args['post_status'] = "publish";
-      }
-        
-		  $posts = get_posts($args);
-		  return $posts;
+  
+  private function getRecentlyPosts($contentData = null){
+  	if(!$contentData) return null;
+  	$re_type  = isset($contentData['type']) ?$contentData['type'] :"";
+	  $re_cate  = isset($contentData['cate']) ?$contentData['cate'] :"";
+	  $re_count = isset($contentData['count'])?$contentData['count']:"";
+    $args = array(
+  		'posts_per_page'   => $re_count,
+  		'orderby'          => 'post_date',
+  		'order'            => 'desc',
+  		'post_type'        => $re_type,
+		);
+		if($re_type=="post"){
+			if($re_cate!="all"){
+        $args['category'] = $re_cate;
+			}
+			$args['post_status'] = "publish";
+		}else if($re_type=="page"){
+      $args['post_status'] = "publish";
     }
-    private function getImgsSrcInPost($post_id=null,
-                                      $post_content='',
-                                      $i=1,
-                                      $type='',
-                                      $post_excerpt=''){
+      
+	  $posts = get_posts($args);
+	  return $posts;
+  }
+  private function getImgsSrcInPost($post_id=null,
+                                    $post_content='',
+                                    $i=1,
+                                    $type='',
+                                    $post_excerpt=''){
 
-	    	$imageSize = $i == 1 ? "sup_wechat_big":"sup_wechat_small";
-	    	$text = "";
-	    	$rimg = WPWSL_PLUGIN_URL."/img/".$imageSize.".png";;
-	    	if($type=="attachment"){
-	    	   $tmp_img_obj= wp_get_attachment_image_src($post_id,$imageSize);
-	           $rimg = $tmp_img_obj[0];
-	    	}else{
-		    	if(get_the_post_thumbnail($post_id)!=''){
-            $_tmp_id = get_post_thumbnail_id($post_id);
-            $tmp_img_obj=wp_get_attachment_image_src($_tmp_id, 
-                                                     $imageSize);
-            $rimg = $tmp_img_obj[0];
-				}else{
-					$attachments = get_posts( array(
-						'post_type' => 'attachment',
-						'posts_per_page' => -1,
-						'post_parent' => $post_id,
-						'exclude'     => get_post_thumbnail_id($post_id)
-					));
-					if(count($attachments)>0){
-					  $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,
-                                                     $imageSize);
-						$rimg=$tmp_img_obj[0];
-					}
-				}	
-	    	}
-	    	if(trim($post_excerpt)!=""){
-          $text = trim_words($post_excerpt,SYNC_EXCERPT_LIMIT);
-        }else if(trim($post_content!="")){
-          $text = trim_words($post_content,SYNC_EXCERPT_LIMIT);
-			  }
-	    	$result = array("src"=>$rimg,"text"=>$text);
-        return $result;
-    }
+  	$imageSize = $i == 1 ? "sup_wechat_big":"sup_wechat_small";
+  	$text = "";
+  	$rimg = WPWSL_PLUGIN_URL."/img/".$imageSize.".png";;
+  	if($type=="attachment"){
+  	   $tmp_img_obj= wp_get_attachment_image_src($post_id,$imageSize);
+         $rimg = $tmp_img_obj[0];
+  	}else{
+    	if(get_the_post_thumbnail($post_id)!=''){
+        $_tmp_id = get_post_thumbnail_id($post_id);
+        $tmp_img_obj=wp_get_attachment_image_src($_tmp_id, 
+                                                 $imageSize);
+        $rimg = $tmp_img_obj[0];
+		}else{
+			$attachments = get_posts( array(
+				'post_type' => 'attachment',
+				'posts_per_page' => -1,
+				'post_parent' => $post_id,
+				'exclude'     => get_post_thumbnail_id($post_id)
+			));
+			if(count($attachments)>0){
+			  $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,
+                                                 $imageSize);
+				$rimg=$tmp_img_obj[0];
+			}
+		}	
+  	}
+  	if(trim($post_excerpt)!=""){
+      $text = trim_words($post_excerpt,SYNC_EXCERPT_LIMIT);
+    }else if(trim($post_content!="")){
+      $text = trim_words($post_content,SYNC_EXCERPT_LIMIT);
+	  }
+  	$result = array("src"=>$rimg,"text"=>$text);
+    return $result;
+  }
+    
 	private function sendReMsg($fromUsername, $toUsername, $contentData){
 		if($contentData==''){
 			return '';
 		}
 		$posts = $this->getRecentlyPosts($contentData);
-        $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
-			        <FromUserName><![CDATA[%s]]></FromUserName>
-			        <CreateTime>%s</CreateTime>
-			        <MsgType><![CDATA[%s]]></MsgType>
-			        <ArticleCount>%s</ArticleCount>";
+    
+    $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
+    			        <FromUserName><![CDATA[%s]]></FromUserName>
+    			        <CreateTime>%s</CreateTime>
+    			        <MsgType><![CDATA[%s]]></MsgType>
+    			        <ArticleCount>%s</ArticleCount>";
 			        
-		$itemTpl=  "<item>
-					<Title><![CDATA[%s]]></Title> 
-					<Description><![CDATA[%s]]></Description>
-					<PicUrl><![CDATA[%s]]></PicUrl>
-					<Url><![CDATA[%s]]></Url>
-					</item>";
+		$itemTpl = "<item>
+      					<Title><![CDATA[%s]]></Title> 
+      					<Description><![CDATA[%s]]></Description>
+      					<PicUrl><![CDATA[%s]]></PicUrl>
+      					<Url><![CDATA[%s]]></Url>
+      					</item>";
 		$itemStr="";
 		$mediaCount=0;
 		$i=1;
@@ -360,57 +363,62 @@ class wechatCallbackapi{
 	}
 	
 	private function sendShMsg($fromUsername, $toUsername, $keyword){
-			if($keyword==''){
-				return '';
-			}
-			$query_array = array(
-						's' 					=> $keyword, 
-						'posts_per_page'		=> MAX_SEARCH_LIMIT, 
-						'post_status' 			=> 'publish', 
-						'ignore_sticky_posts'	=> 1
-					);
-			$query = new WP_Query($query_array);
-			if($query->have_posts()){
-    			$posts = $query->posts;
-    	        $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
+		if($keyword==''){
+			return '';
+		}
+		$query_array = array(
+                    	's' 					        => $keyword, 
+                    	'posts_per_page'		  => MAX_SEARCH_LIMIT, 
+                    	'post_status' 			  => 'publish', 
+                    	'ignore_sticky_posts'	=> 1
+                    );
+
+		$query = new WP_Query($query_array);
+		if($query->have_posts()){
+			$posts = $query->posts;
+	    $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
     				        <FromUserName><![CDATA[%s]]></FromUserName>
     				        <CreateTime>%s</CreateTime>
     				        <MsgType><![CDATA[%s]]></MsgType>
     				        <ArticleCount>%s</ArticleCount>";
-    				        
-    			$itemTpl=  "<item>
-    						<Title><![CDATA[%s]]></Title> 
-    						<Description><![CDATA[%s]]></Description>
-    						<PicUrl><![CDATA[%s]]></PicUrl>
-    						<Url><![CDATA[%s]]></Url>
-    						</item>";
-    			$itemStr="";
-    			$mediaCount=0;
-    			$i=1;
-    			foreach ($posts as $mediaObject){
-    			  $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
-                                            $mediaObject->post_content,
-                                            $i,
-                                            $mediaObject->post_type,
-                                            $mediaObject->post_excerpt);			
+				        
+			$itemTpl=  "<item>
+      						<Title><![CDATA[%s]]></Title> 
+      						<Description><![CDATA[%s]]></Description>
+      						<PicUrl><![CDATA[%s]]></PicUrl>
+      						<Url><![CDATA[%s]]></Url>
+      						</item>";
 
-            $title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
-    				$des  = $src_and_text['text'];  // strip_tags or not
-    				$media= $this->parseurl($src_and_text['src']);;
-    				$url  = html_entity_decode($mediaObject->guid);
-    				$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
-    				$mediaCount++;
-    				$i++;
-    			}
-    			
-    			$msgType = "news";
-    			$time = time();
-    			$headerStr = sprintf($headerTpl,
-                               $fromUsername, 
-                               $toUsername, $time, $msgType, $mediaCount);
-    			$resultStr ="<xml>".$headerStr."<Articles>".$itemStr."</Articles></xml>";
-	        }else{
-	            $textTpl = "<xml>
+			$itemStr="";
+			$mediaCount=0;
+			$i=1;
+			foreach ($posts as $mediaObject){
+			  $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
+                                        $mediaObject->post_content,
+                                        $i,
+                                        $mediaObject->post_type,
+                                        $mediaObject->post_excerpt);			
+
+        $title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
+				$des  = $src_and_text['text'];  // strip_tags or not
+				$media= $this->parseurl($src_and_text['src']);;
+				$url  = html_entity_decode($mediaObject->guid);
+				$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
+				$mediaCount++;
+				$i++;
+			}
+			
+			$msgType = "news";
+			$time = time();
+			$headerStr = sprintf($headerTpl,
+                           $fromUsername, 
+                           $toUsername, $time, $msgType, $mediaCount);
+      
+      $resultStr = "<xml>".$headerStr;
+      $resultStr = $resultStr."<Articles>".$itemStr."</Articles>"
+      $resultStr = $resultStr."</xml>";
+		}else{
+      $textTpl = "<xml>
         					<ToUserName><![CDATA[%s]]></ToUserName>
         					<FromUserName><![CDATA[%s]]></FromUserName>
         					<CreateTime>%s</CreateTime>
@@ -418,15 +426,19 @@ class wechatCallbackapi{
         					<Content><![CDATA[%s]]></Content>
         					<FuncFlag>0</FuncFlag>
         					</xml>";
-        
-        		$msgType = "text";
-        		$time = time();
-        		$no_result=__('Sorry! No search result.','WPWSL');
-        		$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $no_result);
-	        }
-	        
-			return $resultStr;
-		}
+  
+  		$msgType = "text";
+  		$time = time();
+  		$no_result=__('Sorry! No search result.','WPWSL');
+      $resultStr = sprintf($textTpl,
+                           $fromUsername,
+                           $toUsername,
+                           $time,
+                           $msgType,
+                           $no_result);
+    }
+		return $resultStr;
+	}
 	
 	private function checkSignature(){
 		if(IS_DEBUG){
@@ -434,7 +446,7 @@ class wechatCallbackapi{
 		}
 		$signature =isset($_GET["signature"])?$_GET["signature"]:'';
 		$timestamp =isset($_GET["timestamp"])?$_GET["timestamp"]:'';
-        $nonce = isset($_GET["nonce"])?$_GET["nonce"]:'';	
+    $nonce = isset($_GET["nonce"])?$_GET["nonce"]:'';	
         		
 		$token = $this->token;
 		$tmpArr = array($token, $timestamp, $nonce);
@@ -490,7 +502,7 @@ function get_data(){
 		$tmp_msg->msg=get_post_meta($p->ID,'_content',TRUE);
 		$tmp_msg->phmsg=$phmsg_group;
 		
-		//recent
+		//response source
 		$tmp_msg->remsg=array(
 			                  "type"=>get_post_meta($p->ID,'_re_type',TRUE),
 			                  "cate"=>get_post_meta($p->ID,'_re_cate',TRUE),

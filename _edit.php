@@ -117,7 +117,7 @@ if(isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])){
 		add_post_meta($current_id, '_phmsg_item',json_encode($_phmsg_item));
 	}
 	
-  //recent
+  //response source
   if(isset($_POST['re_type'])){
 		update_post_meta($current_id, '_re_type',$_POST['re_type']);
 	}
@@ -235,42 +235,35 @@ $type_options=array(
 				'search' =>__("Search Keyword","WPWSL")
 				);
 
+if($type=="recently"){
+  $type = "recent";
+}
 
 switch($type){
 	case "news":
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:block"';
 		$display_resp_remsg='style="display:none"';
-    $display_resp_randmsg='style="display:none"';
-		$display_resp_shmsg='style="display:none"';
 	break;
 	case "recent":
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:none"';
 		$display_resp_remsg='style="display:block"';
-    $display_resp_randmsg='style="display:none"';
-		$display_resp_shmsg='style="display:none"';
 	break;
 	case "random":
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:none"';
-		$display_resp_remsg='style="display:none"';
-    $display_resp_randmsg='style="display:block"';
-		$display_resp_shmsg='style="display:none"';
+		$display_resp_remsg='style="display:block"';
 	break;
 	case "search":
 		$display_resp_msg='style="display:none"';
 		$display_resp_phmsg='style="display:none"';
-		$display_resp_remsg='style="display:none"';
-    $display_resp_randmsg='style="display:none"';
-		$display_resp_shmsg='style="display:block"';
+		$display_resp_remsg='style="display:block"';
 	break;
 	default:
 	  $display_resp_msg='style="display:block"';
 		$display_resp_phmsg='style="display:none"';
 		$display_resp_remsg='style="display:none"';
-    $display_resp_randmsg='style="display:none"';
-		$display_resp_shmsg='style="display:none"';
 }
 
 //switch status
@@ -435,24 +428,47 @@ require_once( 'content.php' );
 							<div id="phmsg-group"></div>
 							<?php echo $content['tips_phmsg'];?>
 							<div class="add-phmsg">
-								<a href="#" class="button button-large" id="add-phmsg-btn"><?php _e('+ Add More Sub Message','WPWSL');?></a>
+								<a href="#" class="button button-large" id="add-phmsg-btn">
+                  <?php _e('+ Add More Sub Message','WPWSL');?>
+                </a>
 							</div>
 						</div>
+
 						<div id="resp_remsg" <?php echo $display_resp_remsg;?>>
 							<hr>
-							<h3><?php _e('Recent messages','WPWSL');?></h3>
+							<h3 class="resp_remsg_recent">
+                <?php _e('Recent messages','WPWSL');?>
+              </h3>
+							<h3 class="resp_remsg_random">
+                <?php _e('Random messages','WPWSL');?>
+              </h3>
+							<h3 class="resp_remsg_search">
+                <?php _e('Search Keyword','WPWSL');?>
+              </h3>
 							<div class="msg-box">
 								<table class="form-table">
 								    <tr valign="top">
-								    	<th scope="row"><label><?php _e('Illustration','WPWSL');?></label></th>
+								    	<th scope="row">
+                        <label><?php _e('Description','WPWSL');?></label>
+                      </th>
 									    <td>
-									    <?php _e('According to the options, automatic return to a post or page newly added.','WPWSL');?>
+                        <p class="resp_remsg_recent">
+									        <?php _e('According to the options, automatic return to a post or page newly added.','WPWSL');?>
+                        </p>
+                        <p class="resp_remsg_random">
+                          <?php _e('Automatic reply random results while trigger this response.','WPWSL');?>
+                        </p>
+                        <p class="resp_remsg_search">
+                          <?php _e('Automatic reply search results while trigger this response. Must set trigger by Default.','WPWSL');?>
+                        </p>
 									    </td>
 								    </tr>
 								    <tr valign="top">
-								    	<th scope="row"><label><?php _e('Type','WPWSL');?></label></th>
+								    	<th scope="row">
+                        <label><?php _e('Type','WPWSL');?></label>
+                      </th>
 									    <td>
-									     <select name="re_type" id="re_type_select">
+									      <select name="re_type" id="re_type_select">
 									    <?php 
 									    foreach($_re_types as $key=>$val):?>
 						        		<?php $selected=($key==$_re_type)?'selected':'';?>
@@ -462,7 +478,9 @@ require_once( 'content.php' );
 									    </td>
 								    </tr>
 								    <tr valign="top" <?php if($_re_cate_show):?>style="display:none;"<?php endif; ?> id="re_cate_tr">
-								    	<th scope="row"><label><?php _e('Category','WPWSL');?></label></th>
+								    	<th scope="row">
+                        <label><?php _e('Category','WPWSL');?></label>
+                      </th>
 									    <td>
 									    <select name="re_cate">
 									    <?php 
@@ -489,57 +507,7 @@ require_once( 'content.php' );
 								</table>
 							</div>
 						</div>
-						<div id="resp_shmsg" <?php echo $display_resp_shmsg;?>>
-							<hr>
-							<h3><?php _e('Search Keyword','WPWSL');?></h3>
-							<div class="msg-box">
-							    <table class="form-table">
-								    <tr valign="top">
-								    	<th scope="row"><label><?php _e('Illustration','WPWSL');?></label></th>
-									    <td>
-									    <?php _e('Automatic reply search results while trigger this response. Must set trigger by Default.','WPWSL');?>
-									    </td>
-								    </tr>
-								    <tr valign="top">
-								    	<th scope="row"><label><?php _e('Type','WPWSL');?></label></th>
-									    <td>
-									     <select name="sh_type" id="sh_type_select">
-									    <?php 
-									    foreach($_re_types as $key=>$val):?>
-						        		<?php $selected=($key==$_re_type)?'selected':'';?>
-						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val->labels->name ;?></option>
-						        		<?php endforeach;?>
-									    </select>
-									    </td>
-								    </tr>
-								    <tr valign="top" <?php if($_re_cate_show):?>style="display:none;"<?php endif; ?> id="sh_cate_tr">
-								    	<th scope="row"><label><?php _e('Category','WPWSL');?></label></th>
-									    <td>
-									    <select name="sh_cate">
-									    <?php 
-									    foreach($_re_cates as $val):?>
-						        		<?php $selected=($val->term_id==$_re_cate)?'selected':'';?>
-						        		<option value="<?php echo $val->term_id;?>" <?php echo $selected;?>><?php echo $val->cat_name ;?></option>
-						        		<?php endforeach;?>	
-									    </select>
-									    </td>
-								    </tr>
-								    <tr valign="top">
-								    	<th scope="row"><label><?php _e($_re_count_label);?></label></th>
-									    <td>
-									    <select name="sh_count">
-									    <?php 
-									    $_re_counts = array("1"=>1,"2"=>2,"3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10);
-									    foreach($_re_counts as $key=>$val):?>
-						        		<?php $selected=($key==$_re_count)?'selected':'';?>
-						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val ;?></option>
-						        		<?php endforeach;?>	
-									    </select>
-									    </td>
-								    </tr>
-								</table>
-							</div>
-						</div>
+
 					<hr>
 					<div class="func-submit">
 						<?php submit_button(__('Save and exit','WPWSL'),'primary','submit-save-exit', false); ?>&nbsp;&nbsp;
@@ -567,58 +535,63 @@ require_once( 'content.php' );
 var limit_phmsg=9;
 var count_phmsg=0;
 jQuery(document).ready(function ($) {
-    var $cur_trigger_way = $(".trigger-way:checked").attr("id");;
+  var test_msg_type = function(){
+		var val = $('#msg_type').val();
+		switch(val){
+			case 'text':
+				$('#resp_msg').show();
+				$('#resp_phmsg').hide();
+				$('#resp_remsg').hide();
+			break;
+			case 'news':
+				$('#resp_msg').hide();
+				$('#resp_phmsg').show();
+				$('#resp_remsg').hide();
+			break;
+			case 'recent':
+				$('#resp_msg').hide();
+				$('#resp_phmsg').hide();
+				$('#resp_remsg').show();
+        $('.resp_remsg_recent').show();
+        $('.resp_remsg_random').hide();
+				$('.resp_remsg_search').hide();
+			break;
+			case 'random':
+				$('#resp_msg').hide();
+				$('#resp_phmsg').hide();
+				$('#resp_remsg').show();
+        $('.resp_remsg_recent').hide();
+        $('.resp_remsg_random').show();
+				$('.resp_remsg_search').hide();
+			break;
+			case 'search':
+		    $('#resp_msg').hide();
+		    $('#resp_phmsg').hide();
+		    $('#resp_remsg').show();
+        $('.resp_remsg_recent').hide();
+        $('.resp_remsg_random').hide();
+				$('.resp_remsg_search').show();
+        
+			  $('.trigger-way').removeAttr("checked")
+        .attr("disabled","disabled");
+        
+        $("#trigger-way-default").attr("checked","checked")
+        .removeAttr("disabled");
+
+			break;
+		}
+		if(val!='search'){
+      $('.trigger-way').removeAttr("disabled");
+			$("#"+$cur_trigger_way).click();
+	  }
+  }
+  
+  test_msg_type();
+  
+  var $cur_trigger_way = $(".trigger-way:checked").attr("id");;
 	if($('#msg_type').length>0){
 		$('#msg_type').change(function(){
-			var val = $('#msg_type').val();
-			switch(val){
-				case 'text':
-					$('#resp_msg').show();
-					$('#resp_phmsg').hide();
-					$('#resp_remsg').hide();
-          $('#resp_randmsg').hide();
-					$('#resp_shmsg').hide();
-				break;
-				case 'news':
-					$('#resp_msg').hide();
-					$('#resp_phmsg').show();
-					$('#resp_remsg').hide();
-          $('#resp_randmsg').hide();
-					$('#resp_shmsg').hide();
-				break;
-				case 'recent':
-					$('#resp_msg').hide();
-					$('#resp_phmsg').hide();
-					$('#resp_remsg').show();
-          $('#resp_randmsg').hide();
-					$('#resp_shmsg').hide();
-				break;
-  			case 'random':
-  				$('#resp_msg').hide();
-  				$('#resp_phmsg').hide();
-  				$('#resp_remsg').hide();
-          $('#resp_randmsg').show();
-  				$('#resp_shmsg').hide();
-  			break;
-  			case 'search':
-  			    $('#resp_msg').hide();
-  			    $('#resp_phmsg').hide();
-  			    $('#resp_remsg').hide();
-            $('#resp_randmsg').hide();
-  			    $('#resp_shmsg').show();
-            
-  				  $('.trigger-way').removeAttr("checked")
-            .attr("disabled","disabled");
-            
-            $("#trigger-way-default").attr("checked","checked")
-            .removeAttr("disabled");
-
-  			break;
-			}
-			if(val!='search'){
-        $('.trigger-way').removeAttr("disabled");
-				$("#"+$cur_trigger_way).click();
-		  }
+			test_msg_type();
 		});
 	}
   
@@ -907,7 +880,7 @@ jQuery(document).ready(function ($) {
      ***************/
      $("#rand_type_select").change(function(){
         var val = $(this).attr("value");
-        var $tr = $("#re_cate_tr");
+        var $tr = $("#rand_cate_tr");
         switch(val){
         	case "post": $tr.show();break;
         	default    : $tr.hide();
