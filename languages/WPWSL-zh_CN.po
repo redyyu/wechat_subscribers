@@ -9,7 +9,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 # WeChat Subscribers Lite
@@ -101,20 +101,19 @@ msgstr "触发"
 
 #: _edit.php:235
 msgid ""
-"Subscribers enter keywords to reply with this message. Multiple keywords "
-"separate by &quot;,&quot; . etc., &quot;Hi,one,food,168&quot;. Keywords is "
-"only plain text with out space, and not case sensitive."
+"Subscribers enter keywords to reply with this message. Multiple keywords separate by &quot;,"
+"&quot; . etc., &quot;Hi,one,food,168&quot;. Keywords is only plain text with out space, and "
+"not case sensitive."
 msgstr ""
-"订阅者输入打关键字如果和这个设置的关键字匹配，那么将自动回复这条消息。允许设"
-"置多个关键字，每个关键字用 “, ”逗号分开，例如 “Hi,1,吃的 ”。关键字只能是单个"
-"的字或词，中间没有空格，不对大小写敏感。"
+"订阅者输入打关键字如果和这个设置的关键字匹配，那么将自动回复这条消息。允许设置多个关键字，每个"
+"关键字用 “, ”逗号分开，例如 “Hi,1,吃的 ”。关键字只能是单个的字或词，中间没有空格，不对大小写敏"
+"感。"
 
 #: _edit.php:245
 msgid ""
-"You can set this message trigger by special condition, special trigger is "
-"higher priority than keywords."
-msgstr ""
-"除了通过关键字，还能使用其他条件触发这条消息，特殊触发的优先级比关键字更高。"
+"You can set this message trigger by special condition, special trigger is higher priority "
+"than keywords."
+msgstr "除了通过关键字，还能使用其他条件触发这条消息，特殊触发的优先级比关键字更高。"
 
 #: _edit.php:247
 msgid "&quot;Normal&quot;: Trigger by keyword."
@@ -138,11 +137,10 @@ msgstr "发布这个消息吗？"
 
 #: _edit.php:260
 msgid ""
-"Check &quot;Publish&quot; to activate this message, otherwise deactivate as "
-"&quot;Draft&quot;."
+"Check &quot;Publish&quot; to activate this message, otherwise deactivate as &quot;Draft&quot;."
 msgstr ""
-"勾上“发布”就会激活这条回复消息，否则的话他会被保存成为一个“草稿”，草稿不会响"
-"应订阅者的任何操作。"
+"勾上“发布”就会激活这条回复消息，否则的话他会被保存成为一个“草稿”，草稿不会响应订阅者的任何操"
+"作。"
 
 #: _edit.php:264
 msgid "Type"
@@ -195,15 +193,13 @@ msgstr "给这条消息添加一个配图"
 
 #: _edit.php:326
 msgid "Description"
-msgstr "消息简述"
+msgstr "简述"
 
 #: _edit.php:330
 msgid ""
-"Leave it empty if you wont have description of this message. Only plain "
-"text, without any script."
-msgstr ""
-"如果你不希望出现消息简述，那么只要在这里留空。只能是纯文字，不能带任何脚本语"
-"言。"
+"Leave it empty if you wont have description of this message. Only plain text, without any "
+"script."
+msgstr "如果你不希望出现消息简述，那么只要在这里留空。只能是纯文字，不能带任何脚本语言。"
 
 #: _edit.php:335
 msgid "URL"
@@ -257,10 +253,6 @@ msgstr "最近消息"
 msgid "Random messages"
 msgstr "随机消息"
 
-#: _edit.php:411
-msgid "Description"
-msgstr "说明"
-
 #: _edit.php:413
 msgid "According to the options, automatic return to a post or page newly added."
 msgstr "根据选项，自动返回最新添加的文章或页面."
@@ -272,6 +264,10 @@ msgstr "数量"
 #: _edit.php:
 msgid "Insert Content"
 msgstr "插入内容"
+
+#: _edit.php:
+msgid "All types"
+msgstr "所有类型"
 
 #: _edit.php:233
 msgid "Search Keyword"
@@ -387,18 +383,17 @@ msgstr "账号设置"
 
 #: _settings.php:34
 msgid ""
-"Access verification for your WeChat public platform. Only Latin letter, "
-"number, dash and underscore. 30 character limited."
+"Access verification for your WeChat public platform. Only Latin letter, number, dash and "
+"underscore. 30 character limited."
 msgstr ""
-"提供给微信公众平台校验获取账号许可。只能是英文字母、数字、下划线、中划线，不"
-"允许使用任何汉字或者全脚符号。最多允许30个字符。"
+"提供给微信公众平台校验获取账号许可。只能是英文字母、数字、下划线、中划线，不允许使用任何汉字或"
+"者全脚符号。最多允许30个字符。"
 
 #: _settings.php:41
 msgid ""
-"First input a TOKEN above and save the settings, then &quot;Copy&quot; and "
-"&quot;Bind&quot; this URL to WeChat Platform."
-msgstr ""
-"首先设置好上面的TOKEN，保存设置以后使用这个URL绑定到你的微信公众平台订阅号。"
+"First input a TOKEN above and save the settings, then &quot;Copy&quot; and &quot;Bind&quot; "
+"this URL to WeChat Platform."
+msgstr "首先设置好上面的TOKEN，保存设置以后使用这个URL绑定到你的微信公众平台订阅号。"
 
 #: _keywords.php:34
 msgid "Yes"

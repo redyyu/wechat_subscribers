@@ -4,8 +4,8 @@ Contributors: redyyu, Gu Yue
 Tags: weixin,wechat,微信,subscribers,微信公众平台,wx,订阅号
 Donate link: http://www.imredy.com/wp_wechat/
 Requires at least: 3.7
-Tested up to: 3.9.1
-Stable tag: 3.9.1
+Tested up to: 4.1.1
+Stable tag: 4.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,18 +13,18 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 =汉语=
 
-新版本最大的更新是支持了“可选关键字搜索模式（需默认触发）”，“同步文章内容”（支持图文和文字消息），“自动回复最新内容”（仅支持图文消息模式），“消息历史记录”，此版本由苦工－古月，担任全部php开发工作。
+新版本增加了回复“随机文章”，并修正了关键字搜索的设置。
 
 如果发现任何bug或者有什么新功能需求，欢迎朝我发送电子邮件。<a href="mailto:redy.ru@gmail.com">redy.ru@gmail.com</a>
 
-这是一个简单通用的微信(weixin)公众平台订阅号专用插件。现在这个版本的插件只支持普通订阅号，任何人只要以个人身份免费注册微信公众平台就可以足以使用这个插件的全部功能，不需要专门为了这个插件去付费获得(weixin)公众号认证。
+这是一个简单通用的微信(weixin)公众平台订阅号专用插件。现在这个版本的插件只支持普通订阅号，任何人只要以个人身份免费注册微信公众平台就可以足以使用这个插件的全部功能。
 
 这个插件将永久免费：）
 
 特色：
 
 1. 可设定默认回复为搜索关键字结果；
-2. 可根据类型（Post-type）设定自动回复最新文章；
+2. 可根据类型（Post-type）设定自动回复最新文章、随机文章、搜索结果等；
 3. 可选择某篇文章内容，并将它同步到自动回复中；
 4. 便捷管理多种weixin消息模版，可随时切换，数量不限；
 5. 无需安装任何其他程序，完全使用Wordpress原生支持；
@@ -36,23 +36,17 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 访问插件主页获得更多帮助: <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a>.
 
-***增加了一个作弊文件，用来解决一些服务器无法通过token验证的问题***
+*** 使用作弊方法来解决一些服务器无法通过token验证的问题 ***
 
-使用方法：先按照攻略所说的步骤来，插件中设定好token，然后得到用于接受消息的url，带着这个token和url跑去微信的官方管理后台绑定，要是怎么搞都是无法验证通过，那么请你死马当活马医，把wordpress根目录中的index.php备份了，接着把插件包中的__wechatsucks__.php这文件改名成index.php，复制到wordpress根目录下。
+先按照攻略所说的步骤来，插件中设定好token，然后得到用于接受消息的url，带着这个token和url跑去微信的官方管理后台绑定，要是怎么搞都是无法验证通过，那么请你死马当活马医，把wordpress根目录中的index.php备份了，接着把插件包中的__wechatsucks__.php这文件改名成index.php，复制到wordpress根目录下。
 
 这时候，再跑去验证试试看，还是用刚才的token和url，不是十分倒霉的话，这时候应该已经验证通过了。把那个假的index.php删掉，恢复之前备份的那个index.php。
 
-搞这个需要一定的技术常识，不会的话找个懂事儿的去弄。（如果这样都不行，那么不是你的服务器和微信不合，就是微信和你的服务器不合。换供应商是唯一的途径了。）
+搞这个需要一定的技术常识，不会的话找个懂事儿的去弄。（如果这样都不行，那么就只能换别的插件，或者别的服务器供应商试试看了。）
 
 ———————————————————————
 
 =English=
-
-***Fix token can’t valid problem***
-
-First you have to follow the regular steps to setup this plugin, After you meet the problem can’t valid your token or time out… I provider a crack file __wechatsucks__.php, try use it to replace wordpres’s index.php temporary, and try to valid again. Good luck!
-
-———————————————————————
 
 New version support “Response by keyword search”,“synchronous Article contents" (supporting news and text messages), "Automatic Replies Recently Post” (news only), "Message History”, This release is develop by GuYue.
 
@@ -62,12 +56,20 @@ Features:
 
 1. Absolutely no need any other framework to install. 
 2. Easy to manage multiple weixin message template.
-3. Multiple message type, default reply message, trigger by keywords and new weixin subscriber join in. you can switch thier types any time.
-4. Automatic check keywords conflict.
-5. Free to set message type any time. both text message , graphic news message and recent news message.
-6. Use native wordpress media manage tool to upload pitcures.
+3. Set automatic response by "Search keyword", "Recent messages" and "Random messages".
+4. Multiple message type, default reply message, trigger by keywords and new weixin subscriber join in. you can switch thier types any time.
+5. Automatic check keywords conflict.
+6. Free to set message type any time. both text message , graphic news message and recent news message.
+7. Use native wordpress media manage tool to upload pitcures.
 
 Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a>.
+
+
+*** Fix token can’t valid problem ***
+
+First you have to follow the regular steps to setup this plugin, After you meet the problem can’t valid your token or time out… I provider a crack file __wechatsucks__.php, try use it to replace wordpres’s index.php temporary, and try to valid again. Good luck!
+
+———————————————————————
 
 
 == Installation ==
@@ -111,6 +113,11 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 
 == Changelog ==
 =汉语=
+
+2015年2月25日 更新到 1.60
+
+1. 增加了回复“随机文章”
+2. 修正了关键字搜索的设置
 
 2014年9月28日 更新到 1.58
 
@@ -168,6 +175,11 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. 修正了设置TOKEN时候可能误输入奇葩字符导致接口URL错误的问题。
 
 =English=
+
+2015 February 25 Update to 1.60
+
+1. Add "Random messages".
+2. Fixed "Search keyword" settings problem.
 
 2014 September 28 Update to 1.58
 
@@ -227,6 +239,8 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. Fix strange symbol in 'token' will mass up interface url.
 
 == Upgrade Notice ==
+Update to 1.60
+Update to 1.58
 Update to 1.57
 Update to 1.56
 Update to 1.55

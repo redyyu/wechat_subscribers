@@ -191,18 +191,23 @@ class wechatCallbackapi{
 			return '';
 		}
 	
-        $textTpl = "<xml>
-					<ToUserName><![CDATA[%s]]></ToUserName>
-					<FromUserName><![CDATA[%s]]></FromUserName>
-					<CreateTime>%s</CreateTime>
-					<MsgType><![CDATA[%s]]></MsgType>
-					<Content><![CDATA[%s]]></Content>
-					<FuncFlag>0</FuncFlag>
-					</xml>";
+    $textTpl = "<xml>
+          			<ToUserName><![CDATA[%s]]></ToUserName>
+          			<FromUserName><![CDATA[%s]]></FromUserName>
+          			<CreateTime>%s</CreateTime>
+          			<MsgType><![CDATA[%s]]></MsgType>
+          			<Content><![CDATA[%s]]></Content>
+          			<FuncFlag>0</FuncFlag>
+          			</xml>";
 
 		$msgType = "text";
 		$time = time();
-		$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentData);
+		$resultStr = sprintf($textTpl,
+                         $fromUsername,
+                         $toUsername,
+                         $time,
+                         $msgType,
+                         $contentData);
 		return $resultStr;
 	}	
 
@@ -211,18 +216,19 @@ class wechatCallbackapi{
 			return '';
 		}
 		
-        $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
-			        <FromUserName><![CDATA[%s]]></FromUserName>
-			        <CreateTime>%s</CreateTime>
-			        <MsgType><![CDATA[%s]]></MsgType>
-			        <ArticleCount>%s</ArticleCount>";
+    $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
+        	        <FromUserName><![CDATA[%s]]></FromUserName>
+        	        <CreateTime>%s</CreateTime>
+        	        <MsgType><![CDATA[%s]]></MsgType>
+        	        <ArticleCount>%s</ArticleCount>";
 			        
 		$itemTpl=  "<item>
-					<Title><![CDATA[%s]]></Title> 
-					<Description><![CDATA[%s]]></Description>
-					<PicUrl><![CDATA[%s]]></PicUrl>
-					<Url><![CDATA[%s]]></Url>
-					</item>";
+      					<Title><![CDATA[%s]]></Title> 
+      					<Description><![CDATA[%s]]></Description>
+      					<PicUrl><![CDATA[%s]]></PicUrl>
+      					<Url><![CDATA[%s]]></Url>
+      					</item>";
+          
 		$itemStr="";
 		$mediaCount=0;
 		foreach ($contentData as $mediaObject){
@@ -332,26 +338,26 @@ class wechatCallbackapi{
   	$rimg = WPWSL_PLUGIN_URL."/img/".$imageSize.".png";;
   	if($type=="attachment"){
   	   $tmp_img_obj= wp_get_attachment_image_src($post_id,$imageSize);
-         $rimg = $tmp_img_obj[0];
+       $rimg = $tmp_img_obj[0];
   	}else{
     	if(get_the_post_thumbnail($post_id)!=''){
         $_tmp_id = get_post_thumbnail_id($post_id);
         $tmp_img_obj=wp_get_attachment_image_src($_tmp_id, 
                                                  $imageSize);
         $rimg = $tmp_img_obj[0];
-		}else{
-			$attachments = get_posts( array(
-				'post_type' => 'attachment',
-				'posts_per_page' => -1,
-				'post_parent' => $post_id,
-				'exclude'     => get_post_thumbnail_id($post_id)
-			));
-			if(count($attachments)>0){
-			  $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,
-                                                 $imageSize);
-				$rimg=$tmp_img_obj[0];
-			}
-		}	
+  		}else{
+  			$attachments = get_posts( array(
+  				'post_type' => 'attachment',
+  				'posts_per_page' => -1,
+  				'post_parent' => $post_id,
+  				'exclude'     => get_post_thumbnail_id($post_id)
+  			));
+  			if(count($attachments)>0){
+  			  $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,
+                                                   $imageSize);
+  				$rimg=$tmp_img_obj[0];
+  			}
+  		}
   	}
   	if(trim($post_excerpt)!=""){
       $text = trim_words($post_excerpt,SYNC_EXCERPT_LIMIT);
@@ -376,15 +382,16 @@ class wechatCallbackapi{
         					<PicUrl><![CDATA[%s]]></PicUrl>
         					<Url><![CDATA[%s]]></Url>
         					</item>";
+
   		$itemStr="";
   		$mediaCount=0;
   		$i=1;
   		foreach ($posts as $mediaObject){
-  		    $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
-                                                  $mediaObject->post_content,
-                                                  $i,
-                                                  $contentData['type'],
-                                                  $mediaObject->post_excerpt);
+  		  $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
+                                                $mediaObject->post_content,
+                                                $i,
+                                                $contentData['type'],
+                                                $mediaObject->post_excerpt);
 
   			$title = trim_words($mediaObject->post_title,SYNC_TITLE_LIMIT);
   			$des  = $src_and_text['text'];  // strip_tags or not
