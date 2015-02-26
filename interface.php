@@ -54,29 +54,31 @@ class wechatCallbackapi{
 	    }
 	}
 
-    public function responseMsg($_data=null){
-    	if($_data!=null){
-    		$this->load($_data);
-    	}
+  public function responseMsg($_data=null){
+  	if($_data!=null){
+  		$this->load($_data);
+  	}
     	
 		//get post data, May be due to the different environments
 		if(IS_DEBUG){
 			$postStr="<xml>
-						<ToUserName><![CDATA[toUser]]></ToUserName>
-						<FromUserName><![CDATA[fromUser]]></FromUserName> 
-						<CreateTime>1348831860</CreateTime>
-						<MsgType><![CDATA[text]]></MsgType>
-						<Content><![CDATA[testsearch]]></Content>
-						<MsgId>1234567890123456</MsgId>
-						</xml>";
+    						<ToUserName><![CDATA[toUser]]></ToUserName>
+    						<FromUserName><![CDATA[fromUser]]></FromUserName> 
+    						<CreateTime>1348831860</CreateTime>
+    						<MsgType><![CDATA[text]]></MsgType>
+    						<Content><![CDATA[testsearch]]></Content>
+    						<MsgId>1234567890123456</MsgId>
+    						</xml>";
 		}else{
 			$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 		}
-		
-      	//extract post data
+
+    //extract post data
 		if (!empty($postStr) && $this->checkSignature() && isset($this->data)){
                 
-              	$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $postObj = simplexml_load_string($postStr,
+                                         'SimpleXMLElement',
+                                         LIBXML_NOCDATA);
 				$msgType=$postObj->MsgType;
 
 				if($msgType=='event'){
@@ -84,21 +86,25 @@ class wechatCallbackapi{
 				}else{
 					$msg=$this->sendAutoReply($postObj);
 				}
+        
 				echo $msg;
+        
         }else {
         	echo "";
         	exit;
         }
     }
 	private function saveKeyWord($fromUsername,$keyword,$match){
-        $messageRow = array("openid"=>$fromUsername,"keyword"=>$keyword,"is_match"=>$match,"time"=>current_time("Y-m-d H:i:s",0));
-        global $wpdb;
+    $messageRow = array("openid"=>$fromUsername,
+                        "keyword"=>$keyword,
+                        "is_match"=>$match,
+                        "time"=>current_time("Y-m-d H:i:s",0));
+    global $wpdb;
 		$rows_affected = $wpdb->insert(DB_TABLE_WPWSL_HISTORY,$messageRow);
 	}
 
 
 	private function sendAutoReply($postObj){
-
     $fromUsername = $postObj->FromUserName;
     $toUsername = $postObj->ToUserName;
     $keyword = trim($postObj->Content);
@@ -141,8 +147,8 @@ class wechatCallbackapi{
 
 	private function eventRespon($postObj){
 		
-        $fromUsername = $postObj->FromUserName;
-        $toUsername = $postObj->ToUserName;
+    $fromUsername = $postObj->FromUserName;
+    $toUsername = $postObj->ToUserName;
 		$eventType=$postObj->Event;
 		$resultStr='';
 		
@@ -168,15 +174,17 @@ class wechatCallbackapi{
 			case "news":
 				$resultStr = $this->sendPhMsg($fromUsername, $toUsername, $d->phmsg);
 			break;
-			case "recent": 
-			  $resultStr = $this->sendReMsg($fromUsername, $toUsername, $d->remsg);
+			case "recent":
+  		  $messages = $this->getRecentlyPosts($d->remsg);
+        $resultStr = $this->sendMsgBase($fromUsername, $toUsername, $messages);
+      break;
     	case "random": 
-    		$resultStr = $this->sendRandMsg($fromUsername,
-                                        $toUsername,
-                                        $d->remsg);
+        $messages = $this->getRandomPosts($d->remsg);
+        $resultStr = $this->sendMsgBase($fromUsername, $toUsername, $messages);
 			break;
 			case "search":
-			  $resultStr = $this->sendShMsg($fromUsername, $toUsername, $d->key[0]); 
+        $messages = $this->getSearchPosts($d->key[0], $d->remsg);
+    		$resultStr = $this->sendMsgBase($fromUsername, $toUsername, $messages);
 			break;
 			default: //text
 				$resultStr = $this->sendMsg($fromUsername, $toUsername, $d->msg);
@@ -368,8 +376,8 @@ class wechatCallbackapi{
     return $result;
   }
   
-  private function sendMsgBase($fromUsername, $toUsername, $posts){
-    if(count($posts)>0){
+  private function sendMsgBase($fromUsername, $toUsername, $messages){
+    if(count($messages)>0){
       $headerTpl = "<ToUserName><![CDATA[%s]]></ToUserName>
       			        <FromUserName><![CDATA[%s]]></FromUserName>
       			        <CreateTime>%s</CreateTime>
@@ -386,7 +394,7 @@ class wechatCallbackapi{
   		$itemStr="";
   		$mediaCount=0;
   		$i=1;
-  		foreach ($posts as $mediaObject){
+  		foreach ($messages as $mediaObject){
   		  $src_and_text = $this->getImgsSrcInPost($mediaObject->ID,
                                                 $mediaObject->post_content,
                                                 $i,
@@ -397,9 +405,9 @@ class wechatCallbackapi{
   			$des  = $src_and_text['text'];  // strip_tags or not
   			$media = $this->parseurl($src_and_text['src']);
         if ($contentData['type']=="attachment"){
-          $url = home_url('/?attachment_id='.$mediaObject->ID)
+          $url = home_url('/?attachment_id='.$mediaObject->ID);
         }else{
-          $url = html_entity_decode($mediaObject->guid);
+          $url = html_entity_decode(get_permalink($mediaObject->ID));
         }
 
   			$itemStr .= sprintf($itemTpl, $title, $des, $media, $url);
@@ -440,25 +448,7 @@ class wechatCallbackapi{
     }
     return $resultStr;
   }
-  
-	private function sendReMsg($fromUsername, $toUsername, $contentData){
-		$posts = $this->getRecentlyPosts($contentData);
-    $resultStr = $this->sendMsgBase($fromUsername, $toUsername, $posts);
-		return $resultStr;
-	}
-	
-	private function sendRandMsg($fromUsername, $toUsername){
-    $posts = $this->getRandomPosts($contentData);
-		$resultStr = $this->sendMsgBase($fromUsername, $toUsername, $posts);
-		return $resultStr;
-	}
-  
-	private function sendShMsg($fromUsername, $toUsername, $keyword){
-    $posts = $this->getSearchPosts($keyword, $contentData);
-		$resultStr = $this->sendMsgBase($fromUsername, $toUsername, $posts);
-		return $resultStr;
-	}
-	
+
 	private function checkSignature(){
 		if(IS_DEBUG){
 			return true;
@@ -491,10 +481,11 @@ function get_data(){
 	);
 	
 	$raw=get_posts($args);
-	
+
 	$data = array();
 	
 	foreach($raw as $p){
+
 		$_gp=get_post_meta($p->ID,'_phmsg_item');
 		$phmsg_group=array();
 		
@@ -527,10 +518,9 @@ function get_data(){
 			                  "cate"=>get_post_meta($p->ID,'_re_cate',TRUE),
 			                  "count"=>get_post_meta($p->ID,'_re_count',TRUE)
 			                  );
-	
-		$data[]=$tmp_msg;
+
+    $data[]=$tmp_msg;
 	}
-	
 	return $data;
 }
 ?>
