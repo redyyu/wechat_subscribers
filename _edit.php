@@ -807,14 +807,20 @@ jQuery(document).ready(function ($) {
        	if(d = JSON.parse(d)){
        	   if(d.status="success"){
        	   	  if(data.rtype=="phmsg"){
-       	   	  var $container = $("#"+tid);	
-              if(d.data.pic!="none"){
-              if(d.data.pic) $container.find(".preview-box img").attr("src",d.data.pic);
-              }
-       	   	  $container.find("input[name='title[]']").val(d.data.post_title);
-       	   	  $container.find("input[name='pic[]']").val(d.data.pic);
-       	   	  $container.find("input[name='des[]']").val(d.data.post_content);
-       	   	  $container.find("input[name='url[]']").val(d.data.guid);
+                var $container = $("#"+tid);	
+                if(d.data.pic && d.data.pic!="none"){
+                  $container.find(".preview-box img").attr("src",d.data.pic);
+                }
+         	   	  $container.find("input[name='title[]']")
+                .val(d.data.post_title);
+         	   	  
+                $container.find("input[name='pic[]']")
+                .val(d.data.pic);
+                
+         	   	  $container.find("input[name='des[]']")
+                .val(d.data.post_content);
+
+         	   	  $container.find("input[name='url[]']").val(d.data.url);
        	   	  }else{
        	   	   $("#"+tid).val(d.data);
        	   	  }

@@ -166,16 +166,18 @@ function prefix_ajax_add_foobar(){
 add_action( 'wp_ajax_get_insert_content', 'prefix_ajax_get_insert_content' );
 function prefix_ajax_get_insert_content(){
 	if($_GET['rtype']=='posts'){
-	        $myrow = get_post($_GET['postid']);
-	        $post_categories  =  wp_get_post_categories($myrow->ID);
-	    	$cats = '';
+      $myrow = get_post($_GET['postid']);
+      $post_categories  =  wp_get_post_categories($myrow->ID);
+	    $cats = '';
+      
 			foreach($post_categories as $c){
 				$cat = get_category($c);
 				$cats .= ','.$cat->name;
 			}
 			$cats = substr($cats,1);
-	        $text_title = trim_words($myrow->post_title,SYNC_TITLE_LIMIT);
-            $text_content = trim_words($myrow->post_content,SYNC_CONTENT_LIMIT);
+      $text_title = trim_words($myrow->post_title,SYNC_TITLE_LIMIT);
+      $text_content = trim_words($myrow->post_content,
+                                 SYNC_CONTENT_LIMIT);
 			$rpost = '#'
 			         .$text_title
 			         .'#'
@@ -196,50 +198,52 @@ function prefix_ajax_get_insert_content(){
 	      'data'  =>get_permalink($myrow->ID)
         );
 	}else if($_GET['rtype']=='phmsg'){
-		$imageSize = isset($_GET['imagesize'])&&$_GET['imagesize']=='small' ? 'sup_wechat_small':'sup_wechat_big';
+    if(isset($_GET['imagesize']) && $_GET['imagesize']=='small'){
+      $imageSize = 'sup_wechat_small';
+    }else{
+      $imageSize = 'sup_wechat_big';
+    }
+		
 		$myrow = get_post($_GET['postid']);
-	    $myrow->pic = WPWSL_PLUGIN_URL.'/img/'.$imageSize.'.png';
-	    if(get_the_post_thumbnail($_GET['postid'])!=''){
-	       $tmp_img_obj= wp_get_attachment_image_src(get_post_thumbnail_id($_GET['postid']), $imageSize);
-	       $myrow->pic = $tmp_img_obj[0];
-	    }else{
-	    	$attachments = get_posts( array(
-	    		'post_type' => 'attachment',
-	    		'posts_per_page' => -1,
-	    		'post_parent' => $_GET['postid'],
-	    		'exclude'     => get_post_thumbnail_id($_GET['postid'])
-	    	));
-	    	
-	    	if(count($attachments)>0){
-	    	    $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,$imageSize);
-	    		$myrow->pic=$tmp_img_obj[0];
-	    	}
-	    }
+	  $myrow->pic = WPWSL_PLUGIN_URL.'/img/'.$imageSize.'.png';
+    
+    if(get_the_post_thumbnail($_GET['postid'])!=''){
+      $_tmp_thumb_id = get_post_thumbnail_id($_GET['postid']);
+      $tmp_img_obj= wp_get_attachment_image_src($_tmp_thumb_id,
+                                                $imageSize);
+      $myrow->pic = $tmp_img_obj[0];
+    }else{
+    	$attachments = get_posts( array(
+    		'post_type' => 'attachment',
+    		'posts_per_page' => -1,
+    		'post_parent' => $_GET['postid'],
+    		'exclude'     => get_post_thumbnail_id($_GET['postid'])
+    	));
+    	
+    	if(count($attachments)>0){
+    	  $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,
+                                                 $imageSize);
+    		$myrow->pic=$tmp_img_obj[0];
+    	}
+    }
+    $myrow->post_title = trim_words($myrow->post_title,SYNC_TITLE_LIMIT);
 	    
-//	    $_tmp_title = mb_substr(strip_tags($myrow->post_title),0,SYNC_TITLE_LIMIT,DB_CHARSET);
-//	    $myrow->post_title = mb_strlen($myrow->post_title,DB_CHARSET)>SYNC_TITLE_LIMIT ? $_tmp_title."..." : $_tmp_title;
-//      $myrow->post_title=wp_trim_words(strip_tags($myrow->post_title),SYNC_TITLE_LIMIT,'...' );
-        $myrow->post_title = trim_words($myrow->post_title,SYNC_TITLE_LIMIT);
-	    
-	    if(trim($myrow->post_excerpt)!=''){
-//	        $_tmp_text = mb_substr(strip_tags($myrow->post_excerpt),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
-//	    	$myrow->post_content = mb_strlen($myrow->post_excerpt,DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
-//          $myrow->post_content = wp_trim_words(strip_tags($myrow->post_excerpt),SYNC_EXCERPT_LIMIT,'...' );
-            $myrow->post_content = trim_words($myrow->post_excerpt,SYNC_EXCERPT_LIMIT);
-	    }else{
-//	        $_tmp_text = mb_substr(strip_tags($myrow->post_content),0,SYNC_EXCERPT_LIMIT,DB_CHARSET);
-//	        $myrow->post_content = mb_strlen($myrow->post_content,DB_CHARSET)>SYNC_EXCERPT_LIMIT ? $_tmp_text."..." : $_tmp_text;
-	        $myrow->post_content = trim_words($myrow->post_content,SYNC_EXCERPT_LIMIT);
-	    }
-	    
-	    $r = array(
-	    	'status'=>'success',
-	        'data'  => $myrow
-	    	);   
+	  if(trim($myrow->post_excerpt)!=''){
+      $myrow->post_content = trim_words($myrow->post_excerpt,
+                                        SYNC_EXCERPT_LIMIT);
+	  }else{
+	    $myrow->post_content = trim_words($myrow->post_content,
+                                        SYNC_EXCERPT_LIMIT);
+	  }
+    $myrow->url = get_permalink($myrow->ID);
+    $r = array(
+    	    'status'=>'success',
+          'data'  => $myrow
+    	  );   
 	}else{
 		$r = array(
-				'status' => 'error',
-				'data'   => 'rtype error!'
+				  'status' => 'error',
+				  'data'   => 'rtype error!'
 				);
 	}
 	print(json_encode($r));
