@@ -181,7 +181,7 @@ function prefix_ajax_get_insert_content(){
 			         .'#'
 			         .$text_content
 			         .'['
-			         .$myrow->guid
+			         .get_permalink($myrow->ID)
 			         .']['
 			         .$myrow->post_date
 			         .']';
@@ -193,7 +193,7 @@ function prefix_ajax_get_insert_content(){
 	    $myrow = get_post($_GET['postid']);
 	    $r = array(
 	    	'status'=>'success',
-	        'data'  =>$myrow->guid
+	      'data'  =>get_permalink($myrow->ID)
         );
 	}else if($_GET['rtype']=='phmsg'){
 		$imageSize = isset($_GET['imagesize'])&&$_GET['imagesize']=='small' ? 'sup_wechat_small':'sup_wechat_big';
