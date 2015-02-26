@@ -2,9 +2,9 @@
 //Set ajax callback function
 add_action( 'wp_ajax_add_foobar', 'prefix_ajax_add_foobar' );
 function prefix_ajax_add_foobar(){
-        $targetID = $_GET['tid'];
-        $posts_per_page = 5;
-        $current = isset($_GET['cur'])?$_GET['cur']:1;
+    $targetID = $_GET['tid'];
+    $posts_per_page = 5;
+    $current = isset($_GET['cur'])?$_GET['cur']:1;
         
 		$offset = ($current-1)*$posts_per_page;
 		$post_type = isset($_GET['ptype']) ? $_GET['ptype'] : "post";
@@ -48,24 +48,25 @@ function prefix_ajax_add_foobar(){
 		
 		if(isset($_GET['catid'])&&$_GET['catid']!="default") $args['category'] = $_GET['catid'];
 		
-        if($published_posts%$posts_per_page==0)
-        $total = ((int)$published_posts/$posts_per_page);
-        else
-		$total = ((int)$published_posts/$posts_per_page)+1;
+    if($published_posts%$posts_per_page==0){
+      $total = ((int)$published_posts/$posts_per_page);
+    } else {
+		  $total = ((int)$published_posts/$posts_per_page)+1;
+    }
         
-        //get posts
-	    $typeORcate = __('Category','WPWSL');
-	    $searchKeyInput = '';
+    //get posts
+	  $typeORcate = __('Category','WPWSL');
+	  $searchKeyInput = '';
 		if(isset($_GET['key'])&&trim($_GET['key'])!=""){
-            $str = urldecode($_GET['key']);
-            $searchKeyInput = trim($_GET['key']);
-            $typeORcate = __('Type','WPWSL');
-            $start = $offset;
-            $end   = $offset+$posts_per_page;
-		    $posts_array = $wpdb->get_results("select ID,post_date,post_title,post_type from wp_posts where post_status = 'publish' and post_title LIKE '%{$str}%' order by post_title asc limit $start,$end");
+      $str = urldecode($_GET['key']);
+      $searchKeyInput = trim($_GET['key']);
+      $typeORcate = __('Type','WPWSL');
+      $start = $offset;
+      $end   = $offset+$posts_per_page;
+		  $posts_array = $wpdb->get_results("select ID,post_date,post_title,post_type from wp_posts where post_status = 'publish' and post_title LIKE '%{$str}%' order by post_title asc limit $start,$end");
             
 		}else{
-		    $posts_array = get_posts( $args );
+		  $posts_array = get_posts( $args );
 		}
 		$args_paginate = array(
 		'format'       => '#%#%',
@@ -78,31 +79,33 @@ function prefix_ajax_add_foobar(){
 		'prev_text'    => __('«'),
 		'next_text'    => __('»')
 		);
-     switch ($_GET['rtype']) {
-     	case 'posts':
-     		$button_value = __('Insert','WPWSL').'<span>'.__(' Content','WPWSL').'</span>';
-     		break;
-     	case 'urls':
-     		$button_value = __('Insert','WPWSL').'<span>'.__(' URL','WPWSL').'</span>';
-     		break;
-     	case 'phmsg':
-     		$button_value = __('Sync','WPWSL');
-     		break;
-     }
-     $args = array(
-		   'public'   => true,
-		   'show_ui'  =>true
-		);
+    switch ($_GET['rtype']) {
+      case 'posts':
+      	$button_value = __('Insert','WPWSL').'<span>'.__(' Content','WPWSL').'</span>';
+      break;
+      case 'urls':
+      	$button_value = __('Insert','WPWSL').'<span>'.__(' URL','WPWSL').'</span>';
+      break;
+      case 'phmsg':
+      	$button_value = __('Sync','WPWSL');
+    	break;
+    }
+    $args = array(
+     'public'   => true,
+     'show_ui'  =>true
+    );
 		$output = 'objects'; // names or objects, note names is the default
 		$operator = 'and'; // 'and' or 'or'
 		$_re_types= get_post_types( $args, $output, $operator ); 
 		$_post_types = '';
-        foreach ($_re_types as $key => $val){
-        	     $selected=($key==$post_type)?'selected = "selected"':'';
-        	     $_post_types .= '<option value="'.$key.'" class="select_type_choose"  '.$selected.'>'.$val->labels->name.'</option>';
-        }	
-        $isCateShow = $post_type == 'post' ? '' : 'display:none;';
-	_e('<input type="hidden" id="hidden_post_tid" value="'.$_GET['tid'].'">
+    foreach ($_re_types as $key => $val){
+      $selected=($key==$post_type)?'selected = "selected"':'';
+    	$_post_types .= '<option value="'.$key.'" class="select_type_choose"  '.$selected.'>'.$val->labels->name.'</option>';
+    }	
+    
+    $isCateShow = $post_type == 'post' ? '' : 'display:none;';
+    
+	  _e('<input type="hidden" id="hidden_post_tid" value="'.$_GET['tid'].'">
 		<input type="hidden" id="hidden_post_type" value="'.$_GET['rtype'].'">
 		<input type="hidden" id="hidden_search_key" value="'.$searchKeyInput.'">
 		<div class="tablenav top">
@@ -130,7 +133,7 @@ function prefix_ajax_add_foobar(){
     }else{
     _e("<thead><tr><th class='' width='40%'>".__('Title','WPWSL')."</th><th width='16%'><div sytle='text-align:center;'>".$typeORcate."</div></th><th width='22%'>".__('Create Date','WPWSL')."</th><th width='22%' style='text-align:center;'>".__('Action','WPWSL')."</th></tr></thead>
     	<tbody>");
-        $i=1;
+      $i=1;
 	    foreach ($posts_array as $key) {
 	    	$post_categories  =  wp_get_post_categories($key->ID);
 	    	if(count($post_categories)>0){
