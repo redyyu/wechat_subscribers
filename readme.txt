@@ -36,7 +36,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 9. 自由设置纯文本消息、图文消息、最近消息，可随时切换消息类型，排序；
 10. 图片上传管理都使用Wordpress原生图片管理器。
 
-访问插件主页获得更多帮助: <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a>.
+Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a>.
+
 
 *** 使用作弊方法来解决一些服务器无法通过token验证的问题 ***
 
