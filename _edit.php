@@ -803,8 +803,13 @@ jQuery(document).ready(function ($) {
        }
        var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
        jQuery.get(admin_url,data,function(d,s){
-//       console.log(d);
-       	if(d = JSON.parse(d)){
+        try{
+          d = JSON.parse(d)
+        } catch(err){
+          d = false
+          throw "AJAX Sync Modal Load Json data faild";
+        }
+       	if(d){
        	   if(d.status="success"){
        	   	  if(data.rtype=="phmsg"){
                 var $container = $("#"+tid);	

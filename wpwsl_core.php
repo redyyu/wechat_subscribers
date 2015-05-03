@@ -30,8 +30,12 @@ function trim_words($str,$limit,$suffix='...',$db_charset=DB_CHARSET,$strip_tags
     if($strip_tags){
         $str=strip_tags($str);
     }
-    $new_str= mb_substr($str,0,$limit,$db_charset);
-    $new_str= mb_strlen($str,$db_charset)>$limit ? $new_str.$suffix : $new_str;
+    if(strpos($db_charset, "utf8") !== false 
+    || strpos($db_charset, "utf8") !== false){
+      $db_charset="utf8";
+    }
+    $new_str = mb_substr($str,0,$limit,$db_charset);
+    $new_str = mb_strlen($str,$db_charset)>$limit ? $new_str.$suffix:$new_str;
     return $new_str;
 }
 
