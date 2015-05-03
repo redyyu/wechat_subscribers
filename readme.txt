@@ -4,7 +4,7 @@ Contributors: redyyu
 Tags: weixin,wechat,微信,subscribers,微信公众平台,wx,订阅号
 Donate link: http://www.imredy.com/wp_wechat/
 Requires at least: 3.7
-Tested up to: 4.1.1
+Tested up to: 4.2.1
 Stable tag: 4.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,6 +12,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 == Description ==
 
 =汉语=
+
+4.2.1 列表不显示的问题修掉了。
 
 新版本增加了回复“随机文章”，并修正了关键字搜索的设置。
 
@@ -47,6 +49,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 ———————————————————————
 
 =English=
+
+List not display when updated to Wordpress 4.2.1 is fixed.
 
 New version support “Response by keyword search”,“synchronous Article contents" (supporting news and text messages), "Automatic Replies Recently Post” (news only), "Message History”, This release is develop by GuYue.
 
@@ -114,6 +118,10 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 == Changelog ==
 =汉语=
 
+2015年5月2日 更新到 1.61
+
+1. 修正了 Wordpress 4.2.1 以后列表无法显示的问题
+
 2015年2月25日 更新到 1.60
 
 1. 增加了回复“随机文章”
@@ -175,6 +183,10 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. 修正了设置TOKEN时候可能误输入奇葩字符导致接口URL错误的问题。
 
 =English=
+
+2015 May 2 Update to 1.61
+
+1. Fixed Wordpress 4.2.1 WP_LIST_TABLE not display correctly.
 
 2015 February 25 Update to 1.60
 
@@ -239,6 +251,7 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. Fix strange symbol in 'token' will mass up interface url.
 
 == Upgrade Notice ==
+Update to 1.61
 Update to 1.60
 Update to 1.58
 Update to 1.57

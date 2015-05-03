@@ -8,7 +8,8 @@
 class WPWSL_List_Table extends WP_List_Table {
 
 	private $rawData = array();
-	    
+	private $found_data = array();
+  
 	public function __construct($data){
 		global $status, $page;
 		$this->rawData=$data;
@@ -125,20 +126,25 @@ class WPWSL_List_Table extends WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		usort( $this->rawData, array( &$this, 'usort_reorder' ) );
-		
 		$per_page = 10;
 		$current_page = $this->get_pagenum();
+
 		$total_items = count( $this->rawData );
 		
 		// only ncessary because we have sample data
-		$this->found_data = array_slice( $this->rawData,( ( $current_page-1 )* $per_page ), $per_page );
-		
+    $current_page_idx = ( $current_page-1 ) * $per_page;
+		$this->found_data = array_slice($this->rawData, 
+                                    $current_page_idx,
+                                    $per_page );
+    
 		$this->set_pagination_args( array(
-				'total_items' => $total_items,                  //WE have to calculate the total number of items
-				'per_page'    => $per_page                     //WE have to determine how many items to show on a page
-				));
+				'total_items' => $total_items, 
+        //WE have to calculate the total number of items
+				'per_page'    => $per_page 
+        //WE have to determine how many items to show on a page
+		));
 		$this->items = $this->found_data;
-		
+    
 	}
 }
  
