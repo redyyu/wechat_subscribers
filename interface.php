@@ -98,6 +98,7 @@ class wechatCallbackapi{
         	exit;
         }
     }
+
 	private function saveKeyWord($fromUsername,$keyword,$match){
     $messageRow = array("openid"=>$fromUsername,
                         "keyword"=>$keyword,
@@ -112,17 +113,24 @@ class wechatCallbackapi{
     $fromUsername = $postObj->FromUserName;
     $toUsername = $postObj->ToUserName;
     $keyword = trim($postObj->Content);
+    $topic_keyword = '';
 		$resultStr='';
 		
 		$is_match=false;
 		if($keyword!=''){
+      if (preg_match("/(#.*?#)/i", $keyword, $re) !== false) {
+        $topic_keyword = $re[1]?strtolower($re[1]):'';
+      }
+      $keyword = strtolower($keyword);
+
 			foreach($this->data as $d){
 				if($d->trigger=='default' || $d->trigger=='subscribe'){
 					continue;
 				}
 				$curr_key=$d->key;
 				foreach($curr_key as $k){
-					if(strtolower($keyword) == strtolower(trim($k))){
+          $_k = strtolower(trim($k));
+					if($keyword == $_k || $topic_keyword == $_k){
 						$is_match=true;
 					}
 				}
@@ -131,7 +139,7 @@ class wechatCallbackapi{
 					$resultStr =$this->get_msg_by_type($d, $fromUsername, $toUsername);
 					break;
 				}
-				
+
 			}
 		}
 		$match = $is_match ? "y" : "n";
