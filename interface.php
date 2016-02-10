@@ -118,6 +118,9 @@ class wechatCallbackapi{
 		
 		$is_match=false;
 		if($keyword!=''){
+      if (substr_count($keyword, '#') == 1){
+        $keyword = "#".$keyword;
+      }
       if (preg_match("/(#.*?#)/i", $keyword, $re) !== false) {
         $topic_keyword = $re[1]?strtolower($re[1]):'';
       }
