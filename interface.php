@@ -1,10 +1,6 @@
 <?php
 /**
- * 
- * WeChat Interface for WeChat Subscribers Lite
- * 
- * 
- *   
+ * WeChat Interface for WeChat Subscribers Lite  
  */
 
 global $token;
@@ -286,7 +282,6 @@ class wechatCallbackapi{
   		'posts_per_page'      => $re_count,
   		'orderby'             => 'post_date',
       'order'               => 'desc',
-      's'                   => $keyword,
       'ignore_sticky_posts'	=> 1,
 		);
     if($re_type!=""){
@@ -298,9 +293,21 @@ class wechatCallbackapi{
       $args['post_type'] = 'any';
     }
     $args['post_status'] = "publish";
-      
-	  $posts = get_posts($args);
-	  return $posts;
+    
+    $args['tag'] = $keyword;
+    $posts = get_posts($args);
+    
+    $more_count = $re_count - count($posts)
+
+    if($more_count <= 0){
+      return $posts;
+    }
+    unset($array['tag']);
+    $args['posts_per_page'] = $more_count;
+    $args['s'] = $keyword;
+	  $more_posts = get_posts($args);
+    
+	  return array_merge($posts, $more_posts);
   }
   
   private function getRandomPosts($contentData = null){
