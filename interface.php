@@ -70,7 +70,7 @@ class wechatCallbackapi{
     						<MsgId>1234567890123456</MsgId>
     						</xml>";
 		}else{
-			$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+			$postStr = file_get_contents('php://input');
 		}
 
     //extract post data
