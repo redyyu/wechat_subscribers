@@ -88,7 +88,8 @@ if(isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])){
 
 					$target_trigger=get_post_meta($p->ID, '_trigger',TRUE);
 					if($current_trigger==$target_trigger){
-						update_post_meta($p->ID, '_trigger','-');//replace duplicate to '-' which is default trigger by keyword.
+						update_post_meta($p->ID, '_trigger','-');
+            //replace duplicate to '-' which is default trigger by keyword.
 					}
 				}
 			}
@@ -116,7 +117,7 @@ if(isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])){
 	foreach($_phmsg_group as $_phmsg_item){
 		add_post_meta($current_id, '_phmsg_item',json_encode($_phmsg_item));
 	}
-	
+
   //response source
   if(isset($_POST['re_type'])){
 		update_post_meta($current_id, '_re_type',$_POST['re_type']);
@@ -208,7 +209,7 @@ $args_cate = array(
 		'orderby'                  => 'name',
 		'order'                    => 'ASC',
 		'taxonomy'                 => 'category',
-		'pad_counts'               => false 
+		'pad_counts'               => false
 		);
 $defauleCate = new stdClass();
 $defauleCate->term_id = "";
@@ -374,8 +375,8 @@ require_once( 'content.php' );
 							<h3><?php _e('News Message','WPWSL');?></h3>
 							<div id="phmsg-base">
 								<div class="msg-box">
-									
-									
+
+
 									<div class="func-msg-box"><a href="#" class="up-msg-box-btn">&nbsp;</a>&nbsp;<a href="#" class="down-msg-box-btn">&nbsp;</a></div>
 									<div class="clear"></div>
 									<table class="form-table">
@@ -489,11 +490,11 @@ require_once( 'content.php' );
                       </th>
 									    <td>
 									    <select name="re_cate">
-									    <?php 
+									    <?php
 									    foreach($_re_cates as $val):?>
 						        		<?php $selected=($val->term_id==$_re_cate)?'selected':'';?>
 						        		<option value="<?php echo $val->term_id;?>" <?php echo $selected;?>><?php echo $val->cat_name ;?></option>
-						        		<?php endforeach;?>	
+						        		<?php endforeach;?>
 									    </select>
 									    </td>
 								    </tr>
@@ -501,12 +502,12 @@ require_once( 'content.php' );
 								    	<th scope="row"><label><?php _e($_re_count_label);?></label></th>
 									    <td>
 									    <select name="re_count">
-									    <?php 
+									    <?php
 									    $_re_counts = array("1"=>1,"2"=>2,"3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10);
 									    foreach($_re_counts as $key=>$val):?>
 						        		<?php $selected=($key==$_re_count)?'selected':'';?>
 						        		<option value="<?php echo $key;?>" <?php echo $selected;?>><?php echo $val ;?></option>
-						        		<?php endforeach;?>	
+						        		<?php endforeach;?>
 									    </select>
 									    </td>
 								    </tr>
@@ -533,8 +534,8 @@ require_once( 'content.php' );
 
 <!-- model -->
 		<div id="hide-modal" style="display: none; width:800px; position:absolute;" class="hide-modal-content">
-        <div class="hide-modal-body"> 
-           
+        <div class="hide-modal-body">
+
         </div>
         </div>
 <script>
@@ -577,10 +578,10 @@ jQuery(document).ready(function ($) {
         $('.resp_remsg_recent').hide();
         $('.resp_remsg_random').hide();
 				$('.resp_remsg_search').show();
-        
+
 			  $('.trigger-way').removeAttr("checked")
         .attr("disabled","disabled");
-        
+
         $("#trigger-way-default").attr("checked","checked")
         .removeAttr("disabled");
 
@@ -591,20 +592,20 @@ jQuery(document).ready(function ($) {
 			$("#"+$cur_trigger_way).click();
 	  }
   }
-  
+
   init_msg_type();
-  
+
   var $cur_trigger_way = $(".trigger-way:checked").attr("id");;
 	if($('#msg_type').length>0){
 		$('#msg_type').change(function(){
 			init_msg_type();
 		});
 	}
-  
+
   $(".trigger-way").click(function(){
       $cur_trigger_way = $(this).attr('id');
   });
-  
+
 	$('.remove-pic-btn').click(function(){
 		var input=$(this).parent().next('input[rel="img-input"]');
 
@@ -652,7 +653,7 @@ jQuery(document).ready(function ($) {
 		return false;
 	});
 	//create unquid   var id = new UUID();
-    function UUID(){this.id=this.createUUID()}UUID.prototype.valueOf=function(){return this.id};UUID.prototype.toString=function(){return this.id};UUID.prototype.createUUID=function(){var c=new Date(1582,10,15,0,0,0,0);var f=new Date();var h=f.getTime()-c.getTime();var i=UUID.getIntegerBits(h,0,31);var g=UUID.getIntegerBits(h,32,47);var e=UUID.getIntegerBits(h,48,59)+"2";var b=UUID.getIntegerBits(UUID.rand(4095),0,7);var d=UUID.getIntegerBits(UUID.rand(4095),0,7);var a=UUID.getIntegerBits(UUID.rand(8191),0,7)+UUID.getIntegerBits(UUID.rand(8191),8,15)+UUID.getIntegerBits(UUID.rand(8191),0,7)+UUID.getIntegerBits(UUID.rand(8191),8,15)+UUID.getIntegerBits(UUID.rand(8191),0,15);return i+g+e+b+d+a};UUID.getIntegerBits=function(f,g,b){var a=UUID.returnBase(f,16);var d=new Array();var e="";var c=0;for(c=0;c<a.length;c++){d.push(a.substring(c,c+1))}for(c=Math.floor(g/4);c<=Math.floor(b/4);c++){if(!d[c]||d[c]==""){e+="0"}else{e+=d[c]}}return e};UUID.returnBase=function(c,d){var e=["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];if(c<d){var b=e[c]}else{var f=""+Math.floor(c/d);var a=c-f*d;if(f>=d){var b=this.returnBase(f,d)+e[a]}else{var b=e[f]+e[a]}}return b};UUID.rand=function(a){return Math.floor(Math.random()*a)}; 
+    function UUID(){this.id=this.createUUID()}UUID.prototype.valueOf=function(){return this.id};UUID.prototype.toString=function(){return this.id};UUID.prototype.createUUID=function(){var c=new Date(1582,10,15,0,0,0,0);var f=new Date();var h=f.getTime()-c.getTime();var i=UUID.getIntegerBits(h,0,31);var g=UUID.getIntegerBits(h,32,47);var e=UUID.getIntegerBits(h,48,59)+"2";var b=UUID.getIntegerBits(UUID.rand(4095),0,7);var d=UUID.getIntegerBits(UUID.rand(4095),0,7);var a=UUID.getIntegerBits(UUID.rand(8191),0,7)+UUID.getIntegerBits(UUID.rand(8191),8,15)+UUID.getIntegerBits(UUID.rand(8191),0,7)+UUID.getIntegerBits(UUID.rand(8191),8,15)+UUID.getIntegerBits(UUID.rand(8191),0,15);return i+g+e+b+d+a};UUID.getIntegerBits=function(f,g,b){var a=UUID.returnBase(f,16);var d=new Array();var e="";var c=0;for(c=0;c<a.length;c++){d.push(a.substring(c,c+1))}for(c=Math.floor(g/4);c<=Math.floor(b/4);c++){if(!d[c]||d[c]==""){e+="0"}else{e+=d[c]}}return e};UUID.returnBase=function(c,d){var e=["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];if(c<d){var b=e[c]}else{var f=""+Math.floor(c/d);var a=c-f*d;if(f>=d){var b=this.returnBase(f,d)+e[a]}else{var b=e[f]+e[a]}}return b};UUID.rand=function(a){return Math.floor(Math.random()*a)};
 	//when DOM is  ready, create a new UUID() for $('#phmsg-base .msg-box')[0]
 	var oneid =  new UUID();
 	var twoid =  new UUID();
@@ -665,18 +666,18 @@ jQuery(document).ready(function ($) {
 		var pic = typeof pic !== 'undefined' ? pic : '';
 		var des = typeof des !== 'undefined' ? des : '';
 		var url = typeof url !== 'undefined' ? url : '';
-        
+
 		count_phmsg++;
 		if(count_phmsg<=limit_phmsg && count_phmsg>0){
 			var tpl=$($('#phmsg-base .msg-box')[0]);
 			var clone=tpl.clone(true);
 			var subtitle=clone.children('h3[rel="title"]').data('subtitle');
 			clone.children('h3[rel="title"]').html(subtitle+'.'+count_phmsg);
-            
+
 			clone.find('.preview-box img').each(function(){
 				$(this).attr('src', '');
 			});
-			//set button id className is .alert_dialog_include_posts when clone 
+			//set button id className is .alert_dialog_include_posts when clone
 			var oneid =  new UUID();
 			var twoid =  new UUID();
             clone.find("button.alert_dialog_include_posts").attr("tid",oneid);
@@ -761,7 +762,7 @@ jQuery(document).ready(function ($) {
 		    $("#paginate_div").find(".page-numbers").live("click",function(){
 		       var $this = $(this);
 		       var cur = $this.attr("href") ? ($this.attr("href")).substr(1) : "";
-		           cur = cur ==""?1:cur;	
+		           cur = cur ==""?1:cur;
 		       var data = {
 		       	   action: 'add_foobar',
 		       	   tid   : $("#hidden_post_tid").val(),
@@ -770,7 +771,7 @@ jQuery(document).ready(function ($) {
 		       	   catid : $("#select_cate_action").val(),
 		       	   key   : $("#hidden_search_key").val(),
 		       	   cur : cur
-		       }	
+		       }
 		       var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
 		       $.get(admin_url,data,function(d,s){
 		           $("#dialog_content__container").html(d);
@@ -779,7 +780,7 @@ jQuery(document).ready(function ($) {
 		       });
 		       return false;
 		    });
-            
+
             bindEvents();
 	        });
             e.preventDefault();
@@ -812,16 +813,16 @@ jQuery(document).ready(function ($) {
        	if(d){
        	   if(d.status="success"){
        	   	  if(data.rtype=="phmsg"){
-                var $container = $("#"+tid);	
+                var $container = $("#"+tid);
                 if(d.data.pic && d.data.pic!="none"){
                   $container.find(".preview-box img").attr("src",d.data.pic);
                 }
          	   	  $container.find("input[name='title[]']")
                 .val(d.data.post_title);
-         	   	  
+
                 $container.find("input[name='pic[]']")
                 .val(d.data.pic);
-                
+
          	   	  $container.find("input[name='des[]']")
                 .val(d.data.post_content);
 
@@ -837,7 +838,7 @@ jQuery(document).ready(function ($) {
        		alert("Error:"+d);
        	}
        });
-    }); 
+    });
     $("#post-search-key").live("focus",function(){
     	$(this).keypress(function(e){
     		if(e.which==13){
@@ -856,16 +857,16 @@ jQuery(document).ready(function ($) {
 					bindEvents();
 					$("#post-search-key").select();
 					    return false;
-					});	
+					});
 					}
     		}
     	});
-    }); 
+    });
     //search posts
     $("#post-search-submit").live("click",function(){
        var key = $("#post-search-key").val();
        if($.trim(key)!=""){
-       $("#dialog_content__container").find("table:first").html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");	
+       $("#dialog_content__container").find("table:first").html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
        var data = {
 		       	   action: 'add_foobar',
 		       	   tid   : $("#hidden_post_tid").val(),
@@ -878,7 +879,7 @@ jQuery(document).ready(function ($) {
 		bindEvents();
 		$("#post-search-key").select();
 		    return false;
-		});	
+		});
 		}
     });
     /***************
@@ -933,7 +934,7 @@ jQuery(document).ready(function ($) {
 		           $("#dialog_content__container").html(d);
 		           bindEvents();
 		           return false;
-		       });	 
+		       });
             });
 
             //set cates select option event
@@ -951,7 +952,7 @@ jQuery(document).ready(function ($) {
 		           $("#dialog_content__container").html(d);
 		           bindEvents();
 		           return false;
-		       });	 
+		       });
             });
        }
 

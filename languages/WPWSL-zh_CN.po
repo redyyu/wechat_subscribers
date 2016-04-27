@@ -395,6 +395,14 @@ msgid ""
 "this URL to WeChat Platform."
 msgstr "首先设置好上面的TOKEN，保存设置以后使用这个URL绑定到你的微信公众平台订阅号。"
 
+#: _settings.php:59
+msgid "Default Cover"
+msgstr "默认封面图"
+
+#: _settings.php:82
+msgid "Default Thumbnail"
+msgstr "默认缩略图"
+
 #: _keywords.php:34
 msgid "Yes"
 msgstr "是"

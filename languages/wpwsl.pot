@@ -293,3 +293,12 @@ msgstr ""
 #: _settings.php:41
 msgid "First input a TOKEN above and save the settings, then &quot;Copy&quot; and &quot;Bind&quot; this URL to WeChat Platform."
 msgstr ""
+
+#: _settings.php:59
+msgid "Default Cover"
+msgstr ""
+
+#: _settings.php:82
+msgid "Default Thumbnail"
+msgstr ""
+

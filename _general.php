@@ -34,37 +34,44 @@ $args = array(
 
 $raw=get_posts($args);
 
+$all_keys=array();
+foreach($raw as $e){
+  if(get_post_meta($e->ID,'_trigger',TRUE)!='-'){
+    continue;
+  }
+  $tmp_key_str=trim(get_post_meta($e->ID,'_keyword',TRUE));
+  $tmp_keys=explode(',', $tmp_key_str);
+  foreach($tmp_keys as $_k){
+    $all_keys[] = $_k;
+  }
+}
+
 $data=array();
 foreach($raw as $d){
 	$status=$d->post_status;
-	
+
 	$tmp_key=trim(get_post_meta($d->ID,'_keyword',TRUE));
 	$key=$tmp_key;
 	$array_key=explode(',', $tmp_key);
-	
-	if(count($array_key)>0){
-		foreach($array_key as $k){
-			if($k!=''){
-				foreach($raw as $e){
-					if($d->ID == $e->ID){
-						continue;
-					}
-					if(get_post_meta($e->ID,'_trigger',TRUE)!='-'){
-						continue;
-					}
-					$tmp_key2=trim(get_post_meta($e->ID,'_keyword',TRUE));
-					$array_key2=explode(',', $tmp_key2);
-					foreach($array_key2 as $k2){
-						if(strtolower(trim($k))==strtolower(trim($k2))){
-							$key=__('<span class="msg_conflict">'.__('Conflict','WPWSL').'</span><br>','WPWSL').'<i>'.$e->post_title.'</i>';
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
-	
+
+  if(count($array_key)>0){
+    foreach($array_key as $k){
+      if($k!=''){
+        $count_dup_key = 0;
+        foreach($all_keys as $k2){
+          if(strtolower(trim($k))==strtolower(trim($k2))){
+            $count_dup_key++;
+          }
+          if ($count_dup_key > 1){
+            $conflicted='<br><span class="msg_conflict">'.__('Conflict','WPWSL').'[<i>'.$k.'</i>]</span>';
+            $key=$key.$conflicted;
+            break;
+          }
+        }
+      }
+    }
+  }
+
 	$type=get_post_meta($d->ID,'_type',TRUE);
 	$_trigger=get_post_meta($d->ID,'_trigger',TRUE);
 
@@ -83,7 +90,7 @@ foreach($raw as $d){
 	$data[]=array('ID'=>$d->ID, 'title'=>$post_title, 'type'=>$type, 'date'=>mysql2date('Y.m.d', $d->post_date), 'trigger_by' => $key);
 }
 
-//Prepare Table of elements 
+//Prepare Table of elements
 $wp_list_table = new WPWSL_List_Table($data);
 $wp_list_table->prepare_items();
 
