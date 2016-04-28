@@ -297,7 +297,7 @@ class wechatCallbackapi{
     $args['tag'] = $keyword;
     $posts = get_posts($args);
 
-    $more_count = $re_count - count($posts)
+    $more_count = $re_count - count($posts);
 
     if($more_count <= 0){
       return $posts;
