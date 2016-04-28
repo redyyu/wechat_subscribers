@@ -1,11 +1,11 @@
 === WeChat Subscribers Lite 微信公众订阅号插件 ===
 Name: WeChat Subscribers Lite 微信公众订阅号插件
-Contributors: redyyu
+Contributors: redyyu, HarrySG, AdamLBQ, robin-zhao
 Tags: weixin,wechat,微信,subscribers,微信公众平台,wx,订阅号
 Donate link: http://www.imredy.com/wp_wechat/
 Requires at least: 3.7
-Tested up to: 4.2.1
-Stable tag: 4.1.1
+Tested up to: 4.5.1
+Stable tag: 4.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,11 +13,20 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 =汉语=
 
-4.2.1 列表不显示的问题修掉了。
+感谢这些朋友为这个项目贡献过代码。
+HarrySG, AdamLBQ, robin-zhao
 
-新版本增加了回复“随机文章”，并修正了关键字搜索的设置。
+这回没怎么改，另外加了个设置里面可以给定默认的图片。
+一些朋友和我说，他/她在文章中使用的是外链的图片，比如七牛的插件。
+于是本微信插件无法取到文章里面的图片的问题。
+为了不增加不同插件之间的耦合度，于是我还是保持依赖WP原生的图像资源库的做法。
+如果有迫切需要的朋友，可以考虑选择一个能够自动保存"特色图片"的插件配合使用。
+
+另外，我还修了一些Bug，可能也制造了一些新Bug :(。
 
 如果发现任何bug或者有什么新功能需求，欢迎朝我发送电子邮件。<a href="mailto:redy.ru@gmail.com">redy.ru@gmail.com</a>
+
+Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a>.
 
 这是一个简单通用的微信(weixin)公众平台订阅号专用插件。现在这个版本的插件只支持普通订阅号，任何人只要以个人身份免费注册微信公众平台就可以足以使用这个插件的全部功能。
 
@@ -36,8 +45,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 9. 自由设置纯文本消息、图文消息、最近消息，可随时切换消息类型，排序；
 10. 图片上传管理都使用Wordpress原生图片管理器。
 
-Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a>.
-
 
 *** 使用作弊方法来解决一些服务器无法通过token验证的问题 ***
 
@@ -51,15 +58,11 @@ Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.co
 
 =English=
 
-List not display when updated to Wordpress 4.2.1 is fixed.
-
-New version support “Response by keyword search”,“synchronous Article contents" (supporting news and text messages), "Automatic Replies Recently Post” (news only), "Message History”, This release is develop by GuYue.
-
 This is a simple WeChat public platform plug-in for subscription accounts. Current version of the plug-in now supports ordinary subscription account only, anyone Register free WeChat public platform with subscription account can get full functionality of this plug-in, no need pay for a certified to upgrade your account.
 
 Features:
 
-1. Absolutely no need any other framework to install. 
+1. Absolutely no need any other framework to install.
 2. Easy to manage multiple weixin message template.
 3. Set automatic response by "Search keyword", "Recent messages" and "Random messages".
 4. Multiple message type, default reply message, trigger by keywords and new weixin subscriber join in. you can switch thier types any time.
@@ -84,7 +87,7 @@ First you have to follow the regular steps to setup this plugin, After you meet 
 2. 复制到Wordpress的插件目录，例如: /wp-content/plugins
 3. 玩儿者吧！
 
-请访问 <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a> 获得帮助.
+请访问 Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a> 获得帮助.
 
 =English=
 
@@ -92,12 +95,15 @@ First you have to follow the regular steps to setup this plugin, After you meet 
 2. Copy to your wordpress plugins folder etc., /wp-content/plugins
 3. Enjoy it.
 
-Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a> get full help.
+Please visit Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a> get more help.
+
 
 == Frequently Asked Questions ==
-请访问 <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a> 获得帮助.
 
-Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a> get full help.
+请访问 Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a> 获得帮助.
+
+Please visit Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a> get more help.
+
 
 == Screenshots ==
 
@@ -119,7 +125,17 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 == Changelog ==
 =汉语=
 
-2015年5月2日 更新到 1.61
+2016年4月29日 更新到 1.6.4
+
+1. 在设置中增加了自定义默认图片
+2. 修改检查冲突关键字的逻辑
+3. 修正了一些bug
+
+2015年5月4日 更新到 1.6.2
+
+1. 忘了修正了什么。。。。
+
+2015年5月2日 更新到 1.6.1
 
 1. 修正了 Wordpress 4.2.1 以后列表无法显示的问题
 
@@ -185,37 +201,47 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 
 =English=
 
-2015 May 2 Update to 1.61
+2016 May 4 Update to 1.6.4
+
+1. Add custom default image on settings.
+2. Change keywords conflict rules.
+3. Fixed some bugs.
+
+2015 May 4 Update to 1.6.2
+
+1. Some bugs....
+
+2015 May 2 Update to 1.6.1
 
 1. Fixed Wordpress 4.2.1 WP_LIST_TABLE not display correctly.
 
-2015 February 25 Update to 1.60
+2015 February 25 Update to 1.6.0
 
 1. Add "Random messages".
 2. Fixed "Search keyword" settings problem.
 
-2014 September 28 Update to 1.58
+2014 September 28 Update to 1.5.8
 
 1. Change the custom-upload.js to support online pictures.
 
-2014 August 31 Update to 1.57
+2014 August 31 Update to 1.5.7
 
 1. Change the permissions to use this plugin.
 
-2014 August 3 Update to 1.56
+2014 August 3 Update to 1.5.6
 
 1. Modify contents words limit.
 
-2014 August 3 Update to 1.55
+2014 August 3 Update to 1.5.5
 
 1. Fixed ajax error while sync a post.
 2. Add automatic search by keywords.
 
-2014 August 2 Update to 1.53
+2014 August 2 Update to 1.5.3
 
 1. Fixed some php version unable to active problem.
 
-2014 August 2 Update to 1.52
+2014 August 2 Update to 1.5.2
 
 1. Fixed some stupid bugs.....
 
@@ -224,40 +250,40 @@ Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_
 1. Fixed some naming problem.
 2. Add a crack file for “token no response” or “time out“ problem.
 
-2014 July 30 Update to 1.50
+2014 July 30 Update to 1.5.0
 
 1. Add multiple types Posts insert/sync to a custom Wexin/WeCchat reply message.
-2. Increase the types of recent news Reply 
-3. Increased upload pictures automatically cropped to fit the Wexin/WeChat display size. 
+2. Increase the types of recent news Reply
+3. Increased upload pictures automatically cropped to fit the Wexin/WeChat display size.
 4. Increased user access statistics management
 
-2014 March 14 Update to 1.04
+2014 March 14 Update to 1.0.4
 
 1. Fixed WeChat callback sort parameter cause no response problem.
 
 
-2014 March 12 Update to 1.03
+2014 March 12 Update to 1.0.3
 
 1. Fixed URL Time Out problem.
 2. Add Token character limited
 
 
-2014 March 9 Update to 1.02
+2014 March 9 Update to 1.0.2
 
 1. Fixed some text issues.
 2. Fixed json_encode() Chinese text unicode issues.
 
-2014 March 5 Update to 1.01
+2014 March 5 Update to 1.0.1
 
 1. Fix strange symbol in 'token' will mass up interface url.
 
 == Upgrade Notice ==
-Update to 1.61
-Update to 1.60
-Update to 1.58
-Update to 1.57
-Update to 1.56
-Update to 1.55
-Update to 1.52
-Update to 1.02
-Update to 1.01
+Update to 1.6.1
+Update to 1.6.0
+Update to 1.5.8
+Update to 1.5.7
+Update to 1.5.6
+Update to 1.5.5
+Update to 1.5.2
+Update to 1.0.2
+Update to 1.0.1
