@@ -16,6 +16,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 感谢这些朋友为这个项目贡献过代码。
 HarrySG, AdamLBQ, robin-zhao
 
+微信群:
+
+
+![qr_wp_wechat.png](http://media.soopro.com/redy/redy/qr_wp_wechat.png)
+
 这回没怎么改，另外加了个设置里面可以给定默认的图片。
 一些朋友和我说，他/她在文章中使用的是外链的图片，比如七牛的插件。
 于是本微信插件无法取到文章里面的图片的问题。
