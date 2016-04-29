@@ -2,7 +2,7 @@
 Name: WeChat Subscribers Lite 微信公众订阅号插件
 Contributors: redyyu, HarrySG, AdamLBQ, robin-zhao
 Tags: weixin,wechat,微信,subscribers,微信公众平台,wx,订阅号
-Donate link: http://www.imredy.com/wp_wechat/
+Donate link: http://www.imredy.com/wp-wechat/
 Requires at least: 3.7
 Tested up to: 4.5.1
 Stable tag: 4.2.1
@@ -16,10 +16,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 感谢这些朋友为这个项目贡献过代码。
 HarrySG, AdamLBQ, robin-zhao
 
-微信群:
-
-
-![qr_wp_wechat.png](http://media.soopro.com/redy/redy/qr_wp_wechat.png)
+微信群地址: http://imredy.com/wp-wechat
 
 这回没怎么改，另外加了个设置里面可以给定默认的图片。
 一些朋友和我说，他/她在文章中使用的是外链的图片，比如七牛的插件。
@@ -75,7 +72,7 @@ Features:
 6. Free to set message type any time. both text message , graphic news message and recent news message.
 7. Use native wordpress media manage tool to upload pitcures.
 
-Please visit <a href="http://www.imredy.com/wp_wechat">http://www.imredy.com/wp_wechat</a>.
+Github: <a href="https://github.com/Soopro/wechat_subscribers">https://github.com/Soopro/wechat_subscribers</a>.
 
 
 *** Fix token can’t valid problem ***

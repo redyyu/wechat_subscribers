@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WeChat Subscribers Lite
- * Plugin URI: http://www.imredy.com/wp_wechat/
+ * Plugin URI: http://www.imredy.com/wp-wechat/
  * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
  * Version: 1.6.4
  * Author: Redy Ru
@@ -60,15 +60,15 @@ function load_languages_file(){
 add_action( 'plugins_loaded', 'create_history_table' );
 function create_history_table(){
     global $wpdb;
-    $table_name =DB_TABLE_WPWSL_HISTORY; 
+    $table_name =DB_TABLE_WPWSL_HISTORY;
     $sql = "CREATE TABLE $table_name (
-    id bigint(20) NOT NULL KEY AUTO_INCREMENT,  
+    id bigint(20) NOT NULL KEY AUTO_INCREMENT,
     openid   varchar(100) NOT NULL,
     keyword  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
     is_match char(1)   NOT NULL,
     time     datetime  NOT NULL
     );";
-    
+
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta($sql);
 }
@@ -78,7 +78,7 @@ function set_wechat_img_size(){
 	add_image_size( 'sup_wechat_big'  , 360,200, true );
 	add_image_size( 'sup_wechat_small', 200,200, true );
 }
-add_action( 'after_setup_theme','set_wechat_img_size'); 
+add_action( 'after_setup_theme','set_wechat_img_size');
 
 function sup_wechat_custom_sizes( $sizes ) {
     return array_merge($sizes, array(
@@ -96,7 +96,7 @@ function wpwsl_admin_setup(){
      global $user_level;
      if($user_level>=5){
     	require_once( 'posttype_wpwsl_template.php' );
-    	
+
     	$page_title=__('WeChat Subscribers Lite', 'WPWSL');
     	$menu_title=__('WeChat Subscribers Lite', 'WPWSL');
     	$capability='edit_pages';
@@ -104,7 +104,7 @@ function wpwsl_admin_setup(){
     	$function='';
     	$icon_url=WPWSL_PLUGIN_URL.'/img/wpwsl_icon_16.png';
     	add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url );
-    
+
     	require_once( 'class-wpwsl-settings.php' );
     	require_once( 'class-wpwsl-general.php' );
     	require_once( 'class-wpwsl-history.php' );
