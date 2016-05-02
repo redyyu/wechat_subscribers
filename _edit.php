@@ -741,8 +741,8 @@ jQuery(document).ready(function ($) {
 	<?php endforeach;?>
 
 
-//set ajax request
-    $(".alert_dialog_include_posts").live("click",function(e){
+    //set ajax request
+    $('.alert_dialog_include_posts').click("click", function(e){
        var $this = $(this);
        var data = {
        	   action: 'add_foobar',
@@ -758,8 +758,8 @@ jQuery(document).ready(function ($) {
         });
 
         jQuery.get(admin_url,data,function(d,s){
-            $("#dialog_content__container").html(d);
-		    $("#paginate_div").find(".page-numbers").live("click",function(){
+           $("#dialog_content__container").html(d);
+		       $("#paginate_div").on("click", ".page-numbers", function(){
 		       var $this = $(this);
 		       var cur = $this.attr("href") ? ($this.attr("href")).substr(1) : "";
 		           cur = cur ==""?1:cur;
@@ -786,12 +786,12 @@ jQuery(document).ready(function ($) {
             e.preventDefault();
 
         });
-    $("#easydialog_close").live("click",function(){
+    $(document).on("click", "#easydialog_close", function(){
     	$.fn.custombox('close');
     	return false;
     });
     //ajax to get content or url
-    $(".insert_content_to_input").live("click",function(){
+    $(document).on("click", ".insert_content_to_input", function(){
        var $this = $(this);
        var data = {
        	   action  :  'get_insert_content',
@@ -839,7 +839,7 @@ jQuery(document).ready(function ($) {
        	}
        });
     });
-    $("#post-search-key").live("focus",function(){
+    $(document).on("focus", "#post-search-key", function(){
     	$(this).keypress(function(e){
     		if(e.which==13){
     			   var key = $("#post-search-key").val();
@@ -863,7 +863,7 @@ jQuery(document).ready(function ($) {
     	});
     });
     //search posts
-    $("#post-search-submit").live("click",function(){
+    $(document).on("click", "#post-search-submit", function(){
        var key = $("#post-search-key").val();
        if($.trim(key)!=""){
        $("#dialog_content__container").find("table:first").html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
