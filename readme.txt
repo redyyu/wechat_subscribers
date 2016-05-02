@@ -125,7 +125,12 @@ Please visit Github: <a href="https://github.com/Soopro/wechat_subscribers">http
 14. 用户用户发送的消息记录，点击左边消息统计进入页面进行查看管理。
 
 == Changelog ==
+
 =汉语=
+
+2016年5月3日 更新到 1.6.5
+
+1. 修正了一些JS问题
 
 2016年4月29日 更新到 1.6.4
 
@@ -203,7 +208,11 @@ Please visit Github: <a href="https://github.com/Soopro/wechat_subscribers">http
 
 =English=
 
-2016 May 4 Update to 1.6.4
+2016 May 3 Update to 1.6.5
+
+1. Fixed some js bugs.
+
+2016 April 29 Update to 1.6.4
 
 1. Add custom default image on settings.
 2. Change keywords conflict rules.
