@@ -923,23 +923,25 @@ jQuery(document).ready(function ($) {
      *
      **********/
      function bindEvents(){
-     	//set pagetype select option event
-            $("#select_type_action").change(function(){
-            	$("#dialog_content__container").find("table:first").html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
-            	var val = $(this).val();
-            	var data = {
-		       	   action: 'add_foobar',
-		       	   tid   : $("#hidden_post_tid").val(),
-		       	   rtype : $("#hidden_post_type").val(),
-		       	   ptype : val
-		       }
-		       var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
-		       $.get(admin_url,data,function(d,s){
-		           $("#dialog_content__container").html(d);
-		           bindEvents();
-		           return false;
-		       });
-            });
+     	 //set pagetype select option event
+       $("#select_type_action").change(function(){
+       $("#dialog_content__container")
+        .find("table:first")
+        .html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
+        var val = $(this).val();
+        var data = {
+          action: 'add_foobar',
+          tid   : $("#hidden_post_tid").val(),
+          rtype : $("#hidden_post_type").val(),
+          ptype : val
+        }
+        var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
+        $.get(admin_url,data,function(d,s){
+          $("#dialog_content__container").html(d);
+          bindEvents();
+          return false;
+        });
+      });
 
             //set cates select option event
             $("#select_cate_action").change(function(){
