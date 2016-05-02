@@ -5,14 +5,14 @@ function prefix_ajax_add_foobar(){
     $targetID = $_GET['tid'];
     $posts_per_page = 5;
     $current = isset($_GET['cur'])?$_GET['cur']:1;
-        
+
 		$offset = ($current-1)*$posts_per_page;
 		$post_type = isset($_GET['ptype']) ? $_GET['ptype'] : "post";
 
 		if (isset($_GET['catid'])&&$_GET['catid']!="default"){
 			    $published_posts = get_category($_GET['catid'])->count;
 	    }else{
-	        //count all posts 
+	        //count all posts
 			$published_posts = wp_count_posts($post_type)->publish;
 	    }
 	    if(isset($_GET['key'])&&trim($_GET['key'])!=""){
@@ -27,7 +27,7 @@ function prefix_ajax_add_foobar(){
 		'orderby'                  => 'name',
 		'order'                    => 'name ASC',
 		'taxonomy'                 => 'category',
-		'pad_counts'               => false 
+		'pad_counts'               => false
 		);
 	    $catelist =  get_categories( $args_cate );
 	    $cateoptions = "<option value='default' value='default' class='select_cate_choose' >".__('All categories','WPWSL')."</option>";
@@ -38,22 +38,22 @@ function prefix_ajax_add_foobar(){
 	        $cateoptions .= "<option class='select_cate_choose' value='".$key->term_id."' >".$key->cat_name."</option>";
 	    }
 	    $args = array(
-	    'offset'           => $offset,	
+	    'offset'           => $offset,
 		'posts_per_page'   => $posts_per_page,
 		'orderby'          => 'post_date',
 		'order'            => 'post_date desc',
 		'post_type'        => $post_type,
 		);
 		if($post_type=="post"||$post_type=="page"){ $args['post_status'] = 'publish';}
-		
+
 		if(isset($_GET['catid'])&&$_GET['catid']!="default") $args['category'] = $_GET['catid'];
-		
+
     if($published_posts%$posts_per_page==0){
       $total = ((int)$published_posts/$posts_per_page);
     } else {
 		  $total = ((int)$published_posts/$posts_per_page)+1;
     }
-        
+
     //get posts
 	  $typeORcate = __('Category','WPWSL');
 	  $searchKeyInput = '';
@@ -64,7 +64,7 @@ function prefix_ajax_add_foobar(){
       $start = $offset;
       $end   = $offset+$posts_per_page;
 		  $posts_array = $wpdb->get_results("select ID,post_date,post_title,post_type from wp_posts where post_status = 'publish' and post_title LIKE '%{$str}%' order by post_title asc limit $start,$end");
-            
+
 		}else{
 		  $posts_array = get_posts( $args );
 		}
@@ -73,8 +73,8 @@ function prefix_ajax_add_foobar(){
 		'total'        => $total,
 		'current'      => $current,
 		'show_all'     => false,
-		'end_size'     => 3,           
-		'mid_size'     => 2,          
+		'end_size'     => 3,
+		'mid_size'     => 2,
 		'prev_next'    => True,
 		'prev_text'    => __('«'),
 		'next_text'    => __('»')
@@ -96,15 +96,15 @@ function prefix_ajax_add_foobar(){
     );
 		$output = 'objects'; // names or objects, note names is the default
 		$operator = 'and'; // 'and' or 'or'
-		$_re_types= get_post_types( $args, $output, $operator ); 
+		$_re_types= get_post_types( $args, $output, $operator );
 		$_post_types = '';
     foreach ($_re_types as $key => $val){
       $selected=($key==$post_type)?'selected = "selected"':'';
     	$_post_types .= '<option value="'.$key.'" class="select_type_choose"  '.$selected.'>'.$val->labels->name.'</option>';
-    }	
-    
+    }
+
     $isCateShow = $post_type == 'post' ? '' : 'display:none;';
-    
+
 	  _e('<input type="hidden" id="hidden_post_tid" value="'.$_GET['tid'].'">
 		<input type="hidden" id="hidden_post_type" value="'.$_GET['rtype'].'">
 		<input type="hidden" id="hidden_search_key" value="'.$searchKeyInput.'">
@@ -115,9 +115,9 @@ function prefix_ajax_add_foobar(){
 		  <span style="'.$isCateShow.'">
 		  <select id="select_cate_action">'.$cateoptions.'</select>
           </span>
-		  
+
 		  </div>
-		  
+
          <div class="alignleft actions" id="search_con">
          <label class="screen-reader-text" for="post-search-input"></label>
          <input id="post-search-key" type="search" value="'.$searchKeyInput.'" style="padding-top:5px;padding-bottom:4px;"></input>
@@ -144,7 +144,7 @@ function prefix_ajax_add_foobar(){
 				}
 				$cats = substr($cats,1);
 				if(isset($_GET['key'])){
-					$cats = $cats; 	
+					$cats = $cats;
 				}
 	    	}else{
 	    		$cats = $key->post_type;
@@ -153,8 +153,8 @@ function prefix_ajax_add_foobar(){
 	    				$cats = '['.$cat_val->labels->name.']';
 	    				break;
 	    			}
-        	     
-                }	
+
+                }
 	    	}
 			if($i%2!=0) $trclass = 'one';else $trclass = 'two';
 			$i++;
@@ -162,7 +162,7 @@ function prefix_ajax_add_foobar(){
 	    }
     }
     _e('</tbody></table><div id="paginate_div">'.paginate_links($args_paginate).'</div>');
- 
+
     die();
 }
 
@@ -172,7 +172,7 @@ function prefix_ajax_get_insert_content(){
       $myrow = get_post($_GET['postid']);
       $post_categories  =  wp_get_post_categories($myrow->ID);
 	    $cats = '';
-      
+
 			foreach($post_categories as $c){
 				$cat = get_category($c);
 				$cats .= ','.$cat->name;
@@ -206,10 +206,10 @@ function prefix_ajax_get_insert_content(){
     }else{
       $imageSize = 'sup_wechat_big';
     }
-		
+
 		$myrow = get_post($_GET['postid']);
 	  $myrow->pic = WPWSL_PLUGIN_URL.'/img/'.$imageSize.'.png';
-    
+
     if(get_the_post_thumbnail($_GET['postid'])!=''){
       $_tmp_thumb_id = get_post_thumbnail_id($_GET['postid']);
       $tmp_img_obj= wp_get_attachment_image_src($_tmp_thumb_id,
@@ -222,7 +222,7 @@ function prefix_ajax_get_insert_content(){
     		'post_parent' => $_GET['postid'],
     		'exclude'     => get_post_thumbnail_id($_GET['postid'])
     	));
-    	
+
     	if(count($attachments)>0){
     	  $tmp_img_obj=wp_get_attachment_image_src($attachments[0]->ID,
                                                  $imageSize);
@@ -230,7 +230,7 @@ function prefix_ajax_get_insert_content(){
     	}
     }
     $myrow->post_title = trim_words($myrow->post_title,SYNC_TITLE_LIMIT);
-	    
+
 	  if(trim($myrow->post_excerpt)!=''){
       $myrow->post_content = trim_words($myrow->post_excerpt,
                                         SYNC_EXCERPT_LIMIT);
@@ -242,7 +242,7 @@ function prefix_ajax_get_insert_content(){
     $r = array(
     	    'status'=>'success',
           'data'  => $myrow
-    	  );   
+    	  );
 	}else{
 		$r = array(
 				  'status' => 'error',

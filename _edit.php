@@ -622,7 +622,6 @@ jQuery(document).ready(function ($) {
 				img.next('.remove-pic-btn').hide();
 			}else{
 				var pic_url=$(this).val();
-//				console.log(img.next('.remove-pic-btn'));
 				img.next('.remove-pic-btn').show();
 			}
 			img.attr('src', pic_url);
@@ -751,41 +750,46 @@ jQuery(document).ready(function ($) {
        }
        var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
         $("#hide-modal").find(".hide-modal-body").html('<div id="dialog_content__container" style="width:inherit;margin:0px auto;border-radius:5px;"><table class="wp-list-table widefat fixed posts" style="min-height:100px;"><thead><tr><th style="text-align:center;height: 77px;">loading....</th></tr></thead></table></div>');
-        $(this).attr("href","#hide-modal");
+        $(this).attr("href", "#hide-modal");
         $.fn.custombox( this, {
             effect: 'fadein',
             overlaySpeed : "100"
         });
 
-        jQuery.get(admin_url,data,function(d,s){
-           $("#dialog_content__container").html(d);
-		       $("#paginate_div").on("click", ".page-numbers", function(){
-		       var $this = $(this);
-		       var cur = $this.attr("href") ? ($this.attr("href")).substr(1) : "";
-		           cur = cur ==""?1:cur;
-		       var data = {
-		       	   action: 'add_foobar',
-		       	   tid   : $("#hidden_post_tid").val(),
-		       	   rtype : $("#hidden_post_type").val(),
-		       	   ptype : $("#select_type_action").val(),
-		       	   catid : $("#select_cate_action").val(),
-		       	   key   : $("#hidden_search_key").val(),
-		       	   cur : cur
-		       }
-		       var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
-		       $.get(admin_url,data,function(d,s){
-		           $("#dialog_content__container").html(d);
-		           bindEvents();
-		           return false;
-		       });
-		       return false;
-		    });
+        jQuery.get(admin_url, data, function(d,s){
+          $("#dialog_content__container").html(d);
+          $("#paginate_div").on("click", ".page-numbers", function(e){
+            var $this = $(e.target);
+            var cur = $this.attr("href")?($this.attr("href")).substr(1):"";
+               cur = cur=="" ? 1 : cur;
+               console.log(cur);
+               // var _href = $this.attr("href")?($this.attr("href")).substr(1):"";
+               // var pair = _href.split('#');
+               // cur = !pair[pair.length-1]?1:pair[pair.length-1];
+               // console.log(cur);
+            var data = {
+               action: 'add_foobar',
+               tid   : $("#hidden_post_tid").val(),
+               rtype : $("#hidden_post_type").val(),
+               ptype : $("#select_type_action").val(),
+               catid : $("#select_cate_action").val(),
+               key   : $("#hidden_search_key").val(),
+               cur : cur
+            }
+            var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
+            $.get(admin_url, data, function(d,s){
+              $("#dialog_content__container").html(d);
+              bindEvents();
+              return false;
+            });
+            return false;
+		      });
+          bindEvents();
+	      });
 
-            bindEvents();
-	        });
-            e.preventDefault();
+        e.preventDefault();
 
-        });
+    });
     $(document).on("click", "#easydialog_close", function(){
     	$.fn.custombox('close');
     	return false;
@@ -940,13 +944,13 @@ jQuery(document).ready(function ($) {
             //set cates select option event
             $("#select_cate_action").change(function(){
             	$("#dialog_content__container").find("table:first").html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
-            	var val = $(this).val();
-            	var data = {
-		       	   action: 'add_foobar',
-		       	   tid   : $("#hidden_post_tid").val(),
-		       	   rtype : $("#hidden_post_type").val(),
-		       	   catid   : val
-		       }
+           var val = $(this).val();
+           var data = {
+	       	   action: 'add_foobar',
+	       	   tid   : $("#hidden_post_tid").val(),
+	       	   rtype : $("#hidden_post_type").val(),
+	       	   catid   : val
+	         }
 		       var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
 		       $.get(admin_url,data,function(d,s){
 		           $("#dialog_content__container").html(d);
