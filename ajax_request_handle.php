@@ -3,7 +3,7 @@
 add_action( 'wp_ajax_add_foobar', 'prefix_ajax_add_foobar' );
 function prefix_ajax_add_foobar(){
     $targetID = $_GET['tid'];
-    $posts_per_page = 5;
+    $posts_per_page = 6;
     $current = isset($_GET['cur'])?$_GET['cur']:1;
 
 		$offset = ($current-1)*$posts_per_page;

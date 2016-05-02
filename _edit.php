@@ -758,15 +758,17 @@ jQuery(document).ready(function ($) {
 
         jQuery.get(admin_url, data, function(d,s){
           $("#dialog_content__container").html(d);
-          $("#paginate_div").on("click", ".page-numbers", function(e){
+          $(document).on("click", "#paginate_div .page-numbers", function(e){
             var $this = $(e.target);
-            var cur = $this.attr("href")?($this.attr("href")).substr(1):"";
-               cur = cur=="" ? 1 : cur;
-               console.log(cur);
-               // var _href = $this.attr("href")?($this.attr("href")).substr(1):"";
-               // var pair = _href.split('#');
-               // cur = !pair[pair.length-1]?1:pair[pair.length-1];
-               // console.log(cur);
+            // var cur = $this.attr("href")?($this.attr("href")).substr(1):"";
+            //    cur = cur=="" ? 1 : cur;
+            var _href = $this.attr("href")?($this.attr("href")).substr(1):"";
+            var pair = _href.split('#');
+            var cur = 1;
+            if (pair.length > 1){
+              cur = pair[pair.length-1]
+            }
+            console.log(cur);
             var data = {
                action: 'add_foobar',
                tid   : $("#hidden_post_tid").val(),
@@ -920,7 +922,7 @@ jQuery(document).ready(function ($) {
         }
      });
     /**********
-     *
+     * bindEvents
      **********/
      function bindEvents(){
      	 //set pagetype select option event
