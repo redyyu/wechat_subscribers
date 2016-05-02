@@ -736,59 +736,57 @@ jQuery(document).ready(function ($) {
 		}
 	}
 
-  <?php foreach($_phmsg_group as $item):?>
-    add_phmsg_box('<?php echo $item->title;?>',
-                  '<?php echo $item->pic;?>',
-                  '<?php echo $item->des;?>',
-                  '<?php echo $item->url;?>');
-  <?php endforeach;?>
+	<?php foreach($_phmsg_group as $item):?>
+		add_phmsg_box('<?php echo $item->title;?>','<?php echo $item->pic;?>','<?php echo $item->des;?>','<?php echo $item->url;?>');
+	<?php endforeach;?>
 
-  //set ajax request
-  $(".alert_dialog_include_posts").click(function(e){
-    var $this = $(this);
-    var data = {
-      action: 'add_foobar',
-      tid   : $this.attr("tid"),
-      rtype : $this.attr('rtype')
-    }
-    var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
 
-    $("#hide-modal").find(".hide-modal-body").html('<div id="dialog_content__container" style="width:inherit;margin:0px auto;border-radius:5px;"><table class="wp-list-table widefat fixed posts" style="min-height:100px;"><thead><tr><th style="text-align:center;height: 77px;">loading....</th></tr></thead></table></div>');
-    $(this).attr("href","#hide-modal");
-    $.fn.custombox( this, {
-        effect: 'fadein',
-        overlaySpeed : "100"
-    });
-
-    jQuery.get(admin_url, data, function(d,s){
-      $("#dialog_content__container").html(d);
-	    $("#paginate_div").find(".page-numbers").click(function(){
-	       var $this = $(this);
-	       var cur = $this.attr("href") ? ($this.attr("href")).substr(1) : "";
-	           cur = cur ==""?1:cur;
-	       var data = {
+//set ajax request
+    $(".alert_dialog_include_posts").live("click",function(e){
+       var $this = $(this);
+       var data = {
        	   action: 'add_foobar',
-       	   tid   : $("#hidden_post_tid").val(),
-       	   rtype : $("#hidden_post_type").val(),
-       	   ptype : $("#select_type_action").val(),
-       	   catid : $("#select_cate_action").val(),
-       	   key   : $("#hidden_search_key").val(),
-       	   cur : cur
-	       }
-	       var admin_url = <?php echo "'".admin_url('admin-ajax.php')."'";?>;
-	       $.get(admin_url,data,function(d,s){
-           $("#dialog_content__container").html(d);
-           bindEvents();
-           return false;
-	       });
-	       return false;
-	    });
-      bindEvents();
-    });
+       	   tid   : $this.attr("tid"),
+       	   rtype : $this.attr('rtype')
+       }
+       var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
+        $("#hide-modal").find(".hide-modal-body").html('<div id="dialog_content__container" style="width:inherit;margin:0px auto;border-radius:5px;"><table class="wp-list-table widefat fixed posts" style="min-height:100px;"><thead><tr><th style="text-align:center;height: 77px;">loading....</th></tr></thead></table></div>');
+        $(this).attr("href","#hide-modal");
+        $.fn.custombox( this, {
+            effect: 'fadein',
+            overlaySpeed : "100"
+        });
 
-    e.preventDefault();
+        jQuery.get(admin_url,data,function(d,s){
+            $("#dialog_content__container").html(d);
+		    $("#paginate_div").find(".page-numbers").live("click",function(){
+		       var $this = $(this);
+		       var cur = $this.attr("href") ? ($this.attr("href")).substr(1) : "";
+		           cur = cur ==""?1:cur;
+		       var data = {
+		       	   action: 'add_foobar',
+		       	   tid   : $("#hidden_post_tid").val(),
+		       	   rtype : $("#hidden_post_type").val(),
+		       	   ptype : $("#select_type_action").val(),
+		       	   catid : $("#select_cate_action").val(),
+		       	   key   : $("#hidden_search_key").val(),
+		       	   cur : cur
+		       }
+		       var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
+		       $.get(admin_url,data,function(d,s){
+		           $("#dialog_content__container").html(d);
+		           bindEvents();
+		           return false;
+		       });
+		       return false;
+		    });
 
-    $("#easydialog_close").click(function(){
+            bindEvents();
+	        });
+            e.preventDefault();
+
+        });
+    $("#easydialog_close").live("click",function(){
     	$.fn.custombox('close');
     	return false;
     });
@@ -841,55 +839,49 @@ jQuery(document).ready(function ($) {
        	}
        });
     });
-    $("#post-search-key").focus(function(){
+    $("#post-search-key").live("focus",function(){
     	$(this).keypress(function(e){
     		if(e.which==13){
-          var key = $("#post-search-key").val();
-          if($.trim(key)!=""){
-            $("#dialog_content__container")
-              .find("table:first")
-              .html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
-            var data = {
-              action: 'add_foobar',
-              tid   : $("#hidden_post_tid").val(),
-              rtype   :  $("#hidden_post_type").val(),
-              key   : key
-            }
-  					var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
-  					$.get(admin_url, data, function(d,s){
-    					$("#dialog_content__container").html(d);
-    					bindEvents();
-    					$("#post-search-key").select();
-  					  return false;
-  					});
+    			   var key = $("#post-search-key").val();
+			       if($.trim(key)!=""){
+			       $("#dialog_content__container").find("table:first").html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
+			       var data = {
+					       	   action: 'add_foobar',
+					       	   tid   : $("#hidden_post_tid").val(),
+					       	   rtype   :  $("#hidden_post_type").val(),
+					       	   key   : key
+					       }
+					var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
+					$.get(admin_url,data,function(d,s){
+					$("#dialog_content__container").html(d);
+					bindEvents();
+					$("#post-search-key").select();
+					    return false;
+					});
 					}
     		}
     	});
     });
     //search posts
-    $("#post-search-submit").click(function(){
+    $("#post-search-submit").live("click",function(){
        var key = $("#post-search-key").val();
        if($.trim(key)!=""){
-         $("#dialog_content__container")
-           .find("table:first")
-           .html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
-         var data = {
-       	   action: 'add_foobar',
-       	   tid   : $("#hidden_post_tid").val(),
-       	   rtype   :  $("#hidden_post_type").val(),
-       	   key   : key
-         }
-  		   var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
-  		   $.get(admin_url,data,function(d,s){
-    		   $("#dialog_content__container").html(d);
-    		   bindEvents();
-    		   $("#post-search-key").select();
-  		     return false;
-         });
-       }
+       $("#dialog_content__container").find("table:first").html("<thead><tr><th style='text-align:center;height: 77px;'>loading....</th></tr></thead>");
+       var data = {
+		       	   action: 'add_foobar',
+		       	   tid   : $("#hidden_post_tid").val(),
+		       	   rtype   :  $("#hidden_post_type").val(),
+		       	   key   : key
+		       }
+		var admin_url = <?php echo "'".admin_url( 'admin-ajax.php' )."'";?>;
+		$.get(admin_url,data,function(d,s){
+		$("#dialog_content__container").html(d);
+		bindEvents();
+		$("#post-search-key").select();
+		    return false;
+		});
+		}
     });
-  });
-
     /***************
      *message type : recent
      ***************/
