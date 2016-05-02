@@ -60,16 +60,11 @@ require_once( 'content.php' );
         </th>
         <td>
           <div class="preview-box large">
-            <img src="<?php echo $default_img_pic_big; ?>"
-                 data-default_pic="<?php echo $default_img_pic_big; ?>"/>
-            <a href="#" class="remove-pic-btn">
-              <?php _e('Remove', 'WPWSL'); ?>
-            </a>
+            <img src="<?php echo $default_img_pic_big; ?>" />
           </div>
           <input type="hidden"
                  value="<?php echo $default_img_pic_big; ?>"
-                 name="<?php echo $this->option_name; ?>
-                      [sup_wechat_big]"
+                 name="<?php echo $this->option_name; ?>[sup_wechat_big]"
                  rel="img-input" class="img-input large-text"/>
           <button class='custom_media_upload button'>
               <?php _e('Upload', 'WPWSL'); ?>
@@ -84,14 +79,10 @@ require_once( 'content.php' );
           <td>
               <div class="preview-box">
                   <img src="<?php echo $default_img_pic_small; ?>" />
-                  <a href="#" class="remove-pic-btn">
-                    <?php _e('Remove', 'WPWSL'); ?>
-                  </a>
               </div>
               <input type="hidden"
                      value="<?php echo $default_img_pic_small; ?>"
-                     name="<?php echo $this->option_name; ?>
-                           [sup_wechat_small]"
+                     name="<?php echo $this->option_name; ?>[sup_wechat_small]"
                      rel="img-input" class="img-input large-text"/>
               <button class='custom_media_upload button'>
                   <?php _e('Upload', 'WPWSL'); ?>
@@ -105,3 +96,22 @@ require_once( 'content.php' );
 	<hr>
 	<?php echo $content['tips_content'];?>
 </div>
+
+<script>
+
+jQuery(document).ready(function ($) {
+	$('input[rel="img-input"]').each(function(){
+		$(this).change(function(){
+			var img=$($(this).parent().children('.preview-box').children('img'));
+			if($(this).val()==''){
+				var pic_url=img.data('default_pic');
+				img.next('.remove-pic-btn').hide();
+			}else{
+				var pic_url=$(this).val();
+				img.next('.remove-pic-btn').show();
+			}
+			img.attr('src', pic_url);
+		});
+	});
+});
+</script>
