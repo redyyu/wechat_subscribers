@@ -82,7 +82,7 @@ WeChat Subscribers Lite
 	width:200px;
 	background: transparent url('../img/default_img.png') no-repeat 0 0;
 }
-.preview-box.large img{
+#phmsg-base .preview-box img{
 	width: 360px;
 	height: 200px;
 	background: transparent url('../img/default_large_img.png') no-repeat 0 0;
