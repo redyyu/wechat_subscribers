@@ -133,7 +133,6 @@ class wechatCallbackapi{
 						$is_match=true;
 					}
 				}
-
 				if($is_match){
 					$resultStr =$this->get_msg_by_type($d, $fromUsername, $toUsername);
 					break;
@@ -303,7 +302,7 @@ class wechatCallbackapi{
     // }
     // unset($array['tag']);
 
-    $args['posts_per_page'] = $more_count;
+    $args['posts_per_page'] = $re_count;
     $args['s'] = $keyword;
 	  $posts = get_posts($args);
 

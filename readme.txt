@@ -128,6 +128,10 @@ Please visit Github: <a href="https://github.com/Soopro/wechat_subscribers">http
 
 =汉语=
 
+2016年5月3日 更新到 1.6.6
+
+1. 修正了一些自动回复搜索结果问题
+
 2016年5月3日 更新到 1.6.5
 
 1. 修正了一些JS问题
@@ -207,6 +211,11 @@ Please visit Github: <a href="https://github.com/Soopro/wechat_subscribers">http
 1. 修正了设置TOKEN时候可能误输入奇葩字符导致接口URL错误的问题。
 
 =English=
+
+2016 May 3 Update to 1.6.6
+
+1. Fixed search result bugs.
+
 
 2016 May 3 Update to 1.6.5
 
