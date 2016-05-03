@@ -95,7 +95,7 @@ class wechatCallbackapi{
         }
     }
 
-	private function saveKeyWord($fromUsername,$keyword,$match){
+	private function saveKeyWord($fromUsername, $keyword, $match){
     $messageRow = array("openid"=>$fromUsername,
                         "keyword"=>$keyword,
                         "is_match"=>$match,
@@ -138,7 +138,6 @@ class wechatCallbackapi{
 					$resultStr =$this->get_msg_by_type($d, $fromUsername, $toUsername);
 					break;
 				}
-
 			}
 		}
 		$match = $is_match ? "y" : "n";
@@ -151,7 +150,7 @@ class wechatCallbackapi{
 				}
 			}
 		}
-		$this->saveKeyWord($fromUsername,$keyword,$match);
+		$this->saveKeyWord($fromUsername, $keyword, $match);
 		return $resultStr;
 	}
 
@@ -294,20 +293,22 @@ class wechatCallbackapi{
     }
     $args['post_status'] = "publish";
 
-    $args['tag'] = $keyword;
-    $posts = get_posts($args);
+    // $args['tag'] = $keyword;
+    // $posts = get_posts($args);
+    //
+    // $more_count = $re_count - count($posts);
+    //
+    // if($more_count <= 0){
+    //   return $posts;
+    // }
+    // unset($array['tag']);
 
-    $more_count = $re_count - count($posts);
-
-    if($more_count <= 0){
-      return $posts;
-    }
-    unset($array['tag']);
     $args['posts_per_page'] = $more_count;
     $args['s'] = $keyword;
-	  $more_posts = get_posts($args);
+	  $posts = get_posts($args);
 
-	  return array_merge($posts, $more_posts);
+	  // return array_merge($posts, $more_posts);
+    return $posts;
   }
 
   private function getRandomPosts($contentData = null){
