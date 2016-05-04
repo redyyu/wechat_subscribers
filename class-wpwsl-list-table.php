@@ -125,7 +125,7 @@ class WPWSL_List_Table extends WP_List_Table {
 		$hidden   = array();
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-		usort( $this->rawData, array( &$this, 'usort_reorder' ) );
+		usort( $this->rawData, array( $this, 'usort_reorder' ) );
 		$per_page = 10;
 		$current_page = $this->get_pagenum();
 
