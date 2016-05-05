@@ -5,11 +5,7 @@
 
 global $token;
 
-if(isset($_GET["debug"])){
-  define('IS_DEBUG', true);
-}else{
-  define('IS_DEBUG', false);
-}
+define('IS_DEBUG', isset($_GET['debug']));
 
 $wechatObj = new wechatCallbackapi($token);
 
