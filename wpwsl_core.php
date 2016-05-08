@@ -103,7 +103,7 @@ function wpwsl_admin_setup(){
     	$menu_slug=WPWSL_GENERAL_PAGE;
     	$function='';
     	$icon_url=WPWSL_PLUGIN_URL.'/img/wpwsl_icon_16.png';
-    	add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url );
+    	add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url );
 
     	require_once( 'class-wpwsl-settings.php' );
     	require_once( 'class-wpwsl-general.php' );
