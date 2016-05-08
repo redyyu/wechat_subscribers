@@ -19,17 +19,16 @@ class WPWSL_Settings{
     /**
      * Start up
      */
-     
-    public static function get_instance(){
-	    if(!isset(self::$_instance)){
-	    	$c=__CLASS__;
-	    	self::$_instance=new $c;
-	    }
-	    return self::$_instance;
+    public static function get_instance() {
+
+        if (!isset(self::$_instance)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
     }
-    
-    public function __clone(){
-    	trigger_error('Clone is not allow' ,E_USER_ERROR);
+
+    private function __clone() {
+
     }
     
     private function __construct(){
