@@ -6,8 +6,8 @@
 
 $options = $this->options;
 
-$fields = array(
-    'token');
+$fields = [
+    'token'];
 
 foreach ($fields as $field) {
     if (!isset($options[$field])) {

@@ -25,17 +25,17 @@ function delete_template($id)
     }
 }
 
-$args = array(
+$args = [
     'post_type' => 'wpwsl_template',
     'posts_per_page' => -1,
     'orderby' => 'post_date',
     'post_status' => 'any',
     'order' => 'ASC'
-);
+];
 
 $raw = get_posts($args);
 
-$all_keys = array();
+$all_keys = [];
 foreach ($raw as $e) {
     if (get_post_meta($e->ID, '_trigger', TRUE) != '-') {
         continue;
@@ -47,7 +47,7 @@ foreach ($raw as $e) {
     }
 }
 
-$data = array();
+$data = [];
 foreach ($raw as $d) {
     $status = $d->post_status;
 
@@ -89,12 +89,12 @@ foreach ($raw as $d) {
         $key = '<span class="msg_disabled">' . __('*Deactivation*', 'WPWSL') . '</span>';
     }
     $post_title = $d->post_title ? $d->post_title : __('(empty)', 'WPWSL');
-    $data[] = array(
+    $data[] = [
         'ID' => $d->ID,
         'title' => $post_title,
         'type' => $type,
         'date' => mysql2date('Y.m.d', $d->post_date),
-        'trigger_by' => $key);
+        'trigger_by' => $key];
 }
 
 //Prepare Table of elements

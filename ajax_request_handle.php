@@ -25,13 +25,13 @@ function prefix_ajax_add_foobar()
         $published_posts = count($published_posts);
     }
     //show cates list
-    $args_cate = array(
+    $args_cate = [
         'type' => 'post',
         'orderby' => 'name',
         'order' => 'name ASC',
         'taxonomy' => 'category',
         'pad_counts' => false
-    );
+    ];
     $catelist = get_categories($args_cate);
     $cateoptions = "<option value='default' value='default' class='select_cate_choose' >" . __('All categories', 'WPWSL') . "</option>";
     foreach ($catelist as $key) {
@@ -40,13 +40,13 @@ function prefix_ajax_add_foobar()
         else
             $cateoptions .= "<option class='select_cate_choose' value='" . $key->term_id . "' >" . $key->cat_name . "</option>";
     }
-    $args = array(
+    $args = [
         'offset' => $offset,
         'posts_per_page' => $posts_per_page,
         'orderby' => 'post_date',
         'order' => 'post_date desc',
         'post_type' => $post_type,
-    );
+    ];
     if ($post_type == "post" || $post_type == "page") {
         $args['post_status'] = 'publish';
     }
@@ -73,7 +73,7 @@ function prefix_ajax_add_foobar()
     } else {
         $posts_array = get_posts($args);
     }
-    $args_paginate = array(
+    $args_paginate = [
         'format' => '#%#%',
         'total' => $total,
         'current' => $current,
@@ -83,7 +83,7 @@ function prefix_ajax_add_foobar()
         'prev_next' => True,
         'prev_text' => __('«'),
         'next_text' => __('»')
-    );
+    ];
     switch ($_GET['rtype'])
     {
         case 'posts':
@@ -96,10 +96,10 @@ function prefix_ajax_add_foobar()
             $button_value = __('Sync', 'WPWSL');
             break;
     }
-    $args = array(
+    $args = [
         'public' => true,
         'show_ui' => true
-    );
+    ];
     $output = 'objects'; // names or objects, note names is the default
     $operator = 'and'; // 'and' or 'or'
     $_re_types = get_post_types($args, $output, $operator);
@@ -199,16 +199,16 @@ function prefix_ajax_get_insert_content()
             . ']['
             . $myrow->post_date
             . ']';
-        $r = array(
+        $r = [
             'status' => 'success',
             'data' => $rpost
-        );
+        ];
     } else if ($_GET['rtype'] == 'urls') {
         $myrow = get_post($_GET['postid']);
-        $r = array(
+        $r = [
             'status' => 'success',
             'data' => get_permalink($myrow->ID)
-        );
+        ];
     } else if ($_GET['rtype'] == 'phmsg') {
         if (isset($_GET['imagesize']) && $_GET['imagesize'] == 'small') {
             $imageSize = 'sup_wechat_small';
@@ -224,12 +224,12 @@ function prefix_ajax_get_insert_content()
             $tmp_img_obj = wp_get_attachment_image_src($_tmp_thumb_id, $imageSize);
             $myrow->pic = $tmp_img_obj[0];
         } else {
-            $attachments = get_posts(array(
+            $attachments = get_posts([
                 'post_type' => 'attachment',
                 'posts_per_page' => -1,
                 'post_parent' => $_GET['postid'],
                 'exclude' => get_post_thumbnail_id($_GET['postid'])
-            ));
+            ]);
 
             if (count($attachments) > 0) {
                 $tmp_img_obj = wp_get_attachment_image_src($attachments[0]->ID, $imageSize);
@@ -244,15 +244,15 @@ function prefix_ajax_get_insert_content()
             $myrow->post_content = trim_words($myrow->post_content, SYNC_EXCERPT_LIMIT);
         }
         $myrow->url = get_permalink($myrow->ID);
-        $r = array(
+        $r = [
             'status' => 'success',
             'data' => $myrow
-        );
+        ];
     } else {
-        $r = array(
+        $r = [
             'status' => 'error',
             'data' => 'rtype error!'
-        );
+        ];
     }
     print(json_encode($r));
     die();

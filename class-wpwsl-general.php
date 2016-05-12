@@ -25,9 +25,9 @@ class WPWSL_General
 
     private function __construct()
     {
-        add_action('admin_menu', array(
+        add_action('admin_menu', [
             $this,
-            'add_plugin_page'));
+            'add_plugin_page']);
     }
 
     /**
@@ -42,9 +42,9 @@ class WPWSL_General
         $capability = 'edit_pages';
         $menu_slug = WPWSL_GENERAL_PAGE;
         add_submenu_page(
-            $parent_slug, $page_title, $menu_title, $capability, $menu_slug, array(
+            $parent_slug, $page_title, $menu_title, $capability, $menu_slug, [
             $this,
-            'create_admin_page')
+            'create_admin_page']
         );
     }
 

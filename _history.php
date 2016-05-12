@@ -51,15 +51,15 @@ $unmatch = $unmatch == 0 && $match == 0 ? 1 : $unmatch;
 
 //records
 $raw = $wpdb->get_results("select id,openid,keyword,is_match,time from $db_table order by $order limit $start," . SELECT_ROWS_AMOUNT);
-$data = array();
+$data = [];
 foreach ($raw as $d) {
     $d->is_match = $d->is_match == "y" ? __("Yes", "WPWSL") : "<span style='color:red;'>" . __("No", "WPWSL") . "<span>";
-    $data[] = array(
+    $data[] = [
         'ID' => $d->id,
         'openid' => $d->openid,
         'keyword' => $d->keyword,
         'is_match' => $d->is_match,
-        'time' => $d->time);
+        'time' => $d->time];
 }
 
 //Prepare Table of elements 

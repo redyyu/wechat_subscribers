@@ -36,21 +36,21 @@ if (isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])) {
     $_post_status = isset($_POST['post_status']) ? 'publish' : 'draft';
 
     if ($current_id == '') {
-        $_post = array(
+        $_post = [
             'post_title' => $_post_title,
             'post_status' => $_post_status,
             'post_type' => 'wpwsl_template',
             'comment_status' => 'closed',
-        );
+        ];
         $current_id = wp_insert_post($_post, true);
     } else {
-        $_post = array(
+        $_post = [
             'ID' => $current_id,
             'post_title' => $_post_title,
             'post_status' => $_post_status,
             'post_type' => 'wpwsl_template',
             'comment_status' => 'closed',
-        );
+        ];
         wp_update_post($_post);
     }
 
@@ -64,20 +64,20 @@ if (isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])) {
         //make sure only one 'default' and 'subscribe'.
         $current_trigger = $_POST['trigger'];
         if ($current_trigger != '') {
-            $args = array(
+            $args = [
                 'post_type' => 'wpwsl_template',
                 'posts_per_page' => -1,
                 'orderby' => 'date',
                 'post_status' => 'any',
                 'order' => 'DESC',
-                'meta_query' => array(
-                    array(
+                'meta_query' => [
+                    [
                         'key' => '_trigger',
                         'value' => '-',
                         'compare' => '!='
-                    )
-                )
-            );
+                    ]
+                ]
+            ];
 
             $raw = get_posts($args);
 
@@ -105,16 +105,16 @@ if (isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])) {
         update_post_meta($current_id, '_content', $_POST['content']);
     }
 
-    $_phmsg_group = array();
+    $_phmsg_group = [];
 
     if (isset($_POST['title']) && isset($_POST['pic']) && isset($_POST['des']) && isset($_POST['url'])) {
         $phmsg_length = count($_POST['title']);
         for ($i = 0; $i < $phmsg_length; $i++) {
-            $_phmsg_group[$i] = array(
+            $_phmsg_group[$i] = [
                 'title' => urlencode($_POST['title'][$i]),
                 'pic' => urlencode($_POST['pic'][$i]),
                 'des' => urlencode($_POST['des'][$i]),
-                'url' => urlencode($_POST['url'][$i]));
+                'url' => urlencode($_POST['url'][$i])];
         }
     }
     delete_post_meta($current_id, '_phmsg_item');
@@ -154,11 +154,11 @@ if ($_trigger == '') {
     $_trigger = '-';
 }
 
-$trigger_options = array(
+$trigger_options = [
     '-' => __('Normal', 'WPWSL'),
     'default' => __('Default', 'WPWSL'),
     'subscribe' => __('Subscribed', 'WPWSL'),
-);
+];
 
 //text message
 $_content = get_post_meta($current_id, '_content', TRUE);
@@ -166,7 +166,7 @@ $_content = get_post_meta($current_id, '_content', TRUE);
 //photo message
 $_phmsg_group = get_post_meta($current_id, '_phmsg_item');
 if ($_phmsg_group == '') {
-    $_phmsg_group = array();
+    $_phmsg_group = [];
 }
 
 $_phmsg_main = new stdClass();
@@ -190,7 +190,7 @@ if (!isset($_phmsg_main->title)) {
 $_current_pic = $_phmsg_main->pic == '' ? $default_pic : $_phmsg_main->pic;
 
 array_shift($_phmsg_group);
-$_tmp_phmsg_group = array();
+$_tmp_phmsg_group = [];
 foreach ($_phmsg_group as $item) {
     $_tmp_item = json_decode($item);
     $_tmp_item->title = urldecode($_tmp_item->title);
@@ -206,25 +206,25 @@ $_re_type = get_post_meta($current_id, '_re_type', TRUE);
 $_re_cate = get_post_meta($current_id, '_re_cate', TRUE);
 $_re_count = get_post_meta($current_id, '_re_count', TRUE);
 
-$args_cate = array(
+$args_cate = [
     'type' => 'post',
     'orderby' => 'name',
     'order' => 'ASC',
     'taxonomy' => 'category',
     'pad_counts' => false
-);
+];
 $defauleCate = new stdClass();
 $defauleCate->term_id = "";
 $defauleCate->cat_name = __("All categories", "WPWSL");
-$_re_cates = array_merge(array(
-    $defauleCate), get_categories($args_cate));
+$_re_cates = array_merge([
+    $defauleCate], get_categories($args_cate));
 $_re_cate_show = ($_re_type == "post" || $_re_type == "") ? false : true;
 $_re_count_label = __("Amount", "WPWSL");
 // global $wp_post_types; //get all post types
-$args = array(
+$args = [
     'public' => true,
     'show_ui' => true
-);
+];
 $output = 'objects'; // names or objects, note names is the default
 $operator = 'and'; // 'and' or 'or'
 
@@ -233,18 +233,18 @@ $defauleTypes->key = "";
 $defauleTypes->labels = new stdClass();
 $defauleTypes->labels->name = __("All types", "WPWSL");
 
-$_re_types = array_merge(array(
-    $defauleTypes), get_post_types($args, $output, $operator));
+$_re_types = array_merge([
+    $defauleTypes], get_post_types($args, $output, $operator));
 
 //switch type
 $type = get_post_meta($current_id, '_type', TRUE);
-$type_options = array(
+$type_options = [
     'text' => __('Text (Plain text)', 'WPWSL'),
     'news' => __('News (Picture with text)', 'WPWSL'),
     'recent' => __("Recent messages", "WPWSL"),
     'random' => __("Random messages", "WPWSL"),
     'search' => __("Search Keyword", "WPWSL")
-);
+];
 
 if ($type == "recently") {
     $type = "recent";
@@ -506,7 +506,7 @@ require_once( 'content.php' );
                                 <td>
                                     <select name="re_count">
                                         <?php
-                                        $_re_counts = array(
+                                        $_re_counts = [
                                             "1" => 1,
                                             "2" => 2,
                                             "3" => 3,
@@ -516,7 +516,7 @@ require_once( 'content.php' );
                                             "7" => 7,
                                             "8" => 8,
                                             "9" => 9,
-                                            "10" => 10);
+                                            "10" => 10];
                                         foreach ($_re_counts as $key => $val):
                                             ?>
                                             <?php $selected = ($key == $_re_count) ? 'selected' : ''; ?>

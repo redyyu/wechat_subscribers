@@ -1,6 +1,6 @@
 <?php
 
-$content = array();
+$content = [];
 
 
 //English

@@ -9,18 +9,18 @@
 class WPWSL_List_Table extends WP_List_Table
 {
 
-    private $rawData = array();
-    private $found_data = array();
+    private $rawData = [];
+    private $found_data = [];
 
     public function __construct($data)
     {
         global $status, $page;
         $this->rawData = $data;
-        parent::__construct(array(
+        parent::__construct([
             'singular' => 'tpl', //singular name of the listed records
             'plural' => 'tpls', //plural name of the listed records
             'ajax' => false        //does this table support ajax?
-        ));
+        ]);
     }
 
     public function no_items()
@@ -44,32 +44,32 @@ class WPWSL_List_Table extends WP_List_Table
 
     public function get_sortable_columns()
     {
-        $sortable_columns = array(
-            'title' => array(
+        $sortable_columns = [
+            'title' => [
                 'title',
-                false),
-            'type' => array(
+                false],
+            'type' => [
                 'type',
-                false),
-            'date' => array(
+                false],
+            'date' => [
                 'date',
-                false),
-            'trigger_by' => array(
+                false],
+            'trigger_by' => [
                 'trigger_by',
-                false)
-        );
+                false]
+        ];
         return $sortable_columns;
     }
 
     public function get_columns()
     {
-        $columns = array(
+        $columns = [
             'cb' => '<input type="checkbox" />',
             'title' => __('Title', 'WPWSL'),
             'type' => __('Type', 'WPWSL'),
             'date' => __('Date', 'WPWSL'),
             'trigger_by' => __('Trigger by', 'WPWSL'),
-        );
+        ];
         return $columns;
     }
 
@@ -87,19 +87,19 @@ class WPWSL_List_Table extends WP_List_Table
 
     public function column_title($item)
     {
-        $actions = array(
+        $actions = [
             'edit' => sprintf('<a href="' . menu_page_url(WPWSL_GENERAL_PAGE, false) . '&edit=%s">' . __('Edit', 'WPWSL') . '</a>', $item['ID']),
             'delete' => sprintf('<a href="' . menu_page_url(WPWSL_GENERAL_PAGE, false) . '&delete=%s">' . __('Delete', 'WPWSL') . '</a>', $item['ID']),
-        );
+        ];
 
         return sprintf('%1$s %2$s', $item['title'], $this->row_actions($actions));
     }
 
     public function get_bulk_actions()
     {
-        $actions = array(
+        $actions = [
             'delete' => __('Delete', 'WPWSL')
-        );
+        ];
         return $actions;
     }
 
@@ -142,15 +142,15 @@ class WPWSL_List_Table extends WP_List_Table
     {
         //$this->process_bulk_action();
         $columns = $this->get_columns();
-        $hidden = array();
+        $hidden = [];
         $sortable = $this->get_sortable_columns();
-        $this->_column_headers = array(
+        $this->_column_headers = [
             $columns,
             $hidden,
-            $sortable);
-        usort($this->rawData, array(
+            $sortable];
+        usort($this->rawData, [
             $this,
-            'usort_reorder'));
+            'usort_reorder']);
         $per_page = 10;
         $current_page = $this->get_pagenum();
 
@@ -160,12 +160,12 @@ class WPWSL_List_Table extends WP_List_Table
         $current_page_idx = ( $current_page - 1 ) * $per_page;
         $this->found_data = array_slice($this->rawData, $current_page_idx, $per_page);
 
-        $this->set_pagination_args(array(
+        $this->set_pagination_args([
             'total_items' => $total_items,
             //WE have to calculate the total number of items
             'per_page' => $per_page
             //WE have to determine how many items to show on a page
-        ));
+        ]);
         $this->items = $this->found_data;
     }
 

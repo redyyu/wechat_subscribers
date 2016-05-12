@@ -95,10 +95,10 @@ add_action('after_setup_theme', 'set_wechat_img_size');
 
 function sup_wechat_custom_sizes($sizes)
 {
-    return array_merge($sizes, array(
+    return array_merge($sizes, [
         'sup_wechat_big' => __('WeChat big image', 'WPWSL'),
         'sup_wechat_small' => __('WeChat small image', 'WPWSL')
-    ));
+    ]);
 }
 
 add_filter('image_size_names_choose', 'sup_wechat_custom_sizes');
@@ -149,9 +149,9 @@ add_action('admin_init', 'safe_redirect', 999);
 function safe_redirect()
 {
     if (isset($_GET['_wp_http_referer'])) {
-        wp_redirect(remove_query_arg(array(
+        wp_redirect(remove_query_arg([
             '_wp_http_referer',
-            '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+            '_wpnonce'], stripslashes($_SERVER['REQUEST_URI'])));
     }
 }
 
@@ -163,12 +163,12 @@ function custom_admin_scripts()
 {
     wp_enqueue_script('jquery');
     wp_enqueue_media();
-    wp_register_script('custom-upload', WPWSL_PLUGIN_URL . '/js/custom_upload.js', array(
+    wp_register_script('custom-upload', WPWSL_PLUGIN_URL . '/js/custom_upload.js', [
         'jquery',
         'media-upload',
-        'thickbox'), "2.0");
+        'thickbox'], "2.0");
     wp_enqueue_script('custom-upload');
-    wp_register_script('modal', WPWSL_PLUGIN_URL . '/js/modal.js', array(), "2.0");
+    wp_register_script('modal', WPWSL_PLUGIN_URL . '/js/modal.js', [], "2.0");
     wp_enqueue_script('modal');
 }
 

@@ -35,9 +35,9 @@ class WPWSL_Settings
     private function __construct()
     {
 
-        add_action('admin_menu', array(
+        add_action('admin_menu', [
             $this,
-            'add_plugin_page'));
+            'add_plugin_page']);
         //add_action( 'admin_init', array( $this, 'page_init' ), 999 );
     }
 
@@ -53,9 +53,9 @@ class WPWSL_Settings
         $menu_slug = WPWSL_SETTINGS_PAGE;
 
         add_options_page(
-            $page_title, $menu_title, $capability, $menu_slug, array(
+            $page_title, $menu_title, $capability, $menu_slug, [
             $this,
-            'create_admin_page')
+            'create_admin_page']
         );
 
         $this->page_init();
@@ -79,9 +79,9 @@ class WPWSL_Settings
         register_setting(
             $this->option_group, // Option group
             $this->option_name, // Option name
-            array(
+            [
             $this,
-            'sanitize') // Sanitize
+            'sanitize'] // Sanitize
         );
     }
 
@@ -92,7 +92,7 @@ class WPWSL_Settings
      */
     public function sanitize($input)
     {
-        $new_input = array();
+        $new_input = [];
 
         foreach ($input as $key => $obj) {
             if (isset($input[$key])) {

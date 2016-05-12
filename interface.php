@@ -83,11 +83,11 @@ class wechatCallbackapi
 
     private function saveKeyWord($fromUsername, $keyword, $match)
     {
-        $messageRow = array(
+        $messageRow = [
             "openid" => $fromUsername,
             "keyword" => $keyword,
             "is_match" => $match,
-            "time" => current_time("Y-m-d H:i:s", 0));
+            "time" => current_time("Y-m-d H:i:s", 0)];
         global $wpdb;
         $rows_affected = $wpdb->insert(DB_TABLE_WPWSL_HISTORY, $messageRow);
     }
@@ -162,14 +162,14 @@ class wechatCallbackapi
     private function parseurl($url = "")
     {
         $url = rawurlencode($url);
-        $a = array(
+        $a = [
             "%3A",
             "%2F",
-            "%40");
-        $b = array(
+            "%40"];
+        $b = [
             ":",
             "/",
-            "@");
+            "@"];
         $url = str_replace($a, $b, $url);
         return $url;
     }
@@ -268,12 +268,12 @@ class wechatCallbackapi
         $re_type = isset($contentData['type']) ? $contentData['type'] : "";
         $re_cate = isset($contentData['cate']) ? $contentData['cate'] : "";
         $re_count = isset($contentData['count']) ? $contentData['count'] : 6;
-        $args = array(
+        $args = [
             'posts_per_page' => $re_count,
             'orderby' => 'post_date',
             'order' => 'desc',
             'ignore_sticky_posts' => 1,
-        );
+        ];
         if ($re_type != "") {
             $args['post_type'] = $re_type;
             if ($re_type == "post" && $re_cate != "") {
@@ -309,10 +309,10 @@ class wechatCallbackapi
         $re_type = isset($contentData['type']) ? $contentData['type'] : "";
         $re_cate = isset($contentData['cate']) ? $contentData['cate'] : "";
         $re_count = isset($contentData['count']) ? $contentData['count'] : 6;
-        $args = array(
+        $args = [
             'posts_per_page' => $re_count,
             'orderby' => 'rand',
-        );
+        ];
         if ($re_type != "") {
             $args['post_type'] = $re_type;
             if ($re_type == "post" && $re_cate != "") {
@@ -334,11 +334,11 @@ class wechatCallbackapi
         $re_type = isset($contentData['type']) ? $contentData['type'] : "";
         $re_cate = isset($contentData['cate']) ? $contentData['cate'] : "";
         $re_count = isset($contentData['count']) ? $contentData['count'] : 6;
-        $args = array(
+        $args = [
             'posts_per_page' => $re_count,
             'orderby' => 'post_date',
             'order' => 'desc',
-        );
+        ];
         if ($re_type != "") {
             $args['post_type'] = $re_type;
             if ($re_type == "post" && $re_cate != "") {
@@ -376,12 +376,12 @@ class wechatCallbackapi
                 $tmp_img_obj = wp_get_attachment_image_src($_tmp_id, $imageSize);
                 $rimg = $tmp_img_obj[0];
             } else {
-                $attachments = get_posts(array(
+                $attachments = get_posts([
                     'post_type' => 'attachment',
                     'posts_per_page' => -1,
                     'post_parent' => $post_id,
                     'exclude' => get_post_thumbnail_id($post_id)
-                ));
+                ]);
                 if (count($attachments) > 0) {
                     $tmp_img_obj = wp_get_attachment_image_src($attachments[0]->ID, $imageSize);
                     $rimg = $tmp_img_obj[0];
@@ -393,9 +393,9 @@ class wechatCallbackapi
         } else if (trim($post_content != "")) {
             $text = trim_words($post_content, SYNC_EXCERPT_LIMIT);
         }
-        $result = array(
+        $result = [
             "src" => $rimg,
-            "text" => $text);
+            "text" => $text];
         return $result;
     }
 
@@ -468,10 +468,10 @@ class wechatCallbackapi
         $nonce = isset($_GET["nonce"]) ? $_GET["nonce"] : '';
 
         $token = $this->token;
-        $tmpArr = array(
+        $tmpArr = [
             $token,
             $timestamp,
-            $nonce);
+            $nonce];
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode($tmpArr);
         $tmpStr = sha1($tmpStr);
