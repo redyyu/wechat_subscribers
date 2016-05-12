@@ -199,10 +199,10 @@ WeChat Subscribers Lite
 #clear_all_records:hover{
 	color:#FFFFFF !important;
 }
-{
+/*{
     height: 26.9px;
     padding-top:1px;
-}
+}*/
 #dialog_content__container input{
     margin-top:1.5px;
 }
