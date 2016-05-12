@@ -12,11 +12,7 @@ function redirect()
     echo $redirect;
 }
 
-if (isset($_GET['edit'])) {
-    $current_id = $_GET['edit'];
-} else {
-    $current_id = '';
-}
+$current_id = (isset($_GET['edit'])) ? $_GET['edit'] : '';
 
 if (isset($_GET['delete'])) {
     $current_id = $_GET['delete'];
@@ -79,11 +75,7 @@ if (isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])) {
                 ]
             ];
 
-            $raw = get_posts($args);
-
-
-            foreach ($raw as $p) {
-
+            foreach (get_posts($args) as $p) {
                 if ($p->ID != $current_id) {
 
                     $target_trigger = get_post_meta($p->ID, '_trigger', TRUE);
@@ -505,22 +497,11 @@ require_once( 'content.php' );
                                 <th scope="row"><label><?php _e($_re_count_label); ?></label></th>
                                 <td>
                                     <select name="re_count">
-                                        <?php
-                                        $_re_counts = [
-                                            "1" => 1,
-                                            "2" => 2,
-                                            "3" => 3,
-                                            "4" => 4,
-                                            "5" => 5,
-                                            "6" => 6,
-                                            "7" => 7,
-                                            "8" => 8,
-                                            "9" => 9,
-                                            "10" => 10];
-                                        foreach ($_re_counts as $key => $val):
-                                            ?>
-                                            <?php $selected = ($key == $_re_count) ? 'selected' : ''; ?>
-                                            <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $val; ?></option>
+                                        <?php foreach (range(1,10) as $val):?>
+                                            <?php $selected = ("$val" == $_re_count) ? 'selected' : ''; ?>
+                                            <option value="<?php echo $key; ?>" <?php echo $selected; ?>>
+                                                <?php echo $val; ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </td>

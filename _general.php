@@ -25,15 +25,13 @@ function delete_template($id)
     }
 }
 
-$args = [
+$raw = get_posts([
     'post_type' => 'wpwsl_template',
     'posts_per_page' => -1,
     'orderby' => 'post_date',
     'post_status' => 'any',
     'order' => 'ASC'
-];
-
-$raw = get_posts($args);
+]);
 
 $all_keys = [];
 foreach ($raw as $e) {

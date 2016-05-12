@@ -103,8 +103,6 @@ function sup_wechat_custom_sizes($sizes)
 
 add_filter('image_size_names_choose', 'sup_wechat_custom_sizes');
 
-
-
 //Setup Admin
 add_action('_admin_menu', 'wpwsl_admin_setup');
 
