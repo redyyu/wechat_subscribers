@@ -12,7 +12,7 @@ $wechatObj = new wechatCallbackapi($token);
 $valid=$wechatObj->valid();
 
 if($valid){
-	$wechatObj->responseMsg(get_data());
+	$wechatObj->responseMsg();
 }else{
 	header('Location: '.home_url());
 }
@@ -21,17 +21,9 @@ exit;
 class wechatCallbackapi{
 
 	private $token;
-	private $data;
 
-	public function __construct($_token, $_data=null){
+	public function __construct($_token){
 		$this->token=$_token;
-		if($_data!=null){
-			$this->load($_data);
-		}
-	}
-
-	public function load($_data){
-		$this->data=$_data;
 	}
 
 	public function valid(){
@@ -50,10 +42,7 @@ class wechatCallbackapi{
 	    }
 	}
 
-  public function responseMsg($_data=null){
-  	if($_data!=null){
-  		$this->load($_data);
-  	}
+  public function responseMsg(){
 
 		//get post data, May be due to the different environments
 		if(IS_DEBUG){
@@ -70,7 +59,7 @@ class wechatCallbackapi{
 		}
 
     //extract post data
-		if (!empty($postStr) && $this->checkSignature() && isset($this->data)){
+		if (!empty($postStr) && $this->checkSignature()){
 
         $postObj = simplexml_load_string($postStr,
                                          'SimpleXMLElement',
@@ -118,7 +107,7 @@ class wechatCallbackapi{
       }
       $keyword = strtolower($keyword);
 
-			foreach($this->data as $d){
+			foreach(get_data() as $d){
 				if($d->trigger=='default' || $d->trigger=='subscribe'){
 					continue;
 				}
@@ -137,7 +126,7 @@ class wechatCallbackapi{
 		}
 		$match = $is_match ? "y" : "n";
 		if(!$is_match){
-			foreach($this->data as $d){
+			foreach(get_data() as $d){
 				if($d->trigger=='default'){
 				    $d->key[0]=$keyword;
 					$resultStr =$this->get_msg_by_type($d, $fromUsername, $toUsername);
@@ -157,7 +146,7 @@ class wechatCallbackapi{
 		$eventType=$postObj->Event;
 		$resultStr='';
 
-		foreach($this->data as $d){
+		foreach(get_data() as $d){
 			if($d->trigger == $eventType){
 				$resultStr =$this->get_msg_by_type($d, $fromUsername, $toUsername);
 				break;
@@ -496,56 +485,46 @@ class wechatCallbackapi{
 	}
 }
 
-function get_data(){
-	$args = array(
-			'post_type' => 'wpwsl_template',
-			'posts_per_page' => -1,
-			'orderby' => 'date',
-			'post_status' => 'publish',
-			'order'=> 'DESC'
-	);
+function get_data()
+{
 
-	$raw=get_posts($args);
+    foreach (get_posts([
+        'post_type' => 'wpwsl_template',
+        'posts_per_page' => -1,
+        'orderby' => 'date',
+        'post_status' => 'publish',
+        'order' => 'DESC'
+    ]) as $p) {
 
-	$data = array();
+        $tmp_msg = new stdClass();
+        $tmp_msg->phmsg = [];
 
-	foreach($raw as $p){
+        foreach (get_post_meta($p->ID, '_phmsg_item') as $_item) {
+            $_tmp_item = json_decode($_item);
 
-		$_gp=get_post_meta($p->ID,'_phmsg_item');
-		$phmsg_group=array();
+            $_tmp_item->title = urldecode($_tmp_item->title);
+            $_tmp_item->pic = urldecode($_tmp_item->pic);
+            $_tmp_item->des = urldecode($_tmp_item->des);
+            $_tmp_item->url = urldecode($_tmp_item->url);
 
-		foreach($_gp as $_item){
-			$_tmp_item=json_decode($_item);
+            $tmp_msg->phmsg[] = $_tmp_item;
+        }
+        $tmp_key = trim(get_post_meta($p->ID, '_keyword', TRUE));
 
-			$_tmp_item->title=urldecode($_tmp_item->title);
-			$_tmp_item->pic=urldecode($_tmp_item->pic);
-			$_tmp_item->des=urldecode($_tmp_item->des);
-			$_tmp_item->url=urldecode($_tmp_item->url);
+        $tmp_msg->title = $p->post_title;
+        $tmp_msg->type = get_post_meta($p->ID, '_type', TRUE);
+        $tmp_msg->key = explode(',', $tmp_key);
+        $tmp_msg->trigger = get_post_meta($p->ID, '_trigger', TRUE);
+        $tmp_msg->msg = get_post_meta($p->ID, '_content', TRUE);
 
-			$phmsg_group[]=$_tmp_item;
-		}
-		$tmp_key=trim(get_post_meta($p->ID,'_keyword',TRUE));
-		$array_key=explode(',', $tmp_key);
-
-
-		$tmp_msg=new stdClass();
-
-		$tmp_msg->title=$p->post_title;
-		$tmp_msg->type=get_post_meta($p->ID,'_type',TRUE);
-		$tmp_msg->key=$array_key;
-		$tmp_msg->trigger=get_post_meta($p->ID,'_trigger',TRUE);
-		$tmp_msg->msg=get_post_meta($p->ID,'_content',TRUE);
-		$tmp_msg->phmsg=$phmsg_group;
-
-		//response source
-		$tmp_msg->remsg=array(
-			                  "type"=>get_post_meta($p->ID,'_re_type',TRUE),
-			                  "cate"=>get_post_meta($p->ID,'_re_cate',TRUE),
-			                  "count"=>get_post_meta($p->ID,'_re_count',TRUE)
-			                  );
-
-    $data[]=$tmp_msg;
-	}
-	return $data;
+        //response source
+        $tmp_msg->remsg = [
+            "type" => get_post_meta($p->ID, '_re_type', TRUE),
+            "cate" => get_post_meta($p->ID, '_re_cate', TRUE),
+            "count" => get_post_meta($p->ID, '_re_count', TRUE)
+        ];
+        yield $tmp_msg;
+    }
 }
-?>
+
+
