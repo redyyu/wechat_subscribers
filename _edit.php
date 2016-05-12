@@ -97,9 +97,9 @@ if (isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])) {
         }
     }
 
-    if (isset($_POST['type']))
+    if (isset($_POST['type'])) {
         update_post_meta($current_id, '_type', $_POST['type']);
-
+    }
 
     if (isset($_POST['content'])) {
         update_post_meta($current_id, '_content', $_POST['content']);
@@ -164,7 +164,6 @@ $trigger_options = array(
 $_content = get_post_meta($current_id, '_content', TRUE);
 
 //photo message
-
 $_phmsg_group = get_post_meta($current_id, '_phmsg_item');
 if ($_phmsg_group == '') {
     $_phmsg_group = array();
@@ -189,7 +188,6 @@ if (!isset($_phmsg_main->title)) {
     $_phmsg_main->url = urldecode($_phmsg_main->url);
 }
 $_current_pic = $_phmsg_main->pic == '' ? $default_pic : $_phmsg_main->pic;
-
 
 array_shift($_phmsg_group);
 $_tmp_phmsg_group = array();
