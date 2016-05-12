@@ -21,4 +21,3 @@ if (stripos('-' . $locale, 'zh')) {
 
     $content['tips_content'] = '<p>如果你使用这个插件遇到任何问题，<a href="mailto:redy.ru@gmail.com">请联系我</a>。也可以扫码加入我的<a href="http://imredy.com/wp-wechat/" target="_blank">在线支持</a>:</p><p><img src="' . WPWSL_PLUGIN_URL . '/img/qr_wp_wechat.png" /></p>';
 }
-?>

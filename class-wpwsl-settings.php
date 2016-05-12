@@ -108,5 +108,3 @@ class WPWSL_Settings
     }
 
 }
-
-?>

@@ -61,5 +61,3 @@ class WPWSL_General
     }
 
 }
-
-?>

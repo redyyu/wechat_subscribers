@@ -26,5 +26,3 @@ function custom_posttype_wpwsl_template()
 
     register_post_type('wpwsl_template', $fields);
 }
-
-?>

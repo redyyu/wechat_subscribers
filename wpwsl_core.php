@@ -11,8 +11,9 @@
  * Text Domain: WPWSL
  * Domain Path: /languages
  */
-if (!defined('ABSPATH'))
+if (!defined('ABSPATH')) {
     exit;
+}
 
 define('WPWSL_PLUGIN_URL', plugins_url('', __FILE__));
 define('WPWSL_GENERAL_PAGE', 'wpwsl-general-page');
@@ -181,4 +182,3 @@ function wpwsl_plugin_settings_link($links)
 
 $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'wpwsl_plugin_settings_link');
-?>

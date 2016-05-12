@@ -106,5 +106,3 @@ class WPWSL_History_Table extends WP_List_Table
     }
 
 }
-
-?>

@@ -257,5 +257,3 @@ function prefix_ajax_get_insert_content()
     print(json_encode($r));
     die();
 }
-
-?>

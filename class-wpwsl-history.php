@@ -62,5 +62,3 @@ class WPWSL_History
     }
 
 }
-
-?>

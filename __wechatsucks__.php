@@ -18,4 +18,3 @@ if (isset($_GET["echostr"])) {
 }
 
 exit;
-?>
