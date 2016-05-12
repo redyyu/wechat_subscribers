@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WeChat Interface Crack
  *
@@ -12,9 +13,8 @@
  * I can not guarantee this thing certain works, we can not guarantee that your data is not compromised. 
  * In short, there is no way to approach, so GOOD LUCK!
  */
-
-if(isset($_GET["echostr"])){
-	echo $_GET["echostr"];
+if (isset($_GET["echostr"])) {
+    echo $_GET["echostr"];
 }
 
 exit;
