@@ -117,7 +117,9 @@ class wechatCallbackapi
                 $curr_key = $d->key;
                 foreach ($curr_key as $k) {
                     $_k = strtolower(trim($k));
-                    if ($keyword == $_k || $topic_keyword == $_k) {
+                    if ($topic_keyword != '' && $topic_keyword == $_k){
+                        $is_match = true;
+                    }else if ($keyword == $_k) {
                         $is_match = true;
                     }
                 }
