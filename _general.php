@@ -25,16 +25,31 @@ function delete_template($id)
     }
 }
 
-$raw = get_posts([
-    'post_type' => 'wpwsl_template',
-    'posts_per_page' => -1,
-    'orderby' => 'post_date',
-    'post_status' => 'any',
-    'order' => 'ASC'
-]);
+$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
+function get_raw(){
+  // foreach (get_posts([
+  //   'post_type' => 'wpwsl_template',
+  //   'posts_per_page' => -1,
+  //   'orderby' => 'post_date',
+  //   'post_status' => 'any',
+  //   'order' => 'ASC'
+  // ]) as $p) {
+  //   yield $p;
+  // }
+  return get_posts([
+      'post_type' => 'wpwsl_template',
+      'posts_per_page' => -1,
+      'orderby' => 'post_date',
+      'post_status' => 'any',
+      'order' => 'ASC'
+  ]);
+}
+
+
 
 $all_keys = [];
-foreach ($raw as $e) {
+foreach (get_raw() as $e) {
     if (get_post_meta($e->ID, '_trigger', TRUE) != '-') {
         continue;
     }
@@ -46,7 +61,7 @@ foreach ($raw as $e) {
 }
 
 $data = [];
-foreach ($raw as $d) {
+foreach (get_raw() as $d) {
     $status = $d->post_status;
 
     $tmp_key = trim(get_post_meta($d->ID, '_keyword', TRUE));

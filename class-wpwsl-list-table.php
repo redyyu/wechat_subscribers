@@ -104,7 +104,7 @@ class WPWSL_List_Table extends WP_List_Table
     }
 
 //	public function process_bulk_action() {
-//		
+//
 //	    if ( 'delete' === $this->current_action() ) {
 //	    	if(isset($_GET['tpl'])){
 //		        foreach($_GET['tpl'] as $tpl){
@@ -113,7 +113,7 @@ class WPWSL_List_Table extends WP_List_Table
 //		        			unset($this->rawData[$key]);
 //		        		}
 //		        	}
-//		        	
+//
 //		        }
 //	        }
 //	    }
@@ -151,7 +151,7 @@ class WPWSL_List_Table extends WP_List_Table
         usort($this->rawData, [
             $this,
             'usort_reorder']);
-        $per_page = 10;
+        $per_page = 100;
         $current_page = $this->get_pagenum();
 
         $total_items = count($this->rawData);
