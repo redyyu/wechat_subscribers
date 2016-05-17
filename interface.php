@@ -5,7 +5,7 @@
  */
 global $token;
 error_log('Debug 1: memory usage: ' . memory_get_peak_usage());
-exit;
+
 define('IS_DEBUG', isset($_GET['debug']));
 
 $wechatObj = new wechatCallbackapi($token);
