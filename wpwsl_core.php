@@ -56,7 +56,12 @@ function load_interface()
 {
     global $token;
     if ($token != '' && isset($_GET[$token])) {
+        error_log('Debug interface before: memory usage: ' . memory_get_peak_usage());
+
         require( 'interface.php' );
+        
+        error_log('Debug interface after : memory usage: ' . memory_get_peak_usage());
+
     }
 }
 
