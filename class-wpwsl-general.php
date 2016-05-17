@@ -1,4 +1,5 @@
 <?php
+error_log('Debug class general: memory usage: ' . memory_get_peak_usage());
 
 class WPWSL_General
 {

@@ -1,4 +1,5 @@
 <?php
+error_log('Debug list table: memory usage: ' . memory_get_peak_usage());
 
 /* -------------------------------------------- *
  * Class Definition								*

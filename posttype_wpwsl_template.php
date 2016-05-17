@@ -1,4 +1,5 @@
 <?php
+error_log('Debug posttype: memory usage: ' . memory_get_peak_usage());
 
 // Custom post type for Template page.
 custom_posttype_wpwsl_template();

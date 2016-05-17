@@ -3,6 +3,7 @@
  * Settings Page, It's required by WPWSLSettings Class only.
  *
  */
+error_log('Debug _settings: memory usage: ' . memory_get_peak_usage());
 
 $options = $this->options;
 

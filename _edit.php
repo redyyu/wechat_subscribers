@@ -3,6 +3,7 @@
  * Settings Page, It's required by WPWSLGeneral Class only.
  *
  */
+error_log('Debug _edit: memory usage: ' . memory_get_peak_usage());
 
 function redirect()
 {

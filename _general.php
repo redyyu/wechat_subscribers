@@ -3,6 +3,8 @@
  * Settings Page, It's required by WPWSLGeneral Class only.
  *
  */
+error_log('Debug _general: memory usage: ' . memory_get_peak_usage());
+
 require_once( 'class-wpwsl-list-table.php' );
 
 if (isset($_GET['action']) && isset($_GET['action2'])) {

@@ -1,4 +1,5 @@
 <?php
+error_log('Debug ajax_request_handle: memory usage: ' . memory_get_peak_usage());
 
 //Set ajax callback function
 add_action('wp_ajax_add_foobar', 'prefix_ajax_add_foobar');

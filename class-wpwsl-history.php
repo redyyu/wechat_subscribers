@@ -1,4 +1,5 @@
 <?php
+error_log('Debug history: memory usage: ' . memory_get_peak_usage());
 
 class WPWSL_History
 {

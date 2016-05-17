@@ -3,6 +3,7 @@
  * History page, record subscribers's messages while send to this plugin.
  *
  */
+error_log('Debug _history: memory usage: ' . memory_get_peak_usage());
 
 require_once( 'class-wpwsl-history-table.php' );
 
