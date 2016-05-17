@@ -119,7 +119,7 @@ add_action('_admin_menu', 'wpwsl_admin_setup');
 error_log('Debug 9: memory usage: ' . memory_get_peak_usage());
 
 function wpwsl_admin_setup()
-{
+{return;
     global $user_level;
     if ($user_level >= 5) {
         require_once( 'posttype_wpwsl_template.php' );
