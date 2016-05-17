@@ -4,6 +4,7 @@
  * WeChat Interface for WeChat Subscribers Lite
  */
 global $token;
+error_log('Debug 1: memory usage: ' . memory_get_peak_usage());
 
 define('IS_DEBUG', isset($_GET['debug']));
 
@@ -13,11 +14,11 @@ $valid = $wechatObj->valid();
 
 if ($valid) {
     
-    error_log('Debug 1: memory usage: ' . memory_get_peak_usage());
+    error_log('Debug 2: memory usage: ' . memory_get_peak_usage());
 
     $wechatObj->responseMsg();
     
-    error_log('Debug 2: memory usage: ' . memory_get_peak_usage());
+    error_log('Debug 3: memory usage: ' . memory_get_peak_usage());
 
 } else {
     header('Location: ' . home_url());
