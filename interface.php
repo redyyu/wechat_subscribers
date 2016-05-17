@@ -485,6 +485,7 @@ class wechatCallbackapi
 
 function get_data()
 {
+    error_log('Debug get_data: memory usage: ' . memory_get_peak_usage());
 
     foreach (get_posts([
         'post_type' => 'wpwsl_template',
