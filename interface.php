@@ -30,13 +30,10 @@ class wechatCallbackapi
 
     public function valid()
     {
-        if (isset($_GET["echostr"])) {
-            $echoStr = $_GET["echostr"];
-        }
         //valid signature , option
         if ($this->checkSignature()) {
-            if (isset($echoStr) && $echoStr != '') {
-                echo $echoStr;
+            if (isset($_GET["echostr"]) && $_GET["echostr"] != '') {
+                echo $_GET["echostr"];
                 exit;
             }
             return true;
@@ -172,8 +169,7 @@ class wechatCallbackapi
             ":",
             "/",
             "@"];
-        $url = str_replace($a, $b, $url);
-        return $url;
+        return str_replace($a, $b, $url);
     }
 
     private function get_msg_by_type($d, $fromUsername, $toUsername)
@@ -220,8 +216,7 @@ class wechatCallbackapi
 
         $msgType = "text";
         $time = time();
-        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentData);
-        return $resultStr;
+        return sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentData);
     }
 
     private function sendPhMsg($fromUsername, $toUsername, $contentData)
@@ -325,14 +320,14 @@ class wechatCallbackapi
         }
         $args['post_status'] = "publish";
 
-        $posts = get_posts($args);
-        return $posts;
+        return get_posts($args);
     }
 
     private function getRecentlyPosts($contentData = null)
     {
-        if (!$contentData)
+        if (!$contentData) {
             return null;
+        }
         $re_type = isset($contentData['type']) ? $contentData['type'] : "";
         $re_cate = isset($contentData['cate']) ? $contentData['cate'] : "";
         $re_count = isset($contentData['count']) ? $contentData['count'] : 6;
@@ -351,8 +346,7 @@ class wechatCallbackapi
         }
         $args['post_status'] = "publish";
 
-        $posts = get_posts($args);
-        return $posts;
+        return get_posts($args);
     }
 
     private function getImgsSrcInPost($post_id = null, $post_content = '',
@@ -395,10 +389,9 @@ class wechatCallbackapi
         } else if (trim($post_content != "")) {
             $text = trim_words($post_content, SYNC_EXCERPT_LIMIT);
         }
-        $result = [
+        return [
             "src" => $rimg,
             "text" => $text];
-        return $result;
     }
 
     private function sendMsgBase($fromUsername, $toUsername, $messages)
@@ -469,20 +462,16 @@ class wechatCallbackapi
         $timestamp = isset($_GET["timestamp"]) ? $_GET["timestamp"] : '';
         $nonce = isset($_GET["nonce"]) ? $_GET["nonce"] : '';
 
-        $token = $this->token;
         $tmpArr = [
-            $token,
+            $this->token,
             $timestamp,
             $nonce];
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode($tmpArr);
         $tmpStr = sha1($tmpStr);
 
-        if ($tmpStr == $signature) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($tmpStr == $signature);
+        
     }
 
 }
