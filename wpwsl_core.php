@@ -14,6 +14,8 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+error_log('Debug 4: memory usage: ' . memory_get_peak_usage());
+exit;
 
 define('WPWSL_PLUGIN_URL', plugins_url('', __FILE__));
 define('WPWSL_GENERAL_PAGE', 'wpwsl-general-page');
