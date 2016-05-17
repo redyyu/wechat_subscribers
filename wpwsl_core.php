@@ -50,6 +50,7 @@ global $token;
 $token = isset($options['token']) ? $options['token'] : '';
 
 add_action('parse_request', 'load_interface');
+error_log('Debug 5: memory usage: ' . memory_get_peak_usage());
 
 function load_interface()
 {
@@ -61,6 +62,7 @@ function load_interface()
 
 //Languages
 add_action('plugins_loaded', 'load_languages_file');
+error_log('Debug 6: memory usage: ' . memory_get_peak_usage());
 
 function load_languages_file()
 {
@@ -69,6 +71,7 @@ function load_languages_file()
 
 //create db table wechat_subscribers_lite_messages
 add_action('plugins_loaded', 'create_history_table');
+error_log('Debug 7: memory usage: ' . memory_get_peak_usage());
 
 function create_history_table()
 {
@@ -94,6 +97,7 @@ function set_wechat_img_size()
 }
 
 add_action('after_setup_theme', 'set_wechat_img_size');
+error_log('Debug 8: memory usage: ' . memory_get_peak_usage());
 
 function sup_wechat_custom_sizes($sizes)
 {
@@ -107,6 +111,7 @@ add_filter('image_size_names_choose', 'sup_wechat_custom_sizes');
 
 //Setup Admin
 add_action('_admin_menu', 'wpwsl_admin_setup');
+error_log('Debug 9: memory usage: ' . memory_get_peak_usage());
 
 function wpwsl_admin_setup()
 {
@@ -137,6 +142,7 @@ function wpwsl_admin_setup()
 //AJAX handle
 //Safe Redirect
 add_action('admin_init', 'ajax_handle', 999);
+error_log('Debug 10: memory usage: ' . memory_get_peak_usage());
 
 function ajax_handle()
 {
@@ -145,6 +151,7 @@ function ajax_handle()
 
 //Safe Redirect
 add_action('admin_init', 'safe_redirect', 999);
+error_log('Debug 11: memory usage: ' . memory_get_peak_usage());
 
 function safe_redirect()
 {
@@ -157,6 +164,7 @@ function safe_redirect()
 
 //Scripts
 add_action('admin_print_scripts', 'custom_admin_scripts');
+error_log('Debug 12: memory usage: ' . memory_get_peak_usage());
 
 //add custom upload jquery support.
 function custom_admin_scripts()
@@ -182,3 +190,4 @@ function wpwsl_plugin_settings_link($links)
 
 $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'wpwsl_plugin_settings_link');
+error_log('Debug 13: memory usage: ' . memory_get_peak_usage());
