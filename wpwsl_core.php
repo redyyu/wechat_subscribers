@@ -27,6 +27,36 @@ define('SYNC_EXCERPT_LIMIT', 100);
 define('MAX_SEARCH_LIMIT', 6);
 define('DB_TABLE_WPWSL_HISTORY', 'wechat_subscribers_lite_history');
 
+//Interface
+$options = get_option(WPWSL_SETTINGS_OPTION);
+global $token;
+$token = isset($options['token']) ? $options['token'] : '';
+
+add_action('parse_request', 'load_interface');
+//Languages
+add_action('plugins_loaded', 'load_languages_file');
+//create db table wechat_subscribers_lite_messages
+add_action('plugins_loaded', 'create_history_table');
+add_action('after_setup_theme', 'set_wechat_img_size');
+add_filter('image_size_names_choose', 'sup_wechat_custom_sizes');
+
+//Setup Admin
+add_action('_admin_menu', 'wpwsl_admin_setup');
+
+//AJAX handle
+//Safe Redction('admin_init', 'ajax_handle', 999);irect
+add_action('admin_init', 'ajax_handle', 999);
+
+//Safe Redirect
+add_action('admin_init', 'safe_redirect', 999);
+
+//Scripts
+add_action('admin_print_scripts', 'custom_admin_scripts');
+
+$plugin = plugin_basename(__FILE__);
+add_filter("plugin_action_links_$plugin", 'wpwsl_plugin_settings_link');
+
+
 //utils
 function trim_words($str, $limit, $suffix = '...', $db_charset = DB_CHARSET,
     $strip_tags = true)
@@ -42,13 +72,6 @@ function trim_words($str, $limit, $suffix = '...', $db_charset = DB_CHARSET,
     return $new_str;
 }
 
-//Interface
-$options = get_option(WPWSL_SETTINGS_OPTION);
-global $token;
-$token = isset($options['token']) ? $options['token'] : '';
-
-add_action('parse_request', 'load_interface');
-
 function load_interface()
 {
     global $token;
@@ -57,16 +80,10 @@ function load_interface()
     }
 }
 
-//Languages
-add_action('plugins_loaded', 'load_languages_file');
-
 function load_languages_file()
 {
     load_plugin_textdomain('WPWSL', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
-
-//create db table wechat_subscribers_lite_messages
-add_action('plugins_loaded', 'create_history_table');
 
 function create_history_table()
 {
@@ -91,7 +108,6 @@ function set_wechat_img_size()
     add_image_size('sup_wechat_small', 200, 200, true);
 }
 
-add_action('after_setup_theme', 'set_wechat_img_size');
 
 function sup_wechat_custom_sizes($sizes)
 {
@@ -100,11 +116,6 @@ function sup_wechat_custom_sizes($sizes)
         'sup_wechat_small' => __('WeChat small image', 'WPWSL')
     ]);
 }
-
-add_filter('image_size_names_choose', 'sup_wechat_custom_sizes');
-
-//Setup Admin
-add_action('_admin_menu', 'wpwsl_admin_setup');
 
 function wpwsl_admin_setup()
 {
@@ -132,17 +143,10 @@ function wpwsl_admin_setup()
     }
 }
 
-//AJAX handle
-//Safe Redirect
-add_action('admin_init', 'ajax_handle', 999);
-
 function ajax_handle()
 {
     require_once( 'ajax_request_handle.php');
 }
-
-//Safe Redirect
-add_action('admin_init', 'safe_redirect', 999);
 
 function safe_redirect()
 {
@@ -152,9 +156,6 @@ function safe_redirect()
             '_wpnonce'], stripslashes($_SERVER['REQUEST_URI'])));
     }
 }
-
-//Scripts
-add_action('admin_print_scripts', 'custom_admin_scripts');
 
 //add custom upload jquery support.
 function custom_admin_scripts()
@@ -177,6 +178,3 @@ function wpwsl_plugin_settings_link($links)
     array_unshift($links, $settings_link);
     return $links;
 }
-
-$plugin = plugin_basename(__FILE__);
-add_filter("plugin_action_links_$plugin", 'wpwsl_plugin_settings_link');

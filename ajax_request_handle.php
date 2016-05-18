@@ -3,6 +3,9 @@
 //Set ajax callback function
 add_action('wp_ajax_add_foobar', 'prefix_ajax_add_foobar');
 
+add_action('wp_ajax_get_insert_content', 'prefix_ajax_get_insert_content');
+
+
 function prefix_ajax_add_foobar()
 {
     $targetID = $_GET['tid'];
@@ -173,8 +176,6 @@ function prefix_ajax_add_foobar()
 
     die();
 }
-
-add_action('wp_ajax_get_insert_content', 'prefix_ajax_get_insert_content');
 
 function prefix_ajax_get_insert_content()
 {
