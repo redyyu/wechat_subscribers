@@ -5,7 +5,7 @@
  * Plugin URI: http://www.imredy.com/wp-wechat/
  * Description: 轻便易用的微信(weixin)公众平台订阅号管理工具。Light weight WeChat (Subscribers) public platform management tool.
  * Version: 1.7.0
- * Author: Redy Ru
+ * Author: Redy Ru, Robin Zhao
  * Author URI: http://www.imredy.com/
  * License: GPLv2 or later
  * Text Domain: WPWSL
@@ -184,7 +184,7 @@ class WpwslHelper
     {
         return isset($_GET[$name]) ? $_GET[$name] : $default;
     }
-    
+
     public static function post($name, $default = '')
     {
         return isset($_POST[$name]) ? $_POST[$name] : $default;
