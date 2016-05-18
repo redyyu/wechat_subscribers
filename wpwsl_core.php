@@ -44,7 +44,6 @@ add_filter('image_size_names_choose', 'sup_wechat_custom_sizes');
 add_action('_admin_menu', 'wpwsl_admin_setup');
 
 //AJAX handle
-//Safe Redction('admin_init', 'ajax_handle', 999);irect
 add_action('admin_init', 'ajax_handle', 999);
 
 //Safe Redirect
