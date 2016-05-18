@@ -7,18 +7,16 @@ global $token;
 
 define('IS_DEBUG', isset($_GET['debug']));
 
-$wechatObj = new wechatCallbackapi($token);
+$wechatObj = new WechatCallbackapi($token);
 
-$valid = $wechatObj->valid();
-
-if ($valid) {
+if ($wechatObj->valid()) {
     $wechatObj->responseMsg();
 } else {
     header('Location: ' . home_url());
 }
 exit;
 
-class wechatCallbackapi
+class WechatCallbackapi
 {
 
     private $token;
