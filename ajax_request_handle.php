@@ -13,10 +13,10 @@ function prefix_ajax_add_foobar()
 {
     $targetID = $_GET['tid'];
     $posts_per_page = 6;
-    $current = isset($_GET['cur']) ? $_GET['cur'] : 1;
+    $current = WpwslHelper::get('cur', 1);
 
     $offset = ($current - 1) * $posts_per_page;
-    $post_type = isset($_GET['ptype']) ? $_GET['ptype'] : "post";
+    $post_type = WpwslHelper::get('ptype', 'post');
 
     if (isset($_GET['catid']) && $_GET['catid'] != "default") {
         $published_posts = get_category($_GET['catid'])->count;

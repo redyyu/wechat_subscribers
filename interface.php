@@ -258,8 +258,9 @@ class WechatCallbackapi
 
     private function getSearchPosts($keyword, $contentData = null)
     {
-        if (!$contentData)
+        if (!$contentData) {
             return null;
+        }
         $re_type = isset($contentData['type']) ? $contentData['type'] : "";
         $re_cate = isset($contentData['cate']) ? $contentData['cate'] : "";
         $re_count = isset($contentData['count']) ? $contentData['count'] : 6;
@@ -456,9 +457,10 @@ class WechatCallbackapi
         if (IS_DEBUG) {
             return true;
         }
-        $signature = isset($_GET["signature"]) ? $_GET["signature"] : '';
-        $timestamp = isset($_GET["timestamp"]) ? $_GET["timestamp"] : '';
-        $nonce = isset($_GET["nonce"]) ? $_GET["nonce"] : '';
+        
+        $signature = WpwslHelper::get('signature');
+        $timestamp = WpwslHelper::get('timestamp');
+        $nonce = WpwslHelper::get('nonce');
 
         $tmpArr = [
             $this->token,

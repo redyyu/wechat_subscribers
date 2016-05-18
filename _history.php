@@ -37,7 +37,7 @@ function results_order()
 }
 
 $order = results_order();
-$paged = isset($_GET['paged']) ? $_GET['paged'] : 1;
+$paged = WpwslHelper::get('paged', 1);
 $start = ($paged - 1) * SELECT_ROWS_AMOUNT;
 global $wpdb;
 //history

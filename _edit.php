@@ -12,7 +12,7 @@ function redirect()
     echo $redirect;
 }
 
-$current_id = (isset($_GET['edit'])) ? $_GET['edit'] : '';
+$current_id = WpwslHelper::get('edit');
 
 if (isset($_GET['delete'])) {
     $current_id = $_GET['delete'];
@@ -28,7 +28,7 @@ if (isset($_GET['delete'])) {
 
 if (isset($_POST['submit-save-exit']) || isset($_POST['submit-save'])) {
 
-    $_post_title = isset($_POST['post_title']) ? $_POST['post_title'] : '';
+    $_post_title = WpwslHelper::post('post_title');
     $_post_status = isset($_POST['post_status']) ? 'publish' : 'draft';
 
     if ($current_id == '') {

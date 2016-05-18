@@ -177,3 +177,16 @@ function wpwsl_plugin_settings_link($links)
     array_unshift($links, $settings_link);
     return $links;
 }
+
+class WpwslHelper
+{
+    public static function get($name, $default = '')
+    {
+        return isset($_GET[$name]) ? $_GET[$name] : $default;
+    }
+    
+    public static function post($name, $default = '')
+    {
+        return isset($_POST[$name]) ? $_POST[$name] : $default;
+    }
+}
