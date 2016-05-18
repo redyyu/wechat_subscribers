@@ -5,7 +5,10 @@ add_action('wp_ajax_add_foobar', 'prefix_ajax_add_foobar');
 
 add_action('wp_ajax_get_insert_content', 'prefix_ajax_get_insert_content');
 
-
+/**
+ * Ajax response for action: add_foobar.
+ * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp_ajax_(action)
+ */
 function prefix_ajax_add_foobar()
 {
     $targetID = $_GET['tid'];
@@ -177,6 +180,10 @@ function prefix_ajax_add_foobar()
     die();
 }
 
+/**
+ * Ajax response for action: get_insert_content.
+ * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp_ajax_(action)
+ */
 function prefix_ajax_get_insert_content()
 {
     if ($_GET['rtype'] == 'posts') {
