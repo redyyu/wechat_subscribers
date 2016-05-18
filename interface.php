@@ -21,9 +21,9 @@ class WechatCallbackapi
 
     private $token;
 
-    public function __construct($_token)
+    public function __construct($token)
     {
-        $this->token = $_token;
+        $this->token = $token;
     }
 
     public function valid()
@@ -119,7 +119,7 @@ class WechatCallbackapi
                     }
                 }
                 if ($is_match) {
-                    $resultStr = $this->get_msg_by_type($d, $fromUsername, $toUsername);
+                    $resultStr = $this->getMessageByType($d, $fromUsername, $toUsername);
                     break;
                 }
             }
@@ -129,7 +129,7 @@ class WechatCallbackapi
             foreach (get_data() as $d) {
                 if ($d->trigger == 'default') {
                     $d->key[0] = $keyword;
-                    $resultStr = $this->get_msg_by_type($d, $fromUsername, $toUsername);
+                    $resultStr = $this->getMessageByType($d, $fromUsername, $toUsername);
                     break;
                 }
             }
@@ -148,7 +148,7 @@ class WechatCallbackapi
 
         foreach (get_data() as $d) {
             if ($d->trigger == $eventType) {
-                $resultStr = $this->get_msg_by_type($d, $fromUsername, $toUsername);
+                $resultStr = $this->getMessageByType($d, $fromUsername, $toUsername);
                 break;
             }
         }
@@ -170,7 +170,7 @@ class WechatCallbackapi
         return str_replace($a, $b, $url);
     }
 
-    private function get_msg_by_type($d, $fromUsername, $toUsername)
+    private function getMessageByType($d, $fromUsername, $toUsername)
     {
         switch ($d->type)
         {
