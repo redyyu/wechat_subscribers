@@ -375,7 +375,7 @@ msgstr "微信订阅号设置"
 
 #: _settings.php:23 content.php:6 content.php:15
 msgid "WeChat Subscribers Lite"
-msgstr "微信公众平台订阅号管理插件"
+msgstr "微信订阅号管理"
 
 #: _settings.php:28
 msgid "Account Settings"
