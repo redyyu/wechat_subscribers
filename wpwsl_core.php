@@ -116,29 +116,30 @@ function sup_wechat_custom_sizes($sizes)
     ]);
 }
 
-function wpwsl_admin_setup()
-{
-    global $user_level;
-    if ($user_level >= 5) {
-        require_once( 'posttype_wpwsl_template.php' );
 
-        $page_title = __('WeChat Subscribers Lite', 'WPWSL');
-        $menu_title = __('WeChat Subscribers Lite', 'WPWSL');
-        $capability = 'edit_pages';
-        $menu_slug = WPWSL_GENERAL_PAGE;
-        $function = '';
-        $icon_url = WPWSL_PLUGIN_URL . '/img/wpwsl_icon_16.png';
-        add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url);
+//Setup Admin
+function wpwsl_admin_setup(){
+     global $user_level;
+     if($user_level>=5){
+    	require_once( 'posttype_wpwsl_template.php' );
 
-        require_once( 'class-wpwsl-settings.php' );
-        require_once( 'class-wpwsl-general.php' );
-        require_once( 'class-wpwsl-history.php' );
-        //Settings
-        $settingObject = WPWSL_Settings::get_instance();
-        //General
-        $generalObject = WPWSL_General::get_instance();
-        //History
-        $hitsotryObject = WPWSL_History::get_instance();
+    	$page_title=__('WeChat Subscribers Lite', 'WPWSL');
+    	$menu_title=__('WeChat Subscribers Lite', 'WPWSL');
+    	$capability='edit_pages';
+    	$menu_slug=WPWSL_GENERAL_PAGE;
+    	$function='';
+    	$icon_url=WPWSL_PLUGIN_URL.'/img/wpwsl_icon_16.png';
+    	add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url );
+
+    	require_once( 'class-wpwsl-settings.php' );
+    	require_once( 'class-wpwsl-general.php' );
+    	require_once( 'class-wpwsl-history.php' );
+    	//Settings
+    	$settingObject=WPWSL_Settings::get_instance();
+    	//General
+    	$generalObject=WPWSL_General::get_instance();
+    	//History
+    	$hitsotryObject=WPWSL_History::get_instance();
     }
 }
 
